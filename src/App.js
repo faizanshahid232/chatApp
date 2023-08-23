@@ -142,7 +142,7 @@ function App() {
             
             {/* Chat layout start here */}
             <div className='flex-grow w-full max-w-5xl mx-auto lg:flex bg-[#F2F2F7] mt-7'>
-              <div className='flex-1 min-w-0 bg-white xl:flex'>
+              <div className='flex-1 min-w-0 bg-white xl:flex mx-2 md:mx-0 lg:mx-0 xl:mx-0'>
                 <div className='border-b border-gray-200 xl:border-b-0 xl:flex-shrink-0 xl:w-68 xl:border-r xl:border-gray-200 bg-gray-50'>
                   <div className='h-full pl-2 pr-2 md:pl-4 sm:pl-6 lg:pl-8 xl:pl-0'>
                     <div className={ChatId.chatId ? 'hidden h-[600px] md:block lg:block xl:block md:h-full lg:h-full xl:h-full relative bg-white' : 'h-[600px] md:h-full lg:h-full xl:h-full relative bg-white'}>

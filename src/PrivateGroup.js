@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import userprofileIcon from './userprofile.png';
+import useStore from "./Store";
 
 export default function PrivateGroup(props) {
+    const [ChatID, setChatID] = useState();
+    const addChatId = useStore((state) => state.addChatId);
     
+    const openChat = () => {
+        addChatId({chatId: ChatID});
+        console.log("Click: "+ ChatID);
+    }
+
     const displayData = (props) => {
         const {data} = props;
         if(data.length > 0) {
@@ -10,7 +18,7 @@ export default function PrivateGroup(props) {
                 data.map((data, index) => {
                     console.log(data);
                     return(
-                        <div key={index} className='relative rounded-lg px-2 py-2 flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 mb-3 hover:bg-gray-200'>
+                        <div key={index} onClick={() => openChat(setChatID(data.id))} className='relative rounded-lg px-2 py-2 flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 mb-3 hover:bg-gray-200'>
                             <div className='flex-shrink-0'>
                                 <img className='h-10 w-10 rounded-full' src={userprofileIcon} />
                             </div>
