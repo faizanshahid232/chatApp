@@ -45,4 +45,12 @@ export const getChat = (chatId, pageNo, headers) => {
       pageNo,
       headers
     );
-  };
+};
+
+export const createGroup = (data, headers) => {
+    return ApiHelper.postwithheaders(
+        `${process.env.REACT_APP_APIEND}/group`,
+        data,
+        headers 
+    );
+};

@@ -14,6 +14,7 @@ import { getPrivateGroupList } from './api/apiServices';
 import { getGeneralGroupList } from './api/apiServices';
 import { getCountryGroupList } from './api/apiServices';
 import useStore from './Store';
+import { createGroup } from './api/apiServices';
 
 function App() {
   const [openTab, setOpenTab] = useState(1);
@@ -21,6 +22,10 @@ function App() {
   const [privateGroupList, setprivateGroupList] = useState('');
   const [countryGroupList, setcountryGroupList] = useState('');
   const [generalGroupList, setgeneralGroupList] = useState('');
+  const [groupName, setGroupName] = useState('');
+  const [descripton, setDescripton] = useState('');
+  const [message, setMessage] = useState('');
+  const [showModal, setShowModal] = useState(false);
   const ChatId = useStore(state => state);
   console.log("Chat id: " + ChatId.chatId);
   useEffect(() => {
@@ -30,7 +35,7 @@ function App() {
     }
   }, []);
 
-  {/* get private group list */}
+  /* get private group list */
   useEffect(() => {
     if(openTab === 1) {
       getGenaralGroup();
@@ -43,16 +48,16 @@ function App() {
     }
   }, [openTab]);
 
-  {/* Header for Groups */}
+  /* Header for Groups */
   var headers = {
     headers: {
       'Accept': 'application/json',
-    'Authorization' : 'Bearer ' + localStorage.getItem('accessToken'),
+      'Authorization' : 'Bearer ' + localStorage.getItem('accessToken'),
     },
   };
-  {/* End Header */}
+  /* End Header */
 
-  {/* Private Group */}
+  /* Private Group */
   async function getPrivateGroup() {
     try {
         const response = await getPrivateGroupList(headers);
@@ -62,7 +67,7 @@ function App() {
     }
   }
 
-  {/* General Group */}
+  /* General Group */
   async function getGenaralGroup() {
     try {
         const response = await getGeneralGroupList(headers);
@@ -72,7 +77,7 @@ function App() {
     }
   }
 
-  {/* Country Group */}
+  /* Country Group */
   async function getCountryGroup() {
     try {
         const response = await getCountryGroupList(headers);
@@ -81,6 +86,42 @@ function App() {
         console.log(error);
     }
   }
+
+  // Create Group
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("Group Name: "+groupName);
+    console.log("Description: "+descripton);
+    
+    {/* POST DATA */}
+    var postData = {
+      groupName: groupName,
+      description: descripton
+    };
+    {/* Header */}
+    var headers = {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          'Authorization' : 'Bearer ' + localStorage.getItem('accessToken'),
+        },
+    };
+    {/* Header end */}
+    {/* POST DATA */}
+    try {
+        const response = await createGroup(postData, headers);
+        setMessage(response.data);
+        setGroupName('');
+        setDescripton('');
+        console.log(message);
+      } catch(error) {
+        console.log(error);
+    }
+
+  }
+
+  // End Create Group
 
   if(privateGroupList) {
     console.log("private: " + privateGroupList);
@@ -127,6 +168,79 @@ function App() {
         </div>
         <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
         {/* Web3 popup end */}
+
+        {/* Create Group */}
+        {showModal ? (
+        <>
+        <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+          <div className="relative w-auto my-6 mx-auto max-w-3xl">
+            {/*content*/}
+            <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-96 bg-[#F2F2F7] outline-none focus:outline-none">
+              {/*header*/}
+              <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                <h3 className="text-2xl text-center font-semibold">
+                  Create Group
+                </h3>
+                <button
+                  className="p-1 ml-auto bg-transparent border-0 text-black float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                  onClick={() => setShowModal(false)} >
+                  <span className="bg-transparent text-[#aaa] text-[0.75rem] block outline-none focus:outline-none">
+                    Close
+                  </span>
+                </button>
+              </div>
+              {/*body*/}
+              <div className="relative flex-auto">
+              <div className="w-full flex flex-col items-center justify-cente">
+                <form className="rounded-br rounded-bl pb-8">
+                    <div className="mb-4 px-8 mt-10">
+                        <div className="relative">
+                            <input 
+                                type="text" 
+                                id="outlined_success" 
+                                aria-describedby="outlined_success_help" 
+                                className="block px-2.5 pb-1.5 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-[4px] border border-gray-400 appearance-none dark:border-gray-500 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer" 
+                                placeholder=" "
+                                onChange={event => setGroupName(event.target.value)}
+                                value={groupName} 
+                                required />
+                            <label htmlFor="outlined_success" className="absolute text-sm text-gray-600 dark:text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-[#F2F2F7] px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Group Name</label>
+                        </div>
+                    </div>
+                    <div className="mb-6 px-8 pt-4">
+                    <div className="relative">
+                        <input 
+                            type="text" 
+                            id="outlined_success2" 
+                            aria-describedby="outlined_success_help" 
+                            className="block px-2.5 pb-1.5 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-[4px] border border-gray-400 appearance-none dark:border-gray-500 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer" 
+                            placeholder=" "
+                            onChange={event => setDescripton(event.target.value)}
+                            value={descripton} 
+                            required />
+                        <label htmlFor="outlined_success2" className="absolute text-sm text-gray-600 dark:text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-[#F2F2F7] px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Group Description</label>
+                    </div>
+                    </div>
+                    <div className="flex items-center justify-between px-8 pt-4">
+                    <button onClick={(e)=>handleSubmit(e)} className="bg-[#4F6B75] text-white w-full font-bold text-sm py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                        Create Group
+                    </button>
+                    </div>
+                </form>
+                  {message ? 
+                  <div className='mb-5 text-green-600'>
+                    Group Created Successfully
+                  </div>
+                   : ''}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+        </>
+        ) : null}
+        {/* End Create Group */}
   
         <div className='md:pb-[100px] lg:pb-[100px] xl:pb-[100px]'>
           <div className='relative min-h-screen flex flex-col bg-gray-50'>
@@ -205,7 +319,7 @@ function App() {
                     
                     {/* Create Group Button */}
                     <div className='absolute inset-x-0 bottom-0 bg-[#E0E7EA] p-[10px] h-[60px] rounded-bl-lg rounded-br-lg'>
-                      <a href='' className='bg-[#FFC727] w-full p-[10px] block rounded-lg text-[#253237] text-[14px] text-center font-semibold'>Create group</a>
+                      <button onClick={() => setShowModal(true)} className='bg-[#FFC727] w-full p-[10px] block rounded-lg text-[#253237] text-[14px] text-center font-semibold'>Create group</button>
                     </div>
                     </div>
                   </div>
