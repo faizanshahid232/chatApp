@@ -28,3 +28,21 @@ export const getCountryGroupList = (headers) => {
         headers
     );
 };
+
+export const pusherMsg = (data, headers) => {
+    return ApiHelper.postwithheaders(
+        `${process.env.REACT_APP_APIEND}/pusher/chat`,
+        data,
+        headers 
+    );
+};
+
+export const getChat = (chatId, pageNo, headers) => {
+    return ApiHelper.getwithheadersanddata(
+      `${process.env.REACT_APP_APIEND}/chats?channelId=` +
+      chatId +
+      "&page=" +
+      pageNo,
+      headers
+    );
+  };

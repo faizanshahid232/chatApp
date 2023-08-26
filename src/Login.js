@@ -27,7 +27,7 @@ function Login() {
         
         {/* POST DATA */}
         var postData = {
-            email: "amjadh1996@gmail.com",
+            email: "testuser1@gmail.com",
             password: "qwertyuiop"
         };
         {/* Header */}
@@ -75,7 +75,7 @@ function Login() {
             <div className='relative flex items-stretch min-h-screen flex-col bg-[#fff2cc] md:pb-[100px] lg:pb-[100px] xl:pb-[100px]'>
             {/* Login */}
             <div className="w-full flex flex-col items-center justify-cente mt-10">
-                <form onSubmit={handleSubmit} className="bg-white w-[80%] md:w-[25%] lg:w-[25%] xl:w-[25%] rounded-br rounded-bl pb-16 mb-4">
+                <form className="bg-white w-[80%] md:w-[25%] lg:w-[25%] xl:w-[25%] rounded-br rounded-bl pb-16 mb-4">
                     <div className="bg-[#ffc727] flex items-center flex-col pt-4 rounded-tr rounded-tl px-8">
                         <img className='h-[50px] mt-[20px]' src={egoldbrikIcon} />
                         <h4 className="text-center mt-2 font-bold">Log in</h4>
@@ -110,7 +110,7 @@ function Login() {
                     </div>
                     </div>
                     <div className="flex items-center justify-between px-8 pt-4">
-                    <button type="submit" className="bg-[#4F6B75] text-white w-full font-bold text-sm py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    <button onClick={(e)=>handleSubmit(e)} className="bg-[#4F6B75] text-white w-full font-bold text-sm py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                         Log in
                     </button>
                     </div>

@@ -5,10 +5,18 @@ import useStore from "./Store";
 export default function PrivateGroup(props) {
     const [ChatID, setChatID] = useState();
     const addChatId = useStore((state) => state.addChatId);
+    const [Participants, setParticipants] = useState();
+    const addParticipants = useStore((state) => state.addParticipants);
+    const [Owner, setOwner] = useState();
+    const addOwner = useStore((state) => state.addOwner);
     
-    const openChat = () => {
+    const openChat = (data) => {
+        setChatID(data.id);
+        setParticipants(data.participants);
+        setOwner(data.owner);
         addChatId({chatId: ChatID});
-        console.log("Click: "+ ChatID);
+        addParticipants({participants: Participants});
+        addOwner({owner: Owner});
     }
 
     const displayData = (props) => {
@@ -16,9 +24,9 @@ export default function PrivateGroup(props) {
         if(data.length > 0) {
             return(
                 data.map((data, index) => {
-                    console.log(data);
                     return(
-                        <div key={index} onClick={() => openChat(setChatID(data.id))} className='relative rounded-lg px-2 py-2 flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 mb-3 hover:bg-gray-200'>
+                        data.private ? 
+                        <div key={index} onClick={() => openChat(data)} className='relative rounded-lg px-2 py-2 flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 mb-3 hover:bg-gray-200'>
                             <div className='flex-shrink-0'>
                                 <img className='h-10 w-10 rounded-full' src={userprofileIcon} />
                             </div>
@@ -41,6 +49,7 @@ export default function PrivateGroup(props) {
                                 </a>
                             </div>
                         </div>
+                        : ''
                     )
                 })
             )
