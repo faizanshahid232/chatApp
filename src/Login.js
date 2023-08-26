@@ -87,7 +87,7 @@ function Login() {
                                 type="text" 
                                 id="outlined_success" 
                                 aria-describedby="outlined_success_help" 
-                                className="block px-2.5 pb-1.5 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-[4px] border border-gray-400 appearance-none dark:text-white dark:border-gray-500 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer" 
+                                className="block px-2.5 pb-1.5 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-[4px] border border-gray-400 appearance-none dark:border-gray-500 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer" 
                                 placeholder=" "
                                 onChange={event => setUserName(event.target.value)}
                                 value={userName} 
@@ -101,7 +101,7 @@ function Login() {
                             type="password" 
                             id="outlined_success2" 
                             aria-describedby="outlined_success_help" 
-                            className="block px-2.5 pb-1.5 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-[4px] border border-gray-400 appearance-none dark:text-white dark:border-gray-500 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer" 
+                            className="block px-2.5 pb-1.5 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-[4px] border border-gray-400 appearance-none dark:border-gray-500 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer" 
                             placeholder=" "
                             onChange={event => setPassword(event.target.value)}
                             value={Password} 
