@@ -1,22 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import userprofileIcon from './userprofile.png';
 import useStore from "./Store";
+import Loadingspinner from "./Loadingspinner";
 
 export default function PrivateGroup(props) {
-    const [ChatID, setChatID] = useState();
     const addChatId = useStore((state) => state.addChatId);
-    const [Participants, setParticipants] = useState();
     const addParticipants = useStore((state) => state.addParticipants);
-    const [Owner, setOwner] = useState();
     const addOwner = useStore((state) => state.addOwner);
     
     const openChat = (data) => {
-        setChatID(data.id);
-        setParticipants(data.participants);
-        setOwner(data.owner);
-        addChatId({chatId: ChatID});
-        addParticipants({participants: Participants});
-        addOwner({owner: Owner});
+        addChatId({chatId: data.id});
+        addParticipants({participants: data.participants});
+        addOwner({owner: data.owner});
     }
 
     const displayData = (props) => {
@@ -28,7 +23,7 @@ export default function PrivateGroup(props) {
                         data.private ? 
                         <div key={index} onClick={() => openChat(data)} className='relative rounded-lg px-2 py-2 flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 mb-3 hover:bg-gray-200'>
                             <div className='flex-shrink-0'>
-                                <img className='h-10 w-10 rounded-full' src={userprofileIcon} />
+                                <img className='h-10 w-10 rounded-full' src={data.group_icon ? data.group_icon : userprofileIcon} />
                             </div>
                             <div className='flex-1 min-w-0'>
                                 <a href="#" className='focus:outline-none'>
@@ -54,7 +49,7 @@ export default function PrivateGroup(props) {
                 })
             )
         } else {
-            return (<h3 className="text-center">No Group Found</h3>)
+            return (<Loadingspinner/>)
         }
     }
     

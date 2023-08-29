@@ -27,26 +27,14 @@ function App() {
   const [message, setMessage] = useState('');
   const [showModal, setShowModal] = useState(false);
   const ChatId = useStore(state => state);
-  console.log("Chat id: " + ChatId.chatId);
+  const [settingPanel, setSettingPanel] = useState(false);
+
   useEffect(() => {
     const loggedInUser = localStorage.getItem("authenticated");
     if (loggedInUser) {
       setauthenticated(true);
     }
   }, []);
-
-  /* get private group list */
-  useEffect(() => {
-    if(openTab === 1) {
-      getGenaralGroup();
-    }
-    if(openTab === 2) {
-      getCountryGroup();
-    }
-    if(openTab === 3) {
-      getPrivateGroup();
-    }
-  }, [openTab]);
 
   /* Header for Groups */
   var headers = {
@@ -57,42 +45,34 @@ function App() {
   };
   /* End Header */
 
-  /* Private Group */
-  async function getPrivateGroup() {
-    try {
-        const response = await getPrivateGroupList(headers);
-        setprivateGroupList(response.data.data);
-    } catch(error) {
-        console.log(error);
-    }
-  }
-
-  /* General Group */
-  async function getGenaralGroup() {
-    try {
-        const response = await getGeneralGroupList(headers);
+  /* get private group list */
+  useEffect(() => {
+    if(openTab === 1) {
+      //getGenaralGroup();
+      getGeneralGroupList(headers).then((response) => {
+        console.log("response data: "+ response.data)
         setgeneralGroupList(response.data.data);
-    } catch(error) {
-        console.log(error);
+        console.log("General Group List: "+generalGroupList);
+      });
+      
     }
-  }
-
-  /* Country Group */
-  async function getCountryGroup() {
-    try {
-        const response = await getCountryGroupList(headers);
+    if(openTab === 2) {
+      getCountryGroupList(headers).then((response) => {
         setcountryGroupList(response.data.data);
-    } catch(error) {
-        console.log(error);
+      });
     }
-  }
+    if(openTab === 3) {
+      getPrivateGroupList(headers).then((response) => {
+        setprivateGroupList(response.data.data);
+      });
+    }
+  }, [openTab]);
+
 
   // Create Group
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Group Name: "+groupName);
-    console.log("Description: "+descripton);
     
     {/* POST DATA */}
     var postData = {
@@ -118,15 +98,10 @@ function App() {
       } catch(error) {
         console.log(error);
     }
-
   }
 
   // End Create Group
 
-  if(privateGroupList) {
-    console.log("private: " + privateGroupList);
-  }
-  console.log("dashboard: " + authenticated);
   if(false) {
     return <Navigate replace to="/login" />
   } else {
@@ -263,9 +238,9 @@ function App() {
                       <div className='bg-[#4F6B75] h-[48px] rounded-tl-lg rounded-tr-lg pt-[10px] flex justify-between'>
                         <div className='flex'>
                           <img className='ml-[9px] h-[30px] ' src={userprofileIcon} />
-                          <p className='text-white text-[14px] ml-[5px] mt-[3px]'>@bilalshaikh</p></div>
+                          <p className='text-white text-[14px] ml-[5px] mt-[3px]'>{localStorage.getItem('talkId')}</p></div>
                         <div>
-                          <div><img className='mr-[10px] w-[24px] mt-[3px]' src={usersettingIcon} /></div>
+                          <div><img className='mr-[10px] w-[24px] mt-[3px] cursor-pointer' onClick={() => console.log("click")} src={usersettingIcon} /></div>
                         </div>
                       </div>
   
@@ -318,8 +293,10 @@ function App() {
   
                     
                     {/* Create Group Button */}
-                    <div className='absolute inset-x-0 bottom-0 bg-[#E0E7EA] p-[10px] h-[60px] rounded-bl-lg rounded-br-lg'>
-                      <button onClick={() => setShowModal(true)} className='bg-[#FFC727] w-full p-[10px] block rounded-lg text-[#253237] text-[14px] text-center font-semibold'>Create group</button>
+                    <div className={openTab === 3 ? "block" : "hidden"}>
+                      <div className='absolute inset-x-0 bottom-0 bg-[#E0E7EA] p-[10px] h-[60px] rounded-bl-lg rounded-br-lg'>
+                        <button onClick={() => setShowModal(true)} className='bg-[#FFC727] w-full p-[10px] block rounded-lg text-[#253237] text-[14px] text-center font-semibold'>Create group</button>
+                      </div>
                     </div>
                     </div>
                   </div>
@@ -327,7 +304,7 @@ function App() {
   
                 {/* Middle content start */}
                 <div className={ChatId.chatId ? 'flex-1 p:2 sm:pb6 justify-between rounded-lg h-screen md:flex md:flex-col lg:flex lg:flex-col xl:flex xl:flex-col' : 'hidden'}>
-                  <Chat data={privateGroupList} />
+                  <Chat />
                 </div>
                 {/* Middle content end here */}
                 

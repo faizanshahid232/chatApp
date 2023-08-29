@@ -54,3 +54,12 @@ export const createGroup = (data, headers) => {
         headers 
     );
 };
+
+export const leftGroup = (data, headers) => {
+    return ApiHelper.delete(
+        `${process.env.REACT_APP_APIEND}/leftgroup`,
+        data,
+        headers
+         
+    );
+};

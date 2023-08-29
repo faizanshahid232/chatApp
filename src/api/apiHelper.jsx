@@ -68,12 +68,19 @@ let ApiHelper = {
     },
 
     // Api delete function
-    delete: async (url) => {
-        return axiosApiInstance.delete(url).catch((error) => {
+    delete: async (url, data, headers) => {
+        console.log("test: "+ JSON.stringify(data) + " Header: " + JSON.stringify(headers));
+        return axiosApiInstance.delete(url, {
+            headers: headers,
+            data: data
+          }).catch((error) => {
             handleError(error.response);
             return error.response;
         });
     },
 };
-
+// axios.delete(url, {
+//     headers: headers,
+//     data: data
+//   })
 export default ApiHelper;

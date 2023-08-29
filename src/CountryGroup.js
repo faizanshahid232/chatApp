@@ -1,22 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import userprofileIcon from './userprofile.png';
 import useStore from "./Store";
+import Loadingspinner from "./Loadingspinner";
 
 export default function CountryGroup(props) {
-    const [ChatID, setChatID] = useState();
     const addChatId = useStore((state) => state.addChatId);
-    const [Participants, setParticipants] = useState();
     const addParticipants = useStore((state) => state.addParticipants);
-    const [Owner, setOwner] = useState();
     const addOwner = useStore((state) => state.addOwner);
     
     const openChat = (data) => {
-        setChatID(data.id);
-        setParticipants(data.participants);
-        setOwner(data.owner);
-        addChatId({chatId: ChatID});
-        addParticipants({participants: Participants});
-        addOwner({owner: Owner});
+        addChatId({chatId: data.id});
+        addParticipants({participants: data.participants});
+        addOwner({owner: data.owner});
     }
 
     const displayData = (props) => {
@@ -53,7 +48,7 @@ export default function CountryGroup(props) {
                 })
             )
         } else {
-            return (<h3 className="text-center">No Group Found</h3>)
+            return (<Loadingspinner />)
         }
     }
     

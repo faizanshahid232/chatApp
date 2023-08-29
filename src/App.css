@@ -1,6 +1,16 @@
 .App {
   text-align: center;
 }
+.dropDownProfile {
+  position: absolute;
+  top: 9rem;
+  right: 10.3rem;
+  width: 120px;
+  padding: 15px;
+  border-radius: 15px;
+  background-color: #fff;
+  border: 1px solid gray;
+}
 .popup_walletconnect {
   color: #0000008f;
   padding: 5px 10px; 
