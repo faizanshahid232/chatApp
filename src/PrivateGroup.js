@@ -1,7 +1,8 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import userprofileIcon from './userprofile.png';
 import useStore from "./Store";
 import Loadingspinner from "./Loadingspinner";
+import { getPrivateGroupList } from './api/apiServices';
 
 export default function PrivateGroup(props) {
     const addChatId = useStore((state) => state.addChatId);
@@ -9,7 +10,15 @@ export default function PrivateGroup(props) {
     const addOwner = useStore((state) => state.addOwner);
     const addGroupName = useStore((state) => state.addGroupName);
     const addGroupIcon = useStore((state) => state.addGroupIcon);
+    const [privateGroupList, setprivateGroupList] = useState('');
     
+    var headers = {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization' : 'Bearer ' + localStorage.getItem('accessToken'),
+        },
+      };
+
     const openChat = (data) => {
         addChatId({chatId: data.id});
         addParticipants({participants: data.participants});
@@ -18,11 +27,16 @@ export default function PrivateGroup(props) {
         addGroupIcon({groupIcon: data.group_icon});
     }
 
-    const displayData = (props) => {
-        const {data} = props;
-        if(data.length > 0) {
+    useEffect(() => {
+        getPrivateGroupList(headers).then((response) => {
+            setprivateGroupList(response.data.data);
+          });
+    },[]);
+
+    const displayData = () => {
+        if(privateGroupList.length > 0) {
             return(
-                data.map((data, index) => {
+                privateGroupList.map((data, index) => {
                     return(
                         data.private ? 
                         <div key={index} onClick={() => openChat(data)} className='relative rounded-lg px-2 py-2 flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 mb-3 hover:bg-gray-200'>
@@ -59,7 +73,7 @@ export default function PrivateGroup(props) {
     
     return (
         <>
-            {displayData(props)}
+            {displayData()}
         </>
     );
 }
