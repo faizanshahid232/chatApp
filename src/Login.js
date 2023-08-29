@@ -40,6 +40,8 @@ function Login() {
                     localStorage.setItem("channelId", response.data.channel_id);
                     localStorage.setItem("talkId", response.data.talk_id);
                     localStorage.setItem("walletAddress", response.data.wallet_address);
+                    localStorage.setItem("user_type", response.data.user_type);
+                    localStorage.setItem("profile_pic", response.data.profile_pic);
     
                     console.log("login Successfully");
                     navigate("/");

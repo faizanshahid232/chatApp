@@ -25,9 +25,16 @@ export default function Chat() {
     const [count, setCount] = useState(2);
     const bottomRef = useRef(null);
     const [showModal, setShowModal] = useState(false);
-    const [chatOption, setChatOption] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
+    // tets
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleMenu = () => {
+        setIsOpen(!isOpen);
+    };
+    // end tets
+    
     {/* Header for Groups */}
     var headers = {
         headers: {
@@ -120,7 +127,7 @@ export default function Chat() {
         };
         leftGroup(data, headers2).then((json) => {
             setShowModal(false);
-            setChatOption(false);
+            setIsOpen(false);
             //setOldChat(json.data.data);
         })
     }
@@ -162,7 +169,7 @@ export default function Chat() {
                 </h3>
                 <button
                   className="p-1 ml-auto bg-transparent border-0 text-black float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                  onClick={() => {setShowModal(false); setChatOption(false);}} >
+                  onClick={() => {setShowModal(false); setIsOpen(false);}} >
                   <span className="bg-transparent text-[#aaa] text-[0.75rem] block outline-none focus:outline-none">
                     Close
                   </span>
@@ -178,7 +185,7 @@ export default function Chat() {
                     <button onClick={() => leaveGroup()} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         Yes
                     </button>
-                    <button onClick={() => {setShowModal(false); setChatOption(false);}} className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
+                    <button onClick={() => {setShowModal(false); setIsOpen(false);}} className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
                         No
                     </button>
                     </div>
@@ -205,14 +212,20 @@ export default function Chat() {
                 </div>
                 <div><p className='text-[#666668] text-[12px] font-normal'>Admin: {ChatId.owner} - {ChatId.participants?.length} Members</p></div>
                 </div>
-                <div className='mr-[20px]'><img onClick={() => setChatOption((prev) => !prev)} className='w-[20px]' src={optionicon} /></div>
-                {chatOption ? 
-                    <div className="flex flex-col dropDownProfile">
-                    <ul className="flex flex-col gap-4 text-sm">
-                        <li className="cursor-pointer" onClick={() => setShowModal(true)}>Leave Group</li>
-                    </ul>
+                <div className="relative">
+                    <img onClick={toggleMenu} className='w-[20px] mr-[20px]' src={optionicon} />
+                    {isOpen && (
+                        <div className="absolute mt-2 ml-[-160px] w-[200px] py-2 bg-white border rounded-lg shadow-lg">
+                        <a
+                            onClick={() => setShowModal(true)}
+                            className="block cursor-pointer px-4 py-2 text-gray-800 hover:bg-gray-100"
+                        >
+                            Leave Group
+                        </a>
+                    </div>
+                    )}
                 </div>
-                : ''}
+                
                 </div>
 
                 {/* messages start here */}
