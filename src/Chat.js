@@ -207,8 +207,8 @@ export default function Chat() {
                 <div className='ml-[10px] hidden md:block lg:block xl:block'><img className='w-[80px]' src={avatarGroupIcon} /></div>
                 <div>
                 <div className='flex items-center justify-center'>
-                    <img className='w-[32px]' src={egoldLogoIcon} />
-                    <img className='ml-[5px] w-[46px]' src={egoldtextIcon} />
+                    <img className='w-[32px] h-[32px] rounded-full' src={ChatId.groupIcon ? ChatId.groupIcon : egoldLogoIcon} />
+                    <span className="ml-[5px] uppercase text-sm font-semibold">{ChatId.groupName}</span>
                 </div>
                 <div><p className='text-[#666668] text-[12px] font-normal'>Admin: {ChatId.owner} - {ChatId.participants?.length} Members</p></div>
                 </div>

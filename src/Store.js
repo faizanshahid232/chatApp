@@ -5,6 +5,8 @@ let store = (set) => ({
     chatId: '',
     owner: '',
     participants: '',
+    groupName: '',
+    groupIcon: '',
 
     addChatId: (initalize) => set({
         chatId: initalize.chatId,
@@ -16,6 +18,14 @@ let store = (set) => ({
 
     addParticipants: (initalize) => set({
         participants: initalize.participants
+    }),
+
+    addGroupName: (initalize) => set({
+        groupName: initalize.groupName
+    }),
+
+    addGroupIcon: (initalize) => set({
+        groupIcon: initalize.groupIcon
     }),
 
 });

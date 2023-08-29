@@ -7,11 +7,15 @@ export default function CountryGroup(props) {
     const addChatId = useStore((state) => state.addChatId);
     const addParticipants = useStore((state) => state.addParticipants);
     const addOwner = useStore((state) => state.addOwner);
+    const addGroupName = useStore((state) => state.addGroupName);
+    const addGroupIcon = useStore((state) => state.addGroupIcon);
     
     const openChat = (data) => {
         addChatId({chatId: data.id});
         addParticipants({participants: data.participants});
         addOwner({owner: data.owner});
+        addGroupName({groupName: data.name});
+        addGroupIcon({groupIcon: data.group_icon});
     }
 
     const displayData = (props) => {
