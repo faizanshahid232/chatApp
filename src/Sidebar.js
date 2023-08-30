@@ -8,11 +8,52 @@ import GeneralGroup from './GeneralGroup';
 import Creategroup from './CreateGroup';
 import useStore from './Store';
 import arrow from './arrow.png';
+import { addProfilePic, getProfilePic } from "./api/apiServices";
 
 export default function Sidebar() {
     const [openTab, setOpenTab] = useState(1);
     const ChatId = useStore(state => state);
     const [userSetting, setUserSetting] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
+    const [selectedImage, setSelectedImage] = useState(null);
+
+    const toggleMenu = () => {
+        setIsOpen(!isOpen);
+    };
+
+    var headers = {
+        headers: {
+           'Content-Type' : 'multipart/form-data',
+          'Accept': 'application/json',
+          'Authorization' : 'Bearer ' + localStorage.getItem('accessToken'),
+        },
+    };
+
+    var headerProfilePic = {
+        headers: {
+            'Accept': 'application/json',
+            'Authorization' : 'Bearer ' + localStorage.getItem('accessToken'),
+        },
+    };
+
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            var postData = {
+                file: file
+            };
+            addProfilePic(postData, headers).then((json) => {
+                console.log("response: "+ JSON.stringify(json));
+                setIsOpen(false);
+                getProfilePic(headerProfilePic).then((json) => {
+                    console.log("profile Pic: "+ JSON.stringify(json.data.data.profile_pic));
+                    localStorage.setItem("profile_pic", json.data.data.profile_pic);
+                })
+            });
+          setSelectedImage(file);
+        }
+    };
 
     return(
         <>
@@ -30,7 +71,29 @@ export default function Sidebar() {
                         <div className="h-full">
                             <div className='h-full relative'>
                             <div className='m-auto text-center mb-10 bg-[#f0f2f5] p-[35px]'>
-                                <img className='cursor-pointer w-36 h-36 rounded-full m-auto relative px-2 py-2 flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 mb-3 hover:bg-gray-200' src={localStorage.getItem('profile_pic')} />
+                            {selectedImage ? 
+                            (
+                                <img onClick={toggleMenu} className='cursor-pointer w-36 h-36 rounded-full m-auto relative px-2 py-2 flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 mb-3 hover:bg-gray-200' src={URL.createObjectURL(selectedImage)} alt="Selected" />
+                                
+                            ) : <img onClick={toggleMenu} className='cursor-pointer w-36 h-36 rounded-full m-auto relative px-2 py-2 flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 mb-3 hover:bg-gray-200' src={localStorage.getItem('profile_pic')} />
+                            }
+                                {isOpen && (
+                                    <div className="absolute mt-[-10px] w-[200px] py-2 bg-white border rounded-lg shadow-lg">
+                                    <a
+                                        href="#"
+                                        className="block cursor-pointer text-gray-800 hover:bg-gray-100"
+                                    >
+                                        <label htmlFor="upload-button" className="custom-file-upload cursor-pointer">Upload photo</label>
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            id="upload-button"
+                                            onChange={handleImageChange}
+                                            style={{ display: 'none' }}
+                                        />
+                                    </a>
+                                 </div>
+                                )}
                                 <h2 className='m-auto text-2xl mt-2'>{localStorage.getItem('talkId')}</h2>
                             </div>
                             </div>        

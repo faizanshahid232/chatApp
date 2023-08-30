@@ -27,13 +27,11 @@ export default function Chat() {
     const [showModal, setShowModal] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
-    // tets
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
     };
-    // end tets
     
     {/* Header for Groups */}
     var headers = {

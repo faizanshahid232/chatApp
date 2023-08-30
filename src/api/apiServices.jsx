@@ -63,3 +63,18 @@ export const leftGroup = (data, headers) => {
          
     );
 };
+
+export const addProfilePic = (data, headers) => {
+    return ApiHelper.postwithheaders(
+        `${process.env.REACT_APP_APIEND}/addprofilepic`,
+        data,
+        headers 
+    );
+};
+
+export const getProfilePic = (headers) => {
+    return ApiHelper.getwithheaders(
+        `${process.env.REACT_APP_APIEND}/profile`,
+        headers
+    );
+};

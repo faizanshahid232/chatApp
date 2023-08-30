@@ -17,7 +17,7 @@ export default function GeneralGroup(props) {
           'Accept': 'application/json',
           'Authorization' : 'Bearer ' + localStorage.getItem('accessToken'),
         },
-      };
+    };
 
     const openChat = (data) => {
         console.log("data store: "+ JSON.stringify(data));
