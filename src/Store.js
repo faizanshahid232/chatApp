@@ -7,6 +7,7 @@ let store = (set) => ({
     participants: '',
     groupName: '',
     groupIcon: '',
+    removeParticipants: '',
 
     addChatId: (initalize) => set({
         chatId: initalize.chatId,
@@ -26,6 +27,10 @@ let store = (set) => ({
 
     addGroupIcon: (initalize) => set({
         groupIcon: initalize.groupIcon
+    }),
+
+    updateGroup: (initalize) => set({
+        removeParticipants: initalize.removeParticipants
     }),
 
 });

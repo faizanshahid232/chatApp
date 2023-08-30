@@ -9,6 +9,7 @@ import Creategroup from './CreateGroup';
 import useStore from './Store';
 import arrow from './arrow.png';
 import { addProfilePic, getProfilePic } from "./api/apiServices";
+import useSearchStore from './searchStore';
 
 export default function Sidebar() {
     const [openTab, setOpenTab] = useState(1);
@@ -16,6 +17,16 @@ export default function Sidebar() {
     const [userSetting, setUserSetting] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
+
+    // tets
+    const searchTerm = useSearchStore((state) => state.searchTerm);
+    const setSearchTerm = useSearchStore((state) => state.setSearchTerm);
+    
+    const handleSearchChange = (event) => {
+        setSearchTerm(event.target.value);
+    };
+
+    // test end
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
@@ -127,6 +138,8 @@ export default function Sidebar() {
                 <input
                     name='search'
                     placeholder='Search' 
+                    value={searchTerm}
+                    onChange={handleSearchChange}
                     className='focus:ring-red-500 focus:border-red-500 block w-full pl-4 sm:text-sm border-gray-100 rounded-[4px] p-2 border'
                 />
                 </div>

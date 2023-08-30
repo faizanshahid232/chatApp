@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import useStore from "./Store";
 import { createGroup } from './api/apiServices';
 
 export default function Creategroup() {
@@ -7,6 +8,7 @@ export default function Creategroup() {
     const [groupName, setGroupName] = useState('');
     const [descripton, setDescripton] = useState('');
     const [message, setMessage] = useState('');
+    const updateGroup = useStore((state) => state.updateGroup);
   
 
     // Create Group function
@@ -31,6 +33,7 @@ export default function Creategroup() {
     try {
         const response = await createGroup(postData, headers);
         setMessage(response.data);
+        updateGroup({removeParticipants: response.data});
         setGroupName('');
         setDescripton('');
         console.log(message);

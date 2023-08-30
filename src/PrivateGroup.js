@@ -11,6 +11,12 @@ export default function PrivateGroup(props) {
     const addGroupName = useStore((state) => state.addGroupName);
     const addGroupIcon = useStore((state) => state.addGroupIcon);
     const [privateGroupList, setprivateGroupList] = useState('');
+    const ChatId = useStore(state => state);
+    
+    // tets
+  //  const searchTerm = useSearchStore((state) => state.searchTerm);
+
+    //test
     
     var headers = {
         headers: {
@@ -32,6 +38,21 @@ export default function PrivateGroup(props) {
             setprivateGroupList(response.data.data);
           });
     },[]);
+
+    useEffect(() => {
+        getPrivateGroupList(headers).then((response) => {
+            setprivateGroupList(response.data.data);
+          });
+          console.log("reload");
+    },[ChatId.removeParticipants]);
+    
+    
+    // tets
+    /*const filteredItems = privateGroupList.filter(item =>
+        item.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+*/
+    //tets
 
     const displayData = () => {
         if(privateGroupList.length > 0) {

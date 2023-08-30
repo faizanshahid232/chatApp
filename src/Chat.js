@@ -26,6 +26,7 @@ export default function Chat() {
     const bottomRef = useRef(null);
     const [showModal, setShowModal] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const updateGroup = useStore((state) => state.updateGroup);
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -33,6 +34,13 @@ export default function Chat() {
         setIsOpen(!isOpen);
     };
     
+    const convertTimestampToUserTime = (timestamp) => {
+        const date = new Date(timestamp);
+        const userTime = date.toLocaleString(); // This will use the user's local time format
+        
+        return userTime;
+    };
+
     {/* Header for Groups */}
     var headers = {
         headers: {
@@ -124,6 +132,8 @@ export default function Chat() {
             "groupID": ChatId.chatId,
         };
         leftGroup(data, headers2).then((json) => {
+            //console.log("jjssoonn: "+ChatId.updateGroup);
+            updateGroup({removeParticipants: json.data.message});
             setShowModal(false);
             setIsOpen(false);
             //setOldChat(json.data.data);
@@ -244,10 +254,11 @@ export default function Chat() {
                                 <div>
                                 <span className='px-4 py-2 rounded-lg inline-block rounded-bl-none bg-[#4F6B75] text-white'>
                                 <div className="block">{chat.content}</div>
+                                <div className="block text-[10px]">{convertTimestampToUserTime(chat.time_stamp)}</div>
                                 </span>
                                 </div>
                             </div>
-                            <img className='w-6 h-6 rounded-full order-1' src={userprofileIcon} />
+                            <img className='w-6 h-6 rounded-full order-1' src={localStorage.getItem('profile_pic') ? localStorage.getItem('profile_pic') : userprofileIcon} />
                             </div>
                         </div>
                     )
@@ -260,12 +271,12 @@ export default function Chat() {
                             <div className={chat["from"] === localStorage.getItem("talkId") ? 'flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-end' : 'flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start'}>
                                 <div>
                                 <span className='px-4 py-2 rounded-lg inline-block rounded-bl-none bg-[#4F6B75] text-white'>
-                                <div className="block">{chat["chat_content"]}</div>
-                                {console.log("div message: "+ chat["chat_content"])}
+                                <div className="block">{chat.chat_content}</div>
+                                <div className="block text-[10px]">{convertTimestampToUserTime(chat.chat_time)}</div>
                                 </span>
                                 </div>
                             </div>
-                            <img className='w-6 h-6 rounded-full order-1' src={userprofileIcon} />
+                            <img className='w-6 h-6 rounded-full order-1' src={localStorage.getItem('profile_pic') ? localStorage.getItem('profile_pic') : userprofileIcon} />
                             </div>
                             {/* <div /> */}
                         </div> 
