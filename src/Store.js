@@ -1,13 +1,20 @@
 import {create} from 'zustand';
-import { devtools, persist } from 'zustand/middleware';
 
 let store = (set) => ({
     chatId: '',
     owner: '',
+    is_participant: false,
+    group_is_private: false,
+    closeMediaPopup: false,
     participants: '',
     groupName: '',
     groupIcon: '',
     removeParticipants: '',
+    openProfile: false,
+    groupCreatedAt: '',
+    groupParticipantsList: [],
+    groupDescription: '',
+    inviteLink: '',
 
     addChatId: (initalize) => set({
         chatId: initalize.chatId,
@@ -15,6 +22,10 @@ let store = (set) => ({
 
     addOwner: (initalize) => set({
         owner: initalize.owner,
+    }),
+
+    IsParticipant: (initalize) => set({
+        is_participant: initalize.is_participant
     }),
 
     addParticipants: (initalize) => set({
@@ -31,6 +42,34 @@ let store = (set) => ({
 
     updateGroup: (initalize) => set({
         removeParticipants: initalize.removeParticipants
+    }),
+
+    OpenProfile: (initalize) => set({
+        openProfile: initalize.openProfile
+    }),
+
+    GroupCreatedAt: (initalize) => set({
+        groupCreatedAt: initalize.groupCreatedAt
+    }),
+
+    GroupParticipantsList: (initalize) => set({
+        groupParticipantsList: initalize.groupParticipantsList
+    }),
+
+    GroupDescription: (initalize) => set({
+        groupDescription: initalize.groupDescription
+    }),
+
+    InviteLink: (initalize) => set({
+        inviteLink: initalize.inviteLink
+    }),
+
+    GroupIsPrivate: (initalize) => set({
+        group_is_private: initalize.group_is_private
+    }),
+
+    CloseMediaPopup: (initalize) => set({
+        closeMediaPopup: initalize.closeMediaPopup
     }),
 
 });

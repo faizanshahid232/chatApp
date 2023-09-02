@@ -78,3 +78,81 @@ export const getProfilePic = (headers) => {
         headers
     );
 };
+
+export const getOwnGroup = (headers) => {
+    return ApiHelper.getwithheaders(
+        `${process.env.REACT_APP_APIEND}/getown`,
+        headers
+    );
+};
+
+export const addParticipantsMember = (data, headers) => {
+    return ApiHelper.postwithheaders(
+        `${process.env.REACT_APP_APIEND}/addparticiapant`,
+        data,
+        headers 
+    );
+};
+
+export const addGroupIcon = (groupId, data, headers) => {
+    return ApiHelper.postwithheaders(
+        `${process.env.REACT_APP_APIEND}/addgroupicon/${groupId}`,
+        data,
+        headers
+    );
+};
+
+export const removeParticipant = (data, headers) => {
+    return ApiHelper.delete(
+        `${process.env.REACT_APP_APIEND}/removeparticiapant`,
+        data,
+        headers
+         
+    );
+};
+
+export const generateInviteLink = (data, headers) => {
+    return ApiHelper.postwithheaders(
+        `${process.env.REACT_APP_APIEND}/generateInvitelink`,
+        data,
+        headers 
+    );
+};
+
+export const joinPublicGroup = (data, headers) => {
+    return ApiHelper.postwithheaders(
+        `${process.env.REACT_APP_APIEND}/joinpublicgroup`,
+        data,
+        headers 
+    );
+};
+
+export const getParticipantsProfilePic = (talkId, headers) => {
+    return ApiHelper.getwithheaders(
+        `${process.env.REACT_APP_APIEND}/getprofilepic/${talkId}`,
+        headers
+    );
+};
+
+export const pusherMultimedia = (data, headers) => {
+    return ApiHelper.postwithheaders(
+        `${process.env.REACT_APP_APIEND}/pusher/multimediachat`,
+        data,
+        headers 
+    );
+};
+
+export const pusherMessageReplyChat = (data, headers) => {
+    return ApiHelper.postwithheaders(
+        `${process.env.REACT_APP_APIEND}/pusher/replychat`,
+        data,
+        headers 
+    );
+};
+
+export const getReplyChat = (channelId, chatId, headers) => {
+    return ApiHelper.getwithheaders(
+        `${process.env.REACT_APP_APIEND}/getchat?channelId=${channelId}&chatId=${chatId}`,
+        headers
+    );
+};

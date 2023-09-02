@@ -1,5 +1,5 @@
 import React from "react";
-import logo from './egold_talk.png';
+import logo from './images/egold_talk.png';
 
 export default function Header() {
     

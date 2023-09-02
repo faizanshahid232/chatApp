@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import userprofileIcon from './userprofile.png';
+import userprofileIcon from './images/userprofile.png';
 import useStore from "./Store";
 import Loadingspinner from "./Loadingspinner";
 import { getPrivateGroupList } from './api/apiServices';
@@ -10,6 +10,8 @@ export default function PrivateGroup(props) {
     const addOwner = useStore((state) => state.addOwner);
     const addGroupName = useStore((state) => state.addGroupName);
     const addGroupIcon = useStore((state) => state.addGroupIcon);
+    const IsParticipant = useStore((state) => state.IsParticipant);
+    const GroupIsPrivate = useStore((state) => state.GroupIsPrivate);
     const [privateGroupList, setprivateGroupList] = useState('');
     const ChatId = useStore(state => state);
     
@@ -26,6 +28,8 @@ export default function PrivateGroup(props) {
       };
 
     const openChat = (data) => {
+        IsParticipant({is_participant: ''});
+        GroupIsPrivate({group_is_private: true});
         addChatId({chatId: data.id});
         addParticipants({participants: data.participants});
         addOwner({owner: data.owner});

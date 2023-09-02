@@ -1,11 +1,11 @@
 import React from "react";
-import barIcon from './bar.png';
-import miningCalculatorIcon from './calculator.png';
-import informationIcon from './information.png';
-import youtubeIcon from './youtubeIcon.png';
-import twitterIcon from './twitterIcon.png';
-import telegramIcon from './telegramIcon.png';
-import gitbookIcon from './gitbookIcon.png';
+import barIcon from './images/bar.png';
+import miningCalculatorIcon from './images/calculator.png';
+import informationIcon from './images/information.png';
+import youtubeIcon from './images/youtubeIcon.png';
+import twitterIcon from './images/twitterIcon.png';
+import telegramIcon from './images/telegramIcon.png';
+import gitbookIcon from './images/gitbookIcon.png';
 
 function Footer() {
     return(

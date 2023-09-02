@@ -1,18 +1,24 @@
 import React, { useState, useEffect, useRef } from "react";
-import optionicon from './option.png';
-import avatarGroupIcon from './avatar-group.png';
-import egoldLogoIcon from './egold_logo_icon.png';
-import egoldtextIcon from './egoldtext.png';
-import smileyIcon from './smiley.png';
-import addIcon from './mention.png';
-import sendIcon from './Icon.png';
-import userprofileIcon from './userprofile.png';
+import optionicon from './images/option.png';
+import avatarGroupIcon from './images/avatar-group.png';
+import egoldLogoIcon from './images/egold_logo_icon.png';
+import closeIcon from './images/close.png';
+import smileyIcon from './images/smiley.png';
+import addIcon from './images/mention.png';
+import sendIcon from './images/Icon.png';
+import userprofileIcon from './images/userprofile.png';
 import useStore from "./Store";
 import Pusher from "pusher-js";
 import { pusherMsg } from "./api/apiServices";
 import { getChat } from "./api/apiServices";
-import { leftGroup } from "./api/apiServices";
+import { leftGroup, pusherMessageReplyChat } from "./api/apiServices";
 import Loadingspinner from "./Loadingspinner";
+import GroupSetting from "./GroupSetting";
+import ChatMessage from "./ChatMessage";
+import JoinPublicGroup from "./JoinPublicGroup";
+import HandleChatMedia from "./HandleChatMedia";
+import ChatImage from "./ChatImage";
+import ReplyMessage from "./ReplyMessage";
 
 export default function Chat() {
     const addChatId = useStore((state) => state.addChatId);
@@ -27,8 +33,37 @@ export default function Chat() {
     const [showModal, setShowModal] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const updateGroup = useStore((state) => state.updateGroup);
-
     const [isOpen, setIsOpen] = useState(false);
+    const [media, setMedia] = useState(null);
+    const [RenderMedia, setRenderMedia] = useState(null);
+    const CloseMediaPopup = useStore((state) => state.CloseMediaPopup);
+
+    const [RenderCount, setRenderCount] = useState(0);
+    const [mediaList, setMediaList] = useState([]);
+    const [replyBox, setReplyBox] = useState(false);
+    const [replyMessage, setReplyMessage] = useState('');
+    const [replyuser, setReplyuser] = useState('');
+    const [replyImage, setReplyImage] = useState('');
+    const [msgChatId, setMsgChatId] = useState('');
+
+    // test
+    const handleReply = (replyBox, message) => {
+        setReplyMessage(message.chat_content ? message.chat_content : message.content);
+        setReplyuser(message.from ? message.from : message.sender);
+        setMsgChatId(message.chatId ? message.chatId : message.id)
+        if(message.file_url) {
+            
+            if (message.file_url.startsWith("https://") || message.file_url.startsWith("http://")) {
+            setReplyImage(message.file_url);
+            } else {
+                setReplyImage(process.env.REACT_APP_CHATIMGURL +"/"+ ChatId.chatId +"/"+ message.file_url);
+            }
+        }
+         
+        //setSelectedReply(message);
+        //setMessage(`Replying to: ${message.chat_content}`);
+    };
+    //end test
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
@@ -36,9 +71,14 @@ export default function Chat() {
     
     const convertTimestampToUserTime = (timestamp) => {
         const date = new Date(timestamp);
-        const userTime = date.toLocaleString(); // This will use the user's local time format
-        
-        return userTime;
+        const userTime = date.toLocaleString(undefined, {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            });
+            return userTime;
     };
 
     {/* Header for Groups */}
@@ -108,7 +148,9 @@ export default function Chat() {
     }, [ChatId.chatId]);
 
     useEffect(() => {
-        if (msg){ setChats([...chats, msg]);
+        if (msg){ 
+            console.log("msg: "+JSON.stringify(msg));
+            setChats([...chats, msg]);
         //bottomRef.current?.scrollIntoView({behavior: 'smooth'});
         bottomRef.current.scrollTop = bottomRef.current.scrollHeight;
         //window.scrollTo(0, bottomRef.current.offsetTop); 
@@ -140,23 +182,73 @@ export default function Chat() {
         })
     }
 
+    const handleMediaChange = (e) => {
+        console.log("eZ: "+ e.target.files[0].name);
+        setMedia(null);
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                setRenderMedia(event.target.result);
+                //
+                const updatedMediaList = [...mediaList];
+                updatedMediaList[RenderCount] = event.target.result
+                
+                setMediaList(updatedMediaList);
+                setRenderCount(RenderCount + 1 );
+                //
+                setMedia(file);
+                CloseMediaPopup({closeMediaPopup: true});
+            };
+            reader.readAsDataURL(file);
+            e.target.value = null;
+        }
+    }
+
     const sendMessage = () => {
         if(message.trim().length > 0 ) {
-            var postData = {
-                chatContent: message,
-                channelId: ChatId.chatId
-            };
-
-            try {
-                pusherMsg(postData, headers)
-                .then((res) => {
-                    console.log(res);
-                    setMessage("");
-                });
-            } catch(error) {
-                console.log(error);
+            //setReplyBox(false);
+            if(replyBox) {
+                var postData = {
+                    chatContent: message,
+                    chatId: msgChatId,
+                    channelId: ChatId.chatId,
+                    //replyTo: selectedReply ? selectedReply.id : null, //etst
+                };
+    
+                try {
+                    pusherMessageReplyChat(postData, headers)
+                    .then((res) => {
+                        console.log(res);
+                        setMessage("");
+                        setReplyBox("");
+                        setReplyMessage("");
+                        setReplyuser("");
+                        //setMsgChatId("");
+                        setReplyImage("");
+                        //setSelectedReply(null); // etst
+                    });
+                } catch(error) {
+                    console.log(error);
+                }
+            } else {
+                var postData = {
+                    chatContent: message,
+                    channelId: ChatId.chatId,
+                    //replyTo: selectedReply ? selectedReply.id : null, //etst
+                };
+    
+                try {
+                    pusherMsg(postData, headers)
+                    .then((res) => {
+                        console.log(res);
+                        setMessage("");
+                        //setSelectedReply(null); // etst
+                    });
+                } catch(error) {
+                    console.log(error);
+                }
             }
-
         }
     }
 
@@ -164,6 +256,10 @@ export default function Chat() {
         return (
             <>
         {/* Leave Group */}
+            {media && ChatId.closeMediaPopup ? (
+                <HandleChatMedia media={media} RenderMedia={RenderMedia} />
+            ) : ''}
+        
         {showModal ? (
         <>
         <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -205,7 +301,10 @@ export default function Chat() {
         <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
         </>
         ) : null}
-            {isLoading ? (
+
+            {!ChatId.openProfile ?
+            ChatId.is_participant || ChatId.group_is_private ?
+             isLoading ? (
             <Loadingspinner/> // Replace with your loading indicator
             ) : (
             <>
@@ -246,35 +345,42 @@ export default function Chat() {
                 </div>
                 : ''
                 }
-                {oldChat.slice(0).reverse().map((chat, index) => {
-                    return(
-                        <div key={index} className='chat-message'>
-                            <div className='flex item-end justify-end'>
-                            <div className={chat.sender === localStorage.getItem("talkId") ? 'flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-end' : 'flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start'}>
-                                <div>
-                                <span className='px-4 py-2 rounded-lg inline-block rounded-bl-none bg-[#4F6B75] text-white'>
-                                <div className="block">{chat.content}</div>
-                                <div className="block text-[10px]">{convertTimestampToUserTime(chat.time_stamp)}</div>
-                                </span>
-                                </div>
-                            </div>
-                            <img className='w-6 h-6 rounded-full order-1' src={localStorage.getItem('profile_pic') ? localStorage.getItem('profile_pic') : userprofileIcon} />
-                            </div>
+                {oldChat?
+                oldChat.slice(0).reverse().map((chat, index) => {
+                    return (
+                        <>
+                        <div>
+                        <ChatMessage key={index} chat={chat} index={index} prevdate={index < oldChat.length -1 ? oldChat.slice(0).reverse()[index + 1].time_stamp : ''}/>
+                        <button className={chat.sender === localStorage.getItem("talkId") ? 'float-right mr-3' : 'float-left ml-3'} onClick={() => handleReply(setReplyBox(true), chat)}>Reply</button>
                         </div>
-                    )
-                })}
+                        </>
+                        )
+                }): ''} 
                 {/* old Chat End */}
                 {chats.map((chat, index) => {
                     return( 
                         <div key={index} className='chat-message'>
-                            <div className='flex item-end justify-end'>
+                            <div className={chat["from"] === localStorage.getItem("talkId") ? 'flex item-end justify-end' : 'flex item-end justify-start'}>
                             <div className={chat["from"] === localStorage.getItem("talkId") ? 'flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-end' : 'flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start'}>
+                                
                                 <div>
-                                <span className='px-4 py-2 rounded-lg inline-block rounded-bl-none bg-[#4F6B75] text-white'>
-                                <div className="block">{chat.chat_content}</div>
-                                <div className="block text-[10px]">{convertTimestampToUserTime(chat.chat_time)}</div>
-                                </span>
+                                    <span className='px-4 py-2 rounded-lg inline-block rounded-bl-none bg-[#4F6B75] text-white'>
+                                    {/* check if its reply chat message */}
+                                    {chat.replyto ? 
+                                    (
+                                        <ReplyMessage id={chat.replyto} />
+                                    ) : ''
+                                    }
+                                    {/* end reply chat message */}
+                                    {chat.file_url && (
+                                        <ChatImage file_url={chat.file_url} group_id={ChatId.chatId} />
+                                    )}
+                                    <div className="block">{chat.chat_content}</div>
+                                    <div className={chat["from"] === localStorage.getItem("talkId") ? "block text-[10px] float-right" : "block text-[10px]"}>{convertTimestampToUserTime(chat.chat_time)}</div>
+                                    </span>
                                 </div>
+                                
+                                <button onClick={() => handleReply(setReplyBox(true), chat)}>Reply</button>
                             </div>
                             <img className='w-6 h-6 rounded-full order-1' src={localStorage.getItem('profile_pic') ? localStorage.getItem('profile_pic') : userprofileIcon} />
                             </div>
@@ -288,6 +394,29 @@ export default function Chat() {
 
             {/* messages end here */}
             <div className='border-t-2 border-gray-200 px-4 pt-4 mb-2'>
+            
+            {/** reply chat */}
+            {replyBox && (
+                <div className='relative flex mb-2'>
+                    <span className='absolute inset-y-0 flex right-0 items-center'>
+                        <button className='inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300'>
+                        <img src={closeIcon} onClick={() => setReplyBox(false)} className='w-[16px] h-[16px]' />
+                        </button>
+                    </span>
+                    <div className='focus:ring-red-500 focus:border-red-500 w-full focus:placeholder-gray-400 text-gray-600 placeholder-gray-300 pl-12 bg-gray-100 rounded-full py-3 border-gray-200'>
+                        <span>{replyuser === localStorage.getItem("talkId") ? 'You' : replyuser}</span><br/>
+                        <span>
+                            {replyImage ? (
+                                <div className="flex items-center">
+                                    <span><img className="w-[50px]" src={replyImage} /></span>
+                                    <span className="ml-2">{replyMessage}</span>
+                                </div>
+                                ) : replyMessage}</span>
+                    </div>
+                </div>
+            )} 
+            {/** end reply chat */}
+
                 <div className='relative flex'>
                 <span className='absolute inset-y-0 flex items-center'>
                     <button className='inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300'>
@@ -300,6 +429,14 @@ export default function Chat() {
                     </button>
                 </span>
                 <span className='absolute inset-y-0 right-0 mr-10 flex items-center'>
+                    <label htmlFor="upload-button" className="custom-file-upload cursor-pointer">Upload photo</label>
+                    <input
+                        type="file"
+                        accept="image/*"
+                        id="upload-button"
+                        onChange={handleMediaChange}
+                        style={{ display: 'none' }}
+                    />
                     <button className='inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300'>
                     <img src={addIcon} className='w-[16px] h-[16px]' />
                     </button>
@@ -313,7 +450,7 @@ export default function Chat() {
                 </div>
             </div>
             </>
-            )}
+            ) : <JoinPublicGroup /> : <GroupSetting />}
         </>
         );
     }

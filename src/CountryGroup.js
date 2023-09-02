@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import userprofileIcon from './userprofile.png';
+import userprofileIcon from './images/userprofile.png';
 import useStore from "./Store";
 import Loadingspinner from "./Loadingspinner";
 import { getCountryGroupList } from './api/apiServices';
@@ -10,6 +10,8 @@ export default function CountryGroup(props) {
     const addOwner = useStore((state) => state.addOwner);
     const addGroupName = useStore((state) => state.addGroupName);
     const addGroupIcon = useStore((state) => state.addGroupIcon);
+    const IsParticipant = useStore((state) => state.IsParticipant);
+    const GroupIsPrivate = useStore((state) => state.GroupIsPrivate);
     const [countryGroupList, setcountryGroupList] = useState('');
     
     var headers = {
@@ -20,11 +22,14 @@ export default function CountryGroup(props) {
       };
 
     const openChat = (data) => {
+        IsParticipant({is_participant: ''});
         addChatId({chatId: data.id});
+        GroupIsPrivate({group_is_private: false});
         addParticipants({participants: data.participants});
         addOwner({owner: data.owner});
         addGroupName({groupName: data.name});
         addGroupIcon({groupIcon: data.group_icon});
+        IsParticipant({is_participant: data.is_participant});
     }
 
     useEffect(() => {

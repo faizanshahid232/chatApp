@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import userprofileIcon from './userprofile.png';
+import userprofileIcon from './images/userprofile.png';
 import useStore from "./Store";
 import Loadingspinner from "./Loadingspinner";
 import { getGeneralGroupList } from './api/apiServices';
@@ -11,6 +11,8 @@ export default function GeneralGroup(props) {
     const addGroupName = useStore((state) => state.addGroupName);
     const [generalGroupList, setgeneralGroupList] = useState('');
     const addGroupIcon = useStore((state) => state.addGroupIcon);
+    const GroupIsPrivate = useStore((state) => state.GroupIsPrivate);
+    const IsParticipant = useStore((state) => state.IsParticipant);
     
     var headers = {
         headers: {
@@ -20,12 +22,14 @@ export default function GeneralGroup(props) {
     };
 
     const openChat = (data) => {
-        console.log("data store: "+ JSON.stringify(data));
+        IsParticipant({is_participant: ''});
+        GroupIsPrivate({group_is_private: false});
         addChatId({chatId: data.id});
         addParticipants({participants: data.participants});
         addOwner({owner: data.owner});
         addGroupName({groupName: data.name});
         addGroupIcon({groupIcon: data.group_icon});
+        IsParticipant({is_participant: data.is_participant});
     }
 
     useEffect(() => {

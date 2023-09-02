@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import Footer from './Footer';
-import egoldbrikIcon from './egoldbrik.png';
+import egoldbrikIcon from './images/egoldbrik.png';
 import { useNavigate } from "react-router-dom";
 import { logIn } from "./api/apiServices";
 
