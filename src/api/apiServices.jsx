@@ -156,3 +156,11 @@ export const getReplyChat = (channelId, chatId, headers) => {
         headers
     );
 };
+
+export const pusherReplyMultimediaChat = (data, headers) => {
+    return ApiHelper.postwithheaders(
+        `${process.env.REACT_APP_APIEND}/pusher/replymultimediachat`,
+        data,
+        headers 
+    );
+};

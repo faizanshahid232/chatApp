@@ -257,7 +257,7 @@ export default function Chat() {
             <>
         {/* Leave Group */}
             {media && ChatId.closeMediaPopup ? (
-                <HandleChatMedia media={media} RenderMedia={RenderMedia} />
+                <HandleChatMedia media={media} RenderMedia={RenderMedia} msgChatId={msgChatId} />
             ) : ''}
         
         {showModal ? (

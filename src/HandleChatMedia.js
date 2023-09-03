@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { pusherMultimedia } from "./api/apiServices";
+import { pusherMultimedia, pusherReplyMultimediaChat } from "./api/apiServices";
 import useStore from "./Store";
 
 export default function HandleChatMedia(props) {
@@ -20,10 +20,24 @@ export default function HandleChatMedia(props) {
         'chatContent': message ? message : "",
     };
     const sendMessage = () => {
-        pusherMultimedia(data, headers).then((json) => {
-            console.log("Response: "+ JSON.stringify(json));
-            CloseMediaPopup({closeMediaPopup: false});
-        })
+        console.log("chat id pp: "+props.msgChatId);
+        if(props.msgChatId) {
+            var data2 = {
+                'file': props.media,
+                'channelId': ChatId.chatId,
+                'chatId': props.msgChatId,
+                'chatContent': message ? message : "",
+            };
+            pusherReplyMultimediaChat(data2, headers).then((json) => {
+                console.log("Reply Multimedia: "+ JSON.stringify(json));
+                CloseMediaPopup({closeMediaPopup: false});
+            })
+        } else {
+            pusherMultimedia(data, headers).then((json) => {
+                console.log("Response: "+ JSON.stringify(json));
+                CloseMediaPopup({closeMediaPopup: false});
+            })
+        }
     }
 
     const closePopup = () => {

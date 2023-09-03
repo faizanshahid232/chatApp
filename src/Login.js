@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import Footer from './Footer';
 import egoldbrikIcon from './images/egoldbrik.png';
 import { useNavigate } from "react-router-dom";
@@ -8,11 +8,13 @@ function Login() {
 
     const [userName, setUserName] = useState('');
     const [Password, setPassword] = useState('');
-  
+
     const navigate = useNavigate();
 
     const handleSubmit = async () => {
         //e.preventDefault();
+        localStorage.setItem("authenticated", false);
+        
         try{
             console.log("UserName: "+userName);
             console.log("Password: "+Password);
@@ -36,6 +38,7 @@ function Login() {
                 if(response.data.code === 200) {
                     localStorage.setItem("authenticated", true);
                     localStorage.setItem("accessToken", response.data.access_token);
+                    localStorage.setItem("accessTime", Date.now());
                     localStorage.setItem("createdAt", response.data.created_at);
                     localStorage.setItem("channelId", response.data.channel_id);
                     localStorage.setItem("talkId", response.data.talk_id);
@@ -46,7 +49,7 @@ function Login() {
                     console.log("login Successfully");
                     navigate("/");
                 } else {
-                    {/* login fail */}
+                    localStorage.setItem("authenticated", false);
                 }
 
             }).catch((error) => {
@@ -57,6 +60,14 @@ function Login() {
         }
 
     }
+
+    useEffect(() => {
+        if (
+          localStorage.getItem("authenticated") === "true") {
+            console.log("dashboard");
+            navigate("/");
+        }
+      }, []);
 
     return (
         <div>
