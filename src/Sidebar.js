@@ -8,7 +8,6 @@ import GeneralGroup from './GeneralGroup';
 import Creategroup from './CreateGroup';
 import useStore from './Store';
 
-import useSearchStore from './searchStore';
 import Userprofile from "./Userprofile";
 
 export default function Sidebar() {
@@ -18,8 +17,8 @@ export default function Sidebar() {
     const OpenProfile = useStore((state) => state.OpenProfile);
 
     // tets
-    const searchTerm = useSearchStore((state) => state.searchTerm);
-    const setSearchTerm = useSearchStore((state) => state.setSearchTerm);
+    const searchTerm = useStore((state) => state.searchTerm);
+    const setSearchTerm = useStore((state) => state.setSearchTerm);
     
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);

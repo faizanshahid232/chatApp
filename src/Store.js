@@ -15,6 +15,8 @@ let store = (set) => ({
     groupParticipantsList: [],
     groupDescription: '',
     inviteLink: '',
+    searchTerm: '',
+    
 
     addChatId: (initalize) => set({
         chatId: initalize.chatId,
@@ -70,6 +72,10 @@ let store = (set) => ({
 
     CloseMediaPopup: (initalize) => set({
         closeMediaPopup: initalize.closeMediaPopup
+    }),
+
+    setSearchTerm: (newTerm) => set({ 
+        searchTerm: newTerm 
     }),
 
 });
