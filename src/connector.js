@@ -4,6 +4,9 @@ import { MetaMask } from '@web3-react/metamask';
 import Web3 from 'web3';
 import { web3LogIn } from './api/apiServices';
 import { useNavigate } from "react-router-dom";
+import metamaskIcon from './images/MetaMask_Fox.svg';
+import trustwalletIcon from './images/true_wallet.svg';
+import tokenpocketIcon from './images/TokenPocket.svg';
 
 const [metaMask, hooks] = initializeConnector((actions) => new MetaMask(actions));
 const {
@@ -28,7 +31,7 @@ function Connect({ isActivating, error, isActive, onConnect, onDisconnect }) {
           onClick={isActivating ? undefined : onConnect}
           disabled={isActivating}
         >
-          Connect
+          Login with web3
         </button>
       )}
     </div>
@@ -131,9 +134,14 @@ export default function Connector() {
   };
 
   return (
-    <div style={{ border: '1px solid' }}>
-      <b>MetaMask</b>
-      <Status isActivating={isActivating} error={error} isActive={isActive} />
+    <>
+    <span className="cursor-pointer btn-get-secondry web3-btn callogbtn">
+      <div class="flex">
+          <span><img src={metamaskIcon} /></span>
+          <span><img src={trustwalletIcon} /></span>
+          <span><img src={tokenpocketIcon} /></span>
+      </div>
+      <span>
       <Connect
         isActivating={isActivating}
         error={error}
@@ -141,8 +149,9 @@ export default function Connector() {
         onConnect={handleConnect}
         onDisconnect={handleDisconnect}
       />
-      <b>{accounts ? accounts : 'no acc'}</b>
-      {chainId ? chainId : ''}
-    </div>
+      </span>
+    </span>
+
+    </>
   );
 }

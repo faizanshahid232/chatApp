@@ -53,7 +53,77 @@
 .App-link {
   color: #61dafb;
 }
-
+.btn-outline-color-secondary {
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #253237;
+  border-radius: 6px;
+  color: #253237;
+  display: flex;
+  font-size: 12px;
+  font-weight: 700;
+  justify-content: center;
+  padding: 15px 0;
+  text-align: center;
+}
+.btn-color-primary  {
+  align-items: center;
+  background-color: #ffc727;
+  border-radius: 6px;
+  color: #253237;
+  display: flex;
+  font-size: 12px;
+  font-weight: 700;
+  justify-content: center;
+  padding: 15px 0;
+  text-align: center;
+}
+.btnlogin {
+  background-color: #ffc727;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 12px;
+  width: 100%;
+}
+.inputBox {
+  background-color: rgb(255, 255, 255);
+    border: 0.489247px solid rgb(222, 226, 230);
+    color: rgb(0, 0, 0);
+    font-size: 13px;
+    padding: 13px 12px;
+    border-radius: 8px;
+    width: 100%;
+}
+.selectcurbtnsec > a {
+  width: 50%;
+}
+.selectcurbtnsec {
+  display: flex;
+  gap: 30px;
+}
+.btn-get-secondry.web3-btn.callogbtn {
+  background-color: #ffc727;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+.btn-get-secondry {
+  background: transparent;
+  border-radius: 8px;
+  color: #253237;
+  display: inline-block;
+  font-family: Raleway,sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  margin-right: 24px;
+  margin-top: 24px;
+  padding: 12px 0;
+  text-align: center;
+  transition: .5s;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

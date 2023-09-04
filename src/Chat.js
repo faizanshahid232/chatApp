@@ -19,6 +19,7 @@ import JoinPublicGroup from "./JoinPublicGroup";
 import HandleChatMedia from "./HandleChatMedia";
 import ChatImage from "./ChatImage";
 import ReplyMessage from "./ReplyMessage";
+import ConvertTimeStamp from "./ConvertTimeStamp";
 
 export default function Chat() {
     const addChatId = useStore((state) => state.addChatId);
@@ -69,18 +70,6 @@ export default function Chat() {
         setIsOpen(!isOpen);
     };
     
-    const convertTimestampToUserTime = (timestamp) => {
-        const date = new Date(timestamp);
-        const userTime = date.toLocaleString(undefined, {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            });
-            return userTime;
-    };
-
     {/* Header for Groups */}
     var headers = {
         headers: {
@@ -183,7 +172,6 @@ export default function Chat() {
     }
 
     const handleMediaChange = (e) => {
-        console.log("eZ: "+ e.target.files[0].name);
         setMedia(null);
         const file = e.target.files[0];
         if (file) {
@@ -303,13 +291,13 @@ export default function Chat() {
         ) : null}
 
             {!ChatId.openProfile ?
-            ChatId.is_participant || ChatId.group_is_private ?
+            ChatId.is_participant || ChatId.group_is_private ? 
              isLoading ? (
-            <Loadingspinner/> // Replace with your loading indicator
+            <div className="mt-[200px]"><Loadingspinner  /> </div>// Replace with your loading indicator
             ) : (
             <>
                 {/* End Leave Group */}
-            <div className='h-[68px] border-b-[1px] py-[10px] rounded-lg border-[#E5E5EA] flex justify-between items-center'>
+                <div className='h-[68px] border-b-[1px] py-[10px] rounded-lg border-[#E5E5EA] flex justify-between items-center'>
                 <div className='ml-[10px] md:hidden lg:hidden xl:hidden' onClick={() => backPage()}><svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M21 11H6.414l5.293-5.293-1.414-1.414L2.586 12l7.707 7.707 1.414-1.414L6.414 13H21z"></path></svg></div>
                 <div className='ml-[10px] hidden md:block lg:block xl:block'><img className='w-[80px]' src={avatarGroupIcon} /></div>
                 <div>
@@ -333,8 +321,7 @@ export default function Chat() {
                     )}
                 </div>
                 
-                </div>
-
+            </div>
                 {/* messages start here */}
                 
                 <div id='messages' ref={bottomRef}  className='flex flex-col space-y-4 p-3 overflow-y-auto h-[500px] md:h-auto lg:h-auto xl:h-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch'>
@@ -376,7 +363,7 @@ export default function Chat() {
                                         <ChatImage file_url={chat.file_url} group_id={ChatId.chatId} />
                                     )}
                                     <div className="block">{chat.chat_content}</div>
-                                    <div className={chat["from"] === localStorage.getItem("talkId") ? "block text-[10px] float-right" : "block text-[10px]"}>{convertTimestampToUserTime(chat.chat_time)}</div>
+                                    <div className={chat["from"] === localStorage.getItem("talkId") ? "block text-[10px] float-right" : "block text-[10px]"}><ConvertTimeStamp timestamp={chat.chat_time} /></div>
                                     </span>
                                 </div>
                                 

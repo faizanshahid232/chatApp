@@ -1,9 +1,8 @@
 import React, {useState, useEffect} from "react";
 import Footer from './Footer';
-import egoldbrikIcon from './images/egoldbrik.png';
 import { useNavigate } from "react-router-dom";
 import { logIn } from "./api/apiServices";
-import Connector from "./connector";
+import roundlogoIcon from './images/roundlogo.png';
 
 function Login() {
     const [userName, setUserName] = useState('');
@@ -71,60 +70,62 @@ function Login() {
       }, []);
 
     return (
-        <div>
-            <div className='relative flex items-stretch min-h-screen flex-col bg-[#fff2cc] md:pb-[100px] lg:pb-[100px] xl:pb-[100px]'>
-            {/* Login */}
-            <div className="w-full flex flex-col items-center justify-cente mt-10">
-                <div className="bg-white w-[80%] md:w-[25%] lg:w-[25%] xl:w-[25%] rounded-br rounded-bl pb-16 mb-4">
-                    <div className="bg-[#ffc727] flex items-center flex-col pt-4 rounded-tr rounded-tl px-8">
-                        <img className='h-[50px] mt-[20px]' src={egoldbrikIcon} />
-                        <h4 className="text-center mt-2 font-bold">Log in</h4>
-                        <h6 className="text-center text-sm pb-6">with your email address</h6>
-                    </div>
-                    <div className="mb-4 px-8 mt-10">
-                        <div className="relative">
-                            <input 
-                                type="text" 
-                                id="outlined_success" 
-                                aria-describedby="outlined_success_help" 
-                                className="block px-2.5 pb-1.5 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-[4px] border border-gray-400 appearance-none dark:border-gray-500 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer" 
-                                placeholder=" "
-                                onChange={event => setUserName(event.target.value)}
-                                value={userName} 
-                                required />
-                            <label htmlFor="outlined_success" className="absolute text-sm text-gray-600 dark:text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Email Address</label>
+        <>
+        <div className="bg-white relative h-screen">
+            <div className="flex-1">
+                <div className="my-[3%]">
+                    <div className="m-auto max-w-[600px]">
+                        <div className="bg-[#f5f5f5] border rounded-[8px] p-[30px]">
+                            <div className="relative cursor-pointer flex items-center text-[#4f6b75] text-[18px] font-medium justify-between">
+                                <a className="items-center flex text-[#4f6b75] gap-1 z-1000" style={{ zIndex: '999' }} onClick={()=>navigate("/mainpage")}>Back</a>
+                                <div className="flex text-[20px] font-medium gap-1 justify-center left-[50%] absolute w-[100%] translate-x-[-50%]">Login</div>
+                                <div></div>
+                            </div>
+                            <div className="bg-white border rounded-[15px] mt-[20px] p-[20px]">
+                                <div className="flex items-center justify-center mt-[10px]">
+                                    <img src={roundlogoIcon} />
+                                </div>
+                                <div>
+                                    
+                                <div className="mt-[30px] p-[10px]">
+                                    <label className="text-[15px]">Email address</label>
+                                    <div>
+                                        <input 
+                                            className="inputBox"
+                                            type="text"
+                                            onChange={event => setUserName(event.target.value)}
+                                            value={userName} 
+                                            required  />
+                                    </div>
+                                </div>
+                                <div className="p-[10px]">
+                                    <label className="text-[15px]">Password</label>
+                                        <div>
+                                            <input 
+                                            className="inputBox"
+                                            type="password" 
+                                            onChange={event => setPassword(event.target.value)}
+                                            value={Password} 
+                                            required />
+                                        </div>
+                                </div>
+                                <div className="mt-[30px] p-[10px]">
+                                    <button className="btnlogin" onClick={handleSubmit} type="submit">Log in</button>
+                                </div>
+                            </div>
+                            <div className="grid place-content-center my[20px]">
+                                <span className="mb-[10px] pt-[10px] font-medium text-center cursor-pointer text-[#253237] text-[18px]">Forgot password?</span>
+                                <span className="text-[#253237] font-normal flex gap-2 text-center">Don't have an account? 
+                                <p className="text-[#FFC727] font-bold text-[16px] cursor-pointer" onClick={()=>navigate("/register")}>Sign up</p></span>
+                            </div>
+                            </div>
                         </div>
                     </div>
-                    <div className="mb-6 px-8 pt-4">
-                    <div className="relative">
-                        <input 
-                            type="password" 
-                            id="outlined_success2" 
-                            aria-describedby="outlined_success_help" 
-                            className="block px-2.5 pb-1.5 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-[4px] border border-gray-400 appearance-none dark:border-gray-500 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer" 
-                            placeholder=" "
-                            onChange={event => setPassword(event.target.value)}
-                            value={Password} 
-                            required />
-                        <label htmlFor="outlined_success2" className="absolute text-sm text-gray-600 dark:text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Password</label>
-                    </div>
-                    </div>
-                    <div className="flex items-center justify-between px-8 pt-4">
-                    <button onClick={handleSubmit} className="bg-[#4F6B75] text-white w-full font-bold text-sm py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                        Log in
-                    </button>
-                    </div>
-                    <div className="flex items-center justify-between px-8 pt-4">
-                    <Connector />
-                    </div>
                 </div>
-                </div>
-            {/* Login End */}
             </div>
-            {/* Footer */}
             <Footer />
-            {/* Footer end */}
         </div>
+        </>
     );
 }
 export default Login;

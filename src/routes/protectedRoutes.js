@@ -4,7 +4,7 @@ const ProtectedRoute = ({ children }) => {
 
   if (!user) {
     console.log("here lloogg");
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/mainpage" replace />;
   }
   return children;
 };

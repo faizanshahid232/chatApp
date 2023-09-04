@@ -18,6 +18,7 @@ export default function Userprofile() {
     const [ownGroupList, setOwnGroupList] = useState('');
     const ChatId = useStore(state => state);
     const OpenProfile = useStore((state) => state.OpenProfile);
+    const [loading, setLoading] = useState(true);
     
     const GroupCreatedAt = useStore((state) => state.GroupCreatedAt);
     const GroupParticipantsList = useStore((state) => state.GroupParticipantsList);
@@ -62,6 +63,7 @@ export default function Userprofile() {
     useEffect(() => {
         getOwnGroup(headers).then((response) => {
             setOwnGroupList(response.data.data);
+            setLoading(false);
           });
     },[]);
 
@@ -112,7 +114,10 @@ export default function Userprofile() {
     };
 
     const displayData = () => {
-        if(ownGroupList.length > 0) {
+        if(loading) {
+            return (<Loadingspinner/>)
+        }
+        else if(ownGroupList.length > 0) {
             return(
                 ownGroupList.map((data, index) => {
                     return(
@@ -147,10 +152,13 @@ export default function Userprofile() {
                 })
             )
         } else {
-            return (<Loadingspinner/>)
+            return <div className="text-center">No Group Found</div>
         }
     }
-    
+    const profilePic = localStorage.getItem('profile_pic');
+    const imageSource = profilePic !== null && profilePic !== 'null' ? profilePic : userprofileIcon;
+
+
     return(
         <>
         <div className='border-b border-white pr-2 xl:border-b-0 xl:flex-shrink-0 xl:w-68 xl:border-r xl:border-gray-200 bg-gray-50'>
@@ -168,7 +176,7 @@ export default function Userprofile() {
                         (
                             <img onClick={toggleMenu} className='cursor-pointer w-36 h-36 rounded-full m-auto relative px-2 py-2 flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 mb-3 hover:bg-gray-200' src={URL.createObjectURL(selectedImage)} alt="Selected" />
                             
-                        ) : <img onClick={toggleMenu} className='cursor-pointer w-36 h-36 rounded-full m-auto relative px-2 py-2 flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 mb-3 hover:bg-gray-200' src={localStorage.getItem('profile_pic')} />
+                        ) : <img onClick={toggleMenu} className='cursor-pointer w-36 h-36 rounded-full m-auto relative px-2 py-2 flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 mb-3 hover:bg-gray-200' src={imageSource} />
                         }
                             {isOpen && (
                                 <div className="absolute mt-[-10px] w-[200px] py-2 bg-white border rounded-lg shadow-lg">

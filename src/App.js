@@ -11,16 +11,15 @@ function App() {
   const ChatId = useStore(state => state);
   let history = useNavigate();
 
-  //
+  const token = localStorage.getItem("accessToken");
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
     if (token) {
         if (Date.now() - parseInt(localStorage.getItem("accessTime")) > 7200000) {
             localStorage.clear();
-            history("/login")
+            history("/mainpage")
         }
     } else {
-      history("/login")
+      history("/mainpage")
     }
     const interval = setInterval(() => {
         if (token) {
@@ -29,7 +28,7 @@ function App() {
                 7200000
             ) {
                 localStorage.clear();
-                history("/login")
+                history("/mainpage")
             }
         }
     }, 10000);
@@ -38,7 +37,7 @@ function App() {
   }, []);
 //
   return (
-    <div className='bg-[#f9fafb]'>
+    <div className='bg-[#f5f5f5]'>
       
       {/* Web3 popup start */}
       {/**<div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -74,10 +73,9 @@ function App() {
       </div>
       <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
       {/* Web3 popup end */}
-
       <div className='md:pb-[100px] lg:pb-[100px] xl:pb-[100px]'>
         <div className='relative min-h-screen flex flex-col bg-gray-50'>
-        
+
           {/* Nav screen start */}
           <Header />
           {/* Nav screen end here */}

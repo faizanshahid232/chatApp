@@ -3,13 +3,15 @@ import { createRoot } from "react-dom/client";
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import Dashboard from "./Dashboard"
+
 import {
   RouterProvider,
   createBrowserRouter
 } from "react-router-dom";
 import Login from './Login';
 import ProtectedRoute from "./routes/protectedRoutes";
+import MainPage from './MainPage';
+import Register from './Register';
 
 const router = createBrowserRouter([
   {
@@ -31,11 +33,15 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/dashboard",
+    path: "/mainpage",
     element: (
-      <ProtectedRoute>
-          <Dashboard />
-      </ProtectedRoute>
+      <MainPage />
+    ),
+  },
+  {
+    path: "/register",
+    element: (
+      <Register />
     ),
   },
 ]);

@@ -14,6 +14,7 @@ export default function PrivateGroup(props) {
     const GroupIsPrivate = useStore((state) => state.GroupIsPrivate);
     const [privateGroupList, setprivateGroupList] = useState('');
     const ChatId = useStore(state => state);
+    const [loading, setLoading] = useState(true);
     
     // tets
   //  const searchTerm = useSearchStore((state) => state.searchTerm);
@@ -40,6 +41,7 @@ export default function PrivateGroup(props) {
     useEffect(() => {
         getPrivateGroupList(headers).then((response) => {
             setprivateGroupList(response.data.data);
+            setLoading(false);
           });
     },[]);
 
@@ -59,7 +61,9 @@ export default function PrivateGroup(props) {
     //tets
 
     const displayData = () => {
-        if(privateGroupList.length > 0) {
+        if(loading) {
+            return (<Loadingspinner/>)
+        }else if(privateGroupList.length > 0) {
             if(ChatId.searchTerm) {
                 const filteredResults = privateGroupList.filter((item) =>
                 item.name.toLowerCase().includes(ChatId.searchTerm.toLowerCase())
@@ -131,8 +135,9 @@ export default function PrivateGroup(props) {
                 )
             }
         } else {
-            return (<Loadingspinner/>)
+            return <div className="text-center">No Group Found</div>;
         }
+        
     }
     
     return (

@@ -2,18 +2,12 @@ import React, { useState, useEffect } from "react";
 import userprofileIcon from './images/userprofile.png';
 import { getParticipantsProfilePic, getReplyChat } from "./api/apiServices";
 import ReplyMessage from "./ReplyMessage";
+import ConvertTimeStamp from "./ConvertTimeStamp";
 
 export default function ChatMessage(props) {
     const [imgsrc, setImgsrc] = useState("...");
     
-    const convertTimestampToUserTime = (timestamp) => {
-        const date = new Date(timestamp);
-        const userTime = date.toLocaleString(undefined, {
-            hour: '2-digit',
-            minute: '2-digit',
-          });
-          return userTime;
-    };
+    const isCurrentUser = props.chat.sender === localStorage.getItem("talkId");
 
     const formatDateDivider = (timestamp) => {
         const date = new Date(timestamp);
@@ -56,7 +50,7 @@ export default function ChatMessage(props) {
                     {dateDivider}
                 </div>
             )}
-            <div className={props.chat.sender === localStorage.getItem("talkId") ? 'flex item-end justify-end' : 'flex item-end justify-start'}>
+            <div className={`flex item-end justify-${isCurrentUser ? 'end' : 'start'}`}>
             <div className={props.chat.sender === localStorage.getItem("talkId") ? 'flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-end' : 'flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start'}>
                 <div>
                 <span className='px-4 py-2 rounded-lg inline-block rounded-bl-none bg-[#4F6B75] text-white'>
@@ -73,7 +67,7 @@ export default function ChatMessage(props) {
                     <img src={props.chat.file_url} alt="Media" className="media" />
                 )}
                 <div className="block">{props.chat.content}</div>
-                <div className={props.chat.sender === localStorage.getItem("talkId") ? "block text-[10px] float-right" : "block text-[10px]"}>{convertTimestampToUserTime(props.chat.time_stamp)}</div>
+                <div className={props.chat.sender === localStorage.getItem("talkId") ? "block text-[10px] float-right" : "block text-[10px]"}><ConvertTimeStamp timestamp={props.chat.time_stamp} /></div>
                 </span>
                 </div>
             </div>
