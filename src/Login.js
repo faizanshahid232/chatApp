@@ -3,9 +3,9 @@ import Footer from './Footer';
 import egoldbrikIcon from './images/egoldbrik.png';
 import { useNavigate } from "react-router-dom";
 import { logIn } from "./api/apiServices";
+import Connector from "./connector";
 
 function Login() {
-
     const [userName, setUserName] = useState('');
     const [Password, setPassword] = useState('');
 
@@ -45,6 +45,7 @@ function Login() {
                     localStorage.setItem("walletAddress", response.data.wallet_address);
                     localStorage.setItem("user_type", response.data.user_type);
                     localStorage.setItem("profile_pic", response.data.profile_pic);
+                    localStorage.setItem("user_type", response.data.user_type);
     
                     console.log("login Successfully");
                     navigate("/");
@@ -112,6 +113,9 @@ function Login() {
                     <button onClick={handleSubmit} className="bg-[#4F6B75] text-white w-full font-bold text-sm py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                         Log in
                     </button>
+                    </div>
+                    <div className="flex items-center justify-between px-8 pt-4">
+                    <Connector />
                     </div>
                 </div>
                 </div>

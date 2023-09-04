@@ -6,13 +6,18 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "@web3-react/core": "^8.0.6-beta.0",
+    "@web3-react/metamask": "^8.0.3-beta.0",
     "axios": "^1.4.0",
     "pusher-js": "^8.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.15.0",
     "react-scripts": "5.0.1",
+    "unix-timestamp": "^1.0.3",
     "web-vitals": "^2.1.4",
+    "web3": "^4.1.1",
+    "web3-react": "^5.0.5",
     "zustand": "^4.4.1"
   },
   "scripts": {

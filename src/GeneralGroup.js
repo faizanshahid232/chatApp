@@ -13,7 +13,6 @@ export default function GeneralGroup(props) {
     const addGroupIcon = useStore((state) => state.addGroupIcon);
     const GroupIsPrivate = useStore((state) => state.GroupIsPrivate);
     const IsParticipant = useStore((state) => state.IsParticipant);
-    const [filteredData, setFilteredData] = useState([]);
     const ChatId = useStore(state => state);
 
     var headers = {

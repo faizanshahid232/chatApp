@@ -24,6 +24,9 @@ export default function Sidebar() {
         setSearchTerm(event.target.value);
     };
 
+    const profilePic = localStorage.getItem('profile_pic');
+    const imageSource = profilePic !== null && profilePic !== 'null' ? profilePic : userprofileIcon;
+
     // test end
 
     return(
@@ -39,7 +42,7 @@ export default function Sidebar() {
             <div className={ChatId.chatId ? 'hidden h-[600px] md:block lg:block xl:block md:h-full lg:h-full xl:h-full relative bg-white' : 'h-[600px] md:h-full lg:h-full xl:h-full relative bg-white'}>
                 <div className='bg-[#4F6B75] h-[48px] rounded-tl-lg rounded-tr-lg pt-[10px] flex justify-between'>
                 <div className='flex'>
-                    <img className='ml-[9px] h-[30px] w-[30px] rounded-full' src={localStorage.getItem('profile_pic') ? localStorage.getItem('profile_pic'): userprofileIcon} />
+                    <img className='ml-[9px] h-[30px] w-[30px] rounded-full' src={imageSource} />
                     <p className='text-white text-[14px] ml-[5px] mt-[3px]'>{localStorage.getItem('talkId')}</p></div>
                 <div>
                     <div><img className='mr-[10px] w-[24px] mt-[3px] cursor-pointer' onClick={() => OpenProfile({openProfile: true})} src={usersettingIcon} /></div>

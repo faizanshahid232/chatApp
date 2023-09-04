@@ -16,6 +16,8 @@ let store = (set) => ({
     groupDescription: '',
     inviteLink: '',
     searchTerm: '',
+    web3RandomMsg: '',
+    web3ResponseToken: '',
     
 
     addChatId: (initalize) => set({
@@ -76,6 +78,14 @@ let store = (set) => ({
 
     setSearchTerm: (newTerm) => set({ 
         searchTerm: newTerm 
+    }),
+
+    Web3RandomMsg: (initalize) => set({ 
+        Web3RandomMsg: initalize.Web3RandomMsg 
+    }),
+
+    Web3ResponseToken: (initalize) => set({ 
+        Web3ResponseToken: initalize.Web3ResponseToken 
     }),
 
 });

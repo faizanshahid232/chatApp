@@ -8,6 +8,14 @@ export const logIn = (data, headers) => {
     );
 };
 
+export const web3LogIn = (data, headers) => {
+    return ApiHelper.postwithheaders(
+        `${process.env.REACT_APP_APIEND}/web3/login`,
+        data,
+        headers 
+    );
+};
+
 export const getPrivateGroupList = (headers) => {
     return ApiHelper.getwithheaders(
       `${process.env.REACT_APP_APIEND}/getgroups`,
