@@ -51,7 +51,7 @@ export default function ChatMessage(props) {
                 </div>
             )}
             <div className={`flex item-end justify-${isCurrentUser ? 'end' : 'start'}`}>
-            <div className={props.chat.sender === localStorage.getItem("talkId") ? 'flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-end' : 'flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start'}>
+            <div className={`flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-${isCurrentUser ? 'end' : 'start'}`}>
                 <div>
                 <span className='px-4 py-2 rounded-lg inline-block rounded-bl-none bg-[#4F6B75] text-white'>
                 
@@ -67,7 +67,7 @@ export default function ChatMessage(props) {
                     <img src={props.chat.file_url} alt="Media" className="media" />
                 )}
                 <div className="block">{props.chat.content}</div>
-                <div className={props.chat.sender === localStorage.getItem("talkId") ? "block text-[10px] float-right" : "block text-[10px]"}><ConvertTimeStamp timestamp={props.chat.time_stamp} /></div>
+                <div className={`block text-[10px] ${isCurrentUser ? 'float-right' : 'block text-[10px]'}`}><ConvertTimeStamp timestamp={props.chat.time_stamp} /></div>
                 </span>
                 </div>
             </div>
