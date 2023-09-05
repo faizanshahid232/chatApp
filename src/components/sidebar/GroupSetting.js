@@ -1,7 +1,7 @@
 import React, {useEffect, useState } from "react";
-import useStore from "./Store";
-import egoldLogoIcon from './images/egold_logo_icon.png';
-import { addGroupIcon, getOwnGroup, addParticipantsMember, removeParticipant } from "./api/apiServices";
+import useStore from "../../Store";
+import egoldLogoIcon from '../../images/egold_logo_icon.png';
+import { addGroupIcon, getOwnGroup, addParticipantsMember, removeParticipant } from "../../api/apiServices";
 
 
 

@@ -1,6 +1,6 @@
 import React, { useEffect,useState } from "react";
-import { getReplyChat } from "./api/apiServices";
-import useStore from "./Store";
+import { getReplyChat } from "../../api/apiServices";
+import useStore from "../../Store";
 
 export default function ReplyMessage(props) {
 
@@ -32,13 +32,13 @@ export default function ReplyMessage(props) {
     return (
         <div>
         {data !== null ? (
-          <div className="bg-slate-400">
-            <span>{data.sender === localStorage.getItem("talkId") ? 'You' : data.sender}</span><br/>
+          <div className="flex-1 bg-gray-100 rounded-lg p-3 mb-2">
+            <span className="font-semibold">{data.sender === localStorage.getItem("talkId") ? 'You' : data.sender}</span><br/>
             <span>
             {data.file_url ? (
                 <div className="flex items-center">
-                    <span><img className="w-[50px]" src={data.file_url} /></span>
-                    <span className="ml-2">{data.content}</span>
+                    <span><img className="w-16 rounded-lg" src={data.file_url} /></span>
+                    <span className="ml-2 text-gray-500">{data.content}</span>
                 </div>
             ) : data.content}
             </span>

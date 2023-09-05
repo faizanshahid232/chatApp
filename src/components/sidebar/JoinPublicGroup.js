@@ -1,6 +1,6 @@
 import React from "react";
-import useStore from "./Store";
-import { joinPublicGroup } from "./api/apiServices";
+import useStore from "../../Store";
+import { joinPublicGroup } from "../../api/apiServices";
 
 export default function JoinPublicGroup() {
     

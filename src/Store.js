@@ -18,10 +18,15 @@ let store = (set) => ({
     searchTerm: '',
     web3RandomMsg: '',
     web3ResponseToken: '',
+    talkId: '',
     
 
     addChatId: (initalize) => set({
         chatId: initalize.chatId,
+    }),
+
+    setTalkId: (initalize) => set({
+        talkId: initalize.talkId,
     }),
 
     addOwner: (initalize) => set({

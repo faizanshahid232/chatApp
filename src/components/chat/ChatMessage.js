@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import userprofileIcon from './images/userprofile.png';
-import { getParticipantsProfilePic, getReplyChat } from "./api/apiServices";
+import userprofileIcon from '../../images/userprofile.png';
+import { getParticipantsProfilePic, getReplyChat } from "../../api/apiServices";
 import ReplyMessage from "./ReplyMessage";
-import ConvertTimeStamp from "./ConvertTimeStamp";
+import ConvertTimeStamp from "../../ConvertTimeStamp";
 
 export default function ChatMessage(props) {
-    const [imgsrc, setImgsrc] = useState("...");
+    const [imgsrc, setImgsrc] = useState();
     
     const isCurrentUser = props.chat.sender === localStorage.getItem("talkId");
 
@@ -33,6 +33,7 @@ export default function ChatMessage(props) {
             },
         };
         getParticipantsProfilePic(talkId, headers).then((json) => {
+            console.log("img: "+ json.data.data);
             setImgsrc(json.data.data)
         })
     }
@@ -53,7 +54,8 @@ export default function ChatMessage(props) {
             <div className={`flex item-end justify-${isCurrentUser ? 'end' : 'start'}`}>
             <div className={`flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-${isCurrentUser ? 'end' : 'start'}`}>
                 <div>
-                <span className='px-4 py-2 rounded-lg inline-block rounded-bl-none bg-[#4F6B75] text-white'>
+                <span className='px-4 py-2 rounded-lg inline-block rounded-bl-none bg-gray-300'>
+                <span className="font-semibold">{props.chat.sender === localStorage.getItem("talkId") ? '' : props.chat.sender}</span>
                 
                 {/**check if msg have reply */}
                 
@@ -64,15 +66,14 @@ export default function ChatMessage(props) {
                 {/** end msg reply  */}
 
                 {props.chat.file_url && (
-                    <img src={props.chat.file_url} alt="Media" className="media" />
+                    <img src={props.chat.file_url} alt="Media" className="media w-16" />
                 )}
-                <div className="block">{props.chat.content}</div>
+                <div className="block text-base py-1">{props.chat.content}</div>
                 <div className={`block text-[10px] ${isCurrentUser ? 'float-right' : 'block text-[10px]'}`}><ConvertTimeStamp timestamp={props.chat.time_stamp} /></div>
                 </span>
                 </div>
             </div>
-            {imgsrc=="..."? "" :
-            <img className='w-6 h-6 rounded-full order-1' src={imgsrc} />}
+            <img className='w-6 h-6 rounded-full order-1' src={imgsrc ? imgsrc : userprofileIcon} />
             </div>
         </div>
         </>

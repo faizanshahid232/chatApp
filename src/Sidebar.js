@@ -2,13 +2,11 @@ import React, {useState} from "react";
 import usersettingIcon from './images/Frame.png';
 import userprofileIcon from './images/userprofile.png';
 import composeIcon from './images/Compose.png';
-import PrivateGroup from './PrivateGroup';
-import CountryGroup from './CountryGroup';
-import GeneralGroup from './GeneralGroup';
-import Creategroup from './CreateGroup';
+import GeneralGroup from './components/sidebar/GeneralGroup';
+import Creategroup from './components/sidebar/CreateGroup';
 import useStore from './Store';
 
-import Userprofile from "./Userprofile";
+import Userprofile from "./components/sidebar/Userprofile";
 
 export default function Sidebar() {
     
@@ -81,19 +79,19 @@ export default function Sidebar() {
             {/* tabs end */}
             {/* Tab 1 list */}
             <div className={openTab === 1 ? "block" : "hidden"}>
-                <GeneralGroup />
+                <GeneralGroup openTab={openTab} />
             </div>
             {/* Tab 1 list end */}
 
             {/* Tab 2 list */}
             <div className={openTab === 2 ? "block" : "hidden"}>
-                <CountryGroup />
+                <GeneralGroup openTab={openTab} />
             </div>
             {/* Tab 2 list end */}
 
             {/* Tab 3 list */}
             <div className={openTab === 3 ? "block" : "hidden"}>
-                <PrivateGroup />
+                <GeneralGroup openTab={openTab} />
             </div>
             {/* Tab 3 list end */}
 

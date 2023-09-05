@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from "react";
-import { addProfilePic, generateInviteLink, getOwnGroup, getProfilePic } from "./api/apiServices";
-import userprofileIcon from './images/userprofile.png';
-import useStore from "./Store";
-import Loadingspinner from "./Loadingspinner";
-import arrow from './images/arrow.png';
+import { addProfilePic, generateInviteLink, getOwnGroup, getProfilePic } from "../../api/apiServices";
+import userprofileIcon from '../../images/userprofile.png';
+import useStore from "../../Store";
+import Loadingspinner from "../../Loadingspinner";
+import arrow from '../../images/arrow.png';
 
 export default function Userprofile() {
 

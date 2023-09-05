@@ -172,3 +172,11 @@ export const pusherReplyMultimediaChat = (data, headers) => {
         headers 
     );
 };
+
+export const getTalkId = (talkId, headers) => {
+    return ApiHelper.postwithheaders(
+        `${process.env.REACT_APP_APIEND}/gettalkid/${talkId}`,
+        talkId,
+        headers
+    );
+};

@@ -1,6 +1,6 @@
 import React, {useState} from "react";
-import { pusherMultimedia, pusherReplyMultimediaChat } from "./api/apiServices";
-import useStore from "./Store";
+import { pusherMultimedia, pusherReplyMultimediaChat } from "../../api/apiServices";
+import useStore from "../../Store";
 
 export default function HandleChatMedia(props) {
 

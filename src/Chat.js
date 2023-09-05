@@ -1,25 +1,24 @@
 import React, { useState, useEffect, useRef } from "react";
-import optionicon from './images/option.png';
-import avatarGroupIcon from './images/avatar-group.png';
-import egoldLogoIcon from './images/egold_logo_icon.png';
-import closeIcon from './images/close.png';
-import smileyIcon from './images/smiley.png';
-import addIcon from './images/mention.png';
-import sendIcon from './images/Icon.png';
+import Pusher from "pusher-js";
 import userprofileIcon from './images/userprofile.png';
 import useStore from "./Store";
-import Pusher from "pusher-js";
-import { pusherMsg } from "./api/apiServices";
-import { getChat } from "./api/apiServices";
-import { leftGroup, pusherMessageReplyChat } from "./api/apiServices";
+import { 
+    pusherMsg, 
+    getChat, 
+    pusherMessageReplyChat 
+} from "./api/apiServices";
 import Loadingspinner from "./Loadingspinner";
-import GroupSetting from "./GroupSetting";
-import ChatMessage from "./ChatMessage";
-import JoinPublicGroup from "./JoinPublicGroup";
-import HandleChatMedia from "./HandleChatMedia";
-import ChatImage from "./ChatImage";
-import ReplyMessage from "./ReplyMessage";
+import GroupSetting from "./components/sidebar/GroupSetting";
+import ChatMessage from "./components/chat/ChatMessage";
+import JoinPublicGroup from "./components/sidebar/JoinPublicGroup";
+import HandleChatMedia from "./components/chat/HandleChatMedia";
+import ChatImage from "./components/chat/ChatImage";
+import ReplyMessage from "./components/chat/ReplyMessage";
 import ConvertTimeStamp from "./ConvertTimeStamp";
+import LeaveGroupModal from "./components/chat/LeaveGroupModal";
+import ChatHeader from "./components/chat/ChatHeader";
+import MessageInput from "./components/chat/MessageInput";
+import ReplyBox from "./components/chat/ReplyBox";
 
 export default function Chat() {
     const addChatId = useStore((state) => state.addChatId);
@@ -33,7 +32,6 @@ export default function Chat() {
     const bottomRef = useRef(null);
     const [showModal, setShowModal] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
-    const updateGroup = useStore((state) => state.updateGroup);
     const [isOpen, setIsOpen] = useState(false);
     const [media, setMedia] = useState(null);
     const [RenderMedia, setRenderMedia] = useState(null);
@@ -46,7 +44,7 @@ export default function Chat() {
     const [replyuser, setReplyuser] = useState('');
     const [replyImage, setReplyImage] = useState('');
     const [msgChatId, setMsgChatId] = useState('');
-
+    
     // test
     const handleReply = (replyBox, message) => {
         setReplyMessage(message.chat_content ? message.chat_content : message.content);
@@ -150,27 +148,6 @@ export default function Chat() {
         addChatId({chatId: ''});
     }
 
-    function leaveGroup() {
-        console.log("Leave Group");
-        {/* POST DATA */}
-        var headers2 = {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization' : 'Bearer ' + localStorage.getItem('accessToken'),
-            
-        };
-        var data = {
-            "groupID": ChatId.chatId,
-        };
-        leftGroup(data, headers2).then((json) => {
-            //console.log("jjssoonn: "+ChatId.updateGroup);
-            updateGroup({removeParticipants: json.data.message});
-            setShowModal(false);
-            setIsOpen(false);
-            //setOldChat(json.data.data);
-        })
-    }
-
     const handleMediaChange = (e) => {
         setMedia(null);
         const file = e.target.files[0];
@@ -248,47 +225,7 @@ export default function Chat() {
                 <HandleChatMedia media={media} RenderMedia={RenderMedia} msgChatId={msgChatId} />
             ) : ''}
         
-        {showModal ? (
-        <>
-        <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-          <div className="relative w-auto my-6 mx-auto max-w-3xl">
-            {/*content*/}
-            <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-96 bg-[#F2F2F7] outline-none focus:outline-none">
-              {/*header*/}
-              <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                <h3 className="text-2xl text-center font-semibold">
-                  Leave Group
-                </h3>
-                <button
-                  className="p-1 ml-auto bg-transparent border-0 text-black float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                  onClick={() => {setShowModal(false); setIsOpen(false);}} >
-                  <span className="bg-transparent text-[#aaa] text-[0.75rem] block outline-none focus:outline-none">
-                    Close
-                  </span>
-                </button>
-              </div>
-              {/*body*/}
-              <div className="relative flex-auto">
-              <div className="w-full flex flex-col items-center justify-cente my-5">
-                    <div>
-                        Are you sure you want to leave the group ?
-                    </div>
-                    <div className="w-full flex flex-row justify-around mt-5">
-                    <button onClick={() => leaveGroup()} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        Yes
-                    </button>
-                    <button onClick={() => {setShowModal(false); setIsOpen(false);}} className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
-                        No
-                    </button>
-                    </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
-        </>
-        ) : null}
+            <LeaveGroupModal showModal={showModal} setShowModal={setShowModal}/>
 
             {!ChatId.openProfile ?
             ChatId.is_participant || ChatId.group_is_private ? 
@@ -296,32 +233,12 @@ export default function Chat() {
             <div className="mt-[200px]"><Loadingspinner  /> </div>// Replace with your loading indicator
             ) : (
             <>
-                {/* End Leave Group */}
-                <div className='h-[68px] border-b-[1px] py-[10px] rounded-lg border-[#E5E5EA] flex justify-between items-center'>
-                <div className='ml-[10px] md:hidden lg:hidden xl:hidden' onClick={() => backPage()}><svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M21 11H6.414l5.293-5.293-1.414-1.414L2.586 12l7.707 7.707 1.414-1.414L6.414 13H21z"></path></svg></div>
-                <div className='ml-[10px] hidden md:block lg:block xl:block'><img className='w-[80px]' src={avatarGroupIcon} /></div>
-                <div>
-                <div className='flex items-center justify-center'>
-                    <img className='w-[32px] h-[32px] rounded-full' src={ChatId.groupIcon ? ChatId.groupIcon : egoldLogoIcon} />
-                    <span className="ml-[5px] uppercase text-sm font-semibold">{ChatId.groupName}</span>
-                </div>
-                <div><p className='text-[#666668] text-[12px] font-normal'>Admin: {ChatId.owner} - {ChatId.participants?.length} Members</p></div>
-                </div>
-                <div className="relative">
-                    <img onClick={toggleMenu} className='w-[20px] mr-[20px]' src={optionicon} />
-                    {isOpen && (
-                        <div className="absolute mt-2 ml-[-160px] w-[200px] py-2 bg-white border rounded-lg shadow-lg">
-                        <a
-                            onClick={() => setShowModal(true)}
-                            className="block cursor-pointer px-4 py-2 text-gray-800 hover:bg-gray-100"
-                        >
-                            Leave Group
-                        </a>
-                    </div>
-                    )}
-                </div>
-                
-            </div>
+            {/* End Leave Group */}
+            
+            {/* Chat Header */}
+            <ChatHeader ChatId={ChatId} backPage={backPage} isOpen={isOpen} toggleMenu={toggleMenu} setShowModal={setShowModal} />
+            {/* End Chat Header */}
+            
                 {/* messages start here */}
                 
                 <div id='messages' ref={bottomRef}  className='flex flex-col space-y-4 p-3 overflow-y-auto h-[500px] md:h-auto lg:h-auto xl:h-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch'>
@@ -349,9 +266,10 @@ export default function Chat() {
                         <div key={index} className='chat-message'>
                             <div className={chat["from"] === localStorage.getItem("talkId") ? 'flex item-end justify-end' : 'flex item-end justify-start'}>
                             <div className={chat["from"] === localStorage.getItem("talkId") ? 'flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-end' : 'flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start'}>
-                                
                                 <div>
                                     <span className='px-4 py-2 rounded-lg inline-block rounded-bl-none bg-[#4F6B75] text-white'>
+                                    <span>{chat.from === localStorage.getItem("talkId") ? '' : chat.from}</span>
+                
                                     {/* check if its reply chat message */}
                                     {chat.replyto ? 
                                     (
@@ -382,59 +300,14 @@ export default function Chat() {
             {/* messages end here */}
             <div className='border-t-2 border-gray-200 px-4 pt-4 mb-2'>
             
-            {/** reply chat */}
-            {replyBox && (
-                <div className='relative flex mb-2'>
-                    <span className='absolute inset-y-0 flex right-0 items-center'>
-                        <button className='inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300'>
-                        <img src={closeIcon} onClick={() => setReplyBox(false)} className='w-[16px] h-[16px]' />
-                        </button>
-                    </span>
-                    <div className='focus:ring-red-500 focus:border-red-500 w-full focus:placeholder-gray-400 text-gray-600 placeholder-gray-300 pl-12 bg-gray-100 rounded-full py-3 border-gray-200'>
-                        <span>{replyuser === localStorage.getItem("talkId") ? 'You' : replyuser}</span><br/>
-                        <span>
-                            {replyImage ? (
-                                <div className="flex items-center">
-                                    <span><img className="w-[50px]" src={replyImage} /></span>
-                                    <span className="ml-2">{replyMessage}</span>
-                                </div>
-                                ) : replyMessage}</span>
-                    </div>
-                </div>
-            )} 
-            {/** end reply chat */}
+            {/** reply Box */}
+             <ReplyBox replyBox={replyBox} setReplyBox={setReplyBox} replyuser={replyuser} replyMessage={replyMessage} replyImage={replyImage} />
+            {/** end reply Box */}
 
-                <div className='relative flex'>
-                <span className='absolute inset-y-0 flex items-center'>
-                    <button className='inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300'>
-                    <img src={smileyIcon} className='w-[16px] h-[16px]' />
-                    </button>
-                </span>
-                <span className='absolute inset-y-0 flex right-0 items-center'>
-                    <button className='inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300'>
-                    <img src={sendIcon} onClick={() => sendMessage()} className='w-[16px] h-[16px]' />
-                    </button>
-                </span>
-                <span className='absolute inset-y-0 right-0 mr-10 flex items-center'>
-                    <label htmlFor="upload-button" className="custom-file-upload cursor-pointer">Upload photo</label>
-                    <input
-                        type="file"
-                        accept="image/*"
-                        id="upload-button"
-                        onChange={handleMediaChange}
-                        style={{ display: 'none' }}
-                    />
-                    <button className='inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300'>
-                    <img src={addIcon} className='w-[16px] h-[16px]' />
-                    </button>
-                </span>
-                <input 
-                    placeholder='Start typing...' 
-                    className='focus:ring-red-500 focus:border-red-500 w-full focus:placeholder-gray-400 text-gray-600 placeholder-gray-300 pl-12 bg-gray-100 rounded-full py-3 border-gray-200' 
-                    onChange={event => setMessage(event.target.value)}
-                    value={message} 
-                />
-                </div>
+            {/* Message Input Start */}
+            <MessageInput sendMessage={sendMessage} setMessage={setMessage} message={message} handleMediaChange={handleMediaChange} />
+            {/* Message Input End */}
+            
             </div>
             </>
             ) : <JoinPublicGroup /> : <GroupSetting />}
