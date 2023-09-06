@@ -82,7 +82,7 @@ export default function ChatMessage(props) {
                 <div className={`relative float-${senderId === localStorage.getItem("talkId") ? 'right' : 'left'}`}>
                 <img onClick={toggleReply} className='cursor-pointer w-[20px]' src={downArrowIcon} />
                 {isReplyOpen && (
-                    <div className="absolute w-[80px] py-2 bg-white border rounded-lg shadow-lg">
+                    <div className="absolute ml-[-50px] w-[80px] py-1 bg-white border rounded-lg shadow-lg">
                     <a
                         className="block cursor-pointer px-4 py-2 text-gray-800 hover:bg-gray-100"
                         onClick={() => props.handleReply(props.setReplyBox(true), props.chat, setIsReplyOpen(false))}
