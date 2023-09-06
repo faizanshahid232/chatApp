@@ -248,7 +248,12 @@ export default function Chat() {
             ) : ''}
         
             <LeaveGroupModal showModal={showModal} setShowModal={setShowModal}/>
-
+            
+            {/* Chat Header */}
+            <ChatHeader ChatId={ChatId} backPage={backPage} isOpen={isOpen} toggleMenu={toggleMenu} setShowModal={setShowModal} />
+            {/* End Chat Header */}
+            
+            
             {!ChatId.openProfile ?
             ChatId.is_participant || ChatId.group_is_private ? 
              isLoading ? (
@@ -257,9 +262,6 @@ export default function Chat() {
             <>
             {/* End Leave Group */}
             
-            {/* Chat Header */}
-            <ChatHeader ChatId={ChatId} backPage={backPage} isOpen={isOpen} toggleMenu={toggleMenu} setShowModal={setShowModal} />
-            {/* End Chat Header */}
             
                 {/* messages start here */}
                 
