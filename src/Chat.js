@@ -20,7 +20,6 @@ import LeaveGroupModal from "./components/chat/LeaveGroupModal";
 import ChatHeader from "./components/chat/ChatHeader";
 import MessageInput from "./components/chat/MessageInput";
 import ReplyBox from "./components/chat/ReplyBox";
-import downArrowIcon from './images/down-arrow.png';
 
 export default function Chat() {
     const ChatId = useStore();
@@ -47,7 +46,7 @@ export default function Chat() {
     const [replyuser, setReplyuser] = useState('');
     const [replyImage, setReplyImage] = useState('');
     const [msgChatId, setMsgChatId] = useState('');
-    const [isReplyOpen, setIsReplyOpen] = useState(false);
+    
     const [fetchedTalkId, setFetchedTalkId] = useState(null);
     const [pusherTalkId, setPusherTalkId] = useState(null);
 
@@ -74,9 +73,7 @@ export default function Chat() {
         setIsOpen(!isOpen);
     };
 
-    const toggleReply = () => {
-        setIsReplyOpen(!isReplyOpen);
-    };
+    
     
     {/* Header for Groups */}
     var headers = {
@@ -280,7 +277,6 @@ export default function Chat() {
                         <React.Fragment key={index}>
                         <div>
                             <ChatMessage key={index} handleReply={handleReply} setReplyBox={setReplyBox} chat={chat} index={index} prevdate={index < oldChat.length -1 ? oldChat.slice(0).reverse()[index + 1].time_stamp : ''}/>
-                            <button className={chat.sender === localStorage.getItem("talkId") ? 'float-right mr-3' : 'float-left ml-3'} onClick={() => handleReply(setReplyBox(true), chat)}>Reply</button>
                         </div>
                         </React.Fragment>
                         )

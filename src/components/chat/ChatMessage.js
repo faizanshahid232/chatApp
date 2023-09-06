@@ -4,11 +4,16 @@ import { getParticipantsProfilePic, getReplyChat, getTalkId } from "../../api/ap
 import ReplyMessage from "./ReplyMessage";
 import ConvertTimeStamp from "../../ConvertTimeStamp";
 import useStore from "../../Store";
+import downArrowIcon from '../../images/down-arrow.png';
 
 export default function ChatMessage(props) {
     const [imgsrc, setImgsrc] = useState();
     const [senderId, setSenderId] = useState();
     const ChatId = useStore();
+    const [isReplyOpen, setIsReplyOpen] = useState(false);
+    const toggleReply = () => {
+        setIsReplyOpen(!isReplyOpen);
+    };
 
     const formatDateDivider = (timestamp) => {
         const date = new Date(timestamp);
@@ -73,8 +78,21 @@ export default function ChatMessage(props) {
                 <div>
                 <span className='min-w-[100px] p-[6px] rounded-lg inline-block rounded-bl-none bg-gray-300'>
                 <span className="font-semibold">{senderId === localStorage.getItem("talkId") ? '' : senderId}</span>
-                <button className={senderId === localStorage.getItem("talkId") ? 'float-right mr-3' : 'float-left ml-3'} onClick={() => props.handleReply(props.setReplyBox(true), props.chat)}>Reply</button>
-                        
+                {/* Reply Option */}
+                <div className={`relative float-${senderId === localStorage.getItem("talkId") ? 'right' : 'left'}`}>
+                <img onClick={toggleReply} className='cursor-pointer w-[20px]' src={downArrowIcon} />
+                {isReplyOpen && (
+                    <div className="absolute w-[80px] py-2 bg-white border rounded-lg shadow-lg">
+                    <a
+                        className="block cursor-pointer px-4 py-2 text-gray-800 hover:bg-gray-100"
+                        onClick={() => props.handleReply(props.setReplyBox(true), props.chat, setIsReplyOpen(false))}
+                    >
+                        Reply
+                    </a>
+                </div>
+                )}
+                </div>
+                {/* End Reply Option */}
                 {/**check if msg have reply */}
                 {props.chat.reply_to ? (
                      <ReplyMessage id={props.chat.reply_to} />
