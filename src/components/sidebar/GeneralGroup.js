@@ -71,7 +71,7 @@ export default function GeneralGroup({openTab}) {
     const displayData = () => {
         if(loading) {
             return (<Loadingspinner/>)
-        } else if(groupList.length > 0) {
+        } else if(groupList && groupList.length > 0) {
             
             if(typeof ChatId.searchTerm === "string") {
                 const filteredResults = groupList.filter((item) =>
