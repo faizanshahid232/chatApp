@@ -277,19 +277,8 @@ export default function Chat() {
                     return (
                         <React.Fragment key={index}>
                         <div>
-                            <div className={`relative float-${chat.sender === localStorage.getItem("talkId") ? 'right' : 'left'}`}>
-                                <img onClick={toggleReply} className='w-[20px] mr-[20px]' src={downArrowIcon} />
-                                {isReplyOpen && (
-                                    <div className="absolute mt-2 ml-[-160px] w-[200px] py-2 bg-white border rounded-lg shadow-lg">
-                                    <a
-                                        className="block cursor-pointer px-4 py-2 text-gray-800 hover:bg-gray-100"
-                                    >
-                                        Reply
-                                    </a>
-                                </div>
-                                )}
-                            </div>
                             <ChatMessage key={index} chat={chat} index={index} prevdate={index < oldChat.length -1 ? oldChat.slice(0).reverse()[index + 1].time_stamp : ''}/>
+                            <button className={chat.sender === localStorage.getItem("talkId") ? 'float-right mr-3' : 'float-left ml-3'} onClick={() => handleReply(setReplyBox(true), chat)}>Reply</button>
                         </div>
                         </React.Fragment>
                         )
