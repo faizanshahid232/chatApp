@@ -20,8 +20,8 @@ function Login() {
             
             {/* POST DATA */}
             var postData = {
-                email: userName, //"testuser1@gmail.com",
-                password: Password//"qwertyuiop"
+                email: "testuser1@gmail.com",
+                password: "qwertyuiop"
             };
             {/* Header */}
             var headers = {

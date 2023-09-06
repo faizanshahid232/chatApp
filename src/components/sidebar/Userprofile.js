@@ -10,21 +10,20 @@ export default function Userprofile() {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
     //
-    const addChatId = useStore((state) => state.addChatId);
+    /*const addChatId = useStore((state) => state.addChatId);
     const addParticipants = useStore((state) => state.addParticipants);
     const addOwner = useStore((state) => state.addOwner);
     const addGroupName = useStore((state) => state.addGroupName);
-    const addGroupIcon = useStore((state) => state.addGroupIcon);
+    const addGroupIcon = useStore((state) => state.addGroupIcon);*/
     const [ownGroupList, setOwnGroupList] = useState('');
     const ChatId = useStore(state => state);
     const OpenProfile = useStore((state) => state.OpenProfile);
     const [loading, setLoading] = useState(true);
     
-    const GroupCreatedAt = useStore((state) => state.GroupCreatedAt);
+    /*const GroupCreatedAt = useStore((state) => state.GroupCreatedAt);
     const GroupParticipantsList = useStore((state) => state.GroupParticipantsList);
-    const GroupDescription = useStore((state) => state.GroupDescription);
-    const InviteLink = useStore((state) => state.InviteLink);
-
+    const GroupDescription = useStore((state) => state.GroupDescription);*/
+    
     var headers = {
         headers: {
           'Accept': 'application/json',
@@ -33,14 +32,15 @@ export default function Userprofile() {
       };
 
     const openChat = (data) => {
-        addChatId({chatId: data.id});
-        addParticipants({participants: data.participants});
-        addOwner({owner: data.owner});
-        addGroupName({groupName: data.name});
-        addGroupIcon({groupIcon: data.group_icon});
-        GroupCreatedAt({groupCreatedAt: data.created_at});
-        GroupDescription({groupDescription: data.description});
-        GroupParticipantsList({groupParticipantsList: data.participants});
+        console.log("Onclick Data Response: "+ JSON.stringify(data));
+        useStore.getState().addChatId(data.id);
+        useStore.getState().addParticipants(data.participants);
+        useStore.getState().addOwner(data.owner);
+        useStore.getState().addGroupName(data.name);
+        useStore.getState().addGroupIcon(data.group_icon);
+        useStore.getState().GroupCreatedAt(data.created_at);
+        useStore.getState().GroupDescription(data.description);
+        useStore.getState().GroupParticipantsList(data.participants);
 
         var headerInviteLink = {
             headers: {
@@ -55,13 +55,16 @@ export default function Userprofile() {
         };
 
         generateInviteLink(postData,headerInviteLink).then((json) => {
-            InviteLink({inviteLink: json.data.invite_link});
+            console.log("invit link: "+ json.data.invite_link);
+            useStore.getState().InviteLink(json.data.invite_link);
+            useStore.getState().GroupSettingOpen(true);
             //console.log("Invite Link: "+ JSON.stringify(json.data.invite_link));
         })
     }
 
     useEffect(() => {
         getOwnGroup(headers).then((response) => {
+            console.log("Profile Response: "+ JSON.stringify(response));
             setOwnGroupList(response.data.data);
             setLoading(false);
           });
@@ -98,12 +101,12 @@ export default function Userprofile() {
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
+            setIsOpen(false);
             var postData = {
                 file: file
             };
             addProfilePic(postData, headers).then((json) => {
                 console.log("response: "+ JSON.stringify(json));
-                setIsOpen(false);
                 getProfilePic(headerProfilePic).then((json) => {
                     console.log("profile Pic: "+ JSON.stringify(json.data.data.profile_pic));
                     localStorage.setItem("profile_pic", json.data.data.profile_pic);

@@ -5,7 +5,8 @@ import useStore from "./Store";
 import { 
     pusherMsg, 
     getChat, 
-    pusherMessageReplyChat 
+    pusherMessageReplyChat, 
+    getTalkId
 } from "./api/apiServices";
 import Loadingspinner from "./Loadingspinner";
 import GroupSetting from "./components/sidebar/GroupSetting";
@@ -19,10 +20,12 @@ import LeaveGroupModal from "./components/chat/LeaveGroupModal";
 import ChatHeader from "./components/chat/ChatHeader";
 import MessageInput from "./components/chat/MessageInput";
 import ReplyBox from "./components/chat/ReplyBox";
+import downArrowIcon from './images/down-arrow.png';
 
 export default function Chat() {
+    const ChatId = useStore();
     const addChatId = useStore((state) => state.addChatId);
-    const ChatId = useStore(state => state);
+    //const ChatId = useStore(state => state);
     const [chats, setChats] = useState([]);
     const [msg, setMsg] = useState('');
     const [message, setMessage] = useState("");
@@ -44,7 +47,10 @@ export default function Chat() {
     const [replyuser, setReplyuser] = useState('');
     const [replyImage, setReplyImage] = useState('');
     const [msgChatId, setMsgChatId] = useState('');
-    
+    const [isReplyOpen, setIsReplyOpen] = useState(false);
+    const [fetchedTalkId, setFetchedTalkId] = useState(null);
+    const [pusherTalkId, setPusherTalkId] = useState(null);
+
     // test
     const handleReply = (replyBox, message) => {
         setReplyMessage(message.chat_content ? message.chat_content : message.content);
@@ -67,6 +73,10 @@ export default function Chat() {
     const toggleMenu = () => {
         setIsOpen(!isOpen);
     };
+
+    const toggleReply = () => {
+        setIsReplyOpen(!isReplyOpen);
+    };
     
     {/* Header for Groups */}
     var headers = {
@@ -84,6 +94,7 @@ export default function Chat() {
         try{
             if(ChatId.chatId) {
                 setChats("");
+                console.log("chain id: "+ JSON.stringify(ChatId));
                 getChat(ChatId.chatId, 1, headers).then((json) => {
                     setmessageCount(json.data.total);
                     setOldChat(json.data.data);
@@ -137,6 +148,7 @@ export default function Chat() {
     useEffect(() => {
         if (msg){ 
             console.log("msg: "+JSON.stringify(msg));
+            setPusherTalkId(msg.from);
             setChats([...chats, msg]);
         //bottomRef.current?.scrollIntoView({behavior: 'smooth'});
         bottomRef.current.scrollTop = bottomRef.current.scrollHeight;
@@ -217,6 +229,17 @@ export default function Chat() {
         }
     }
 
+    useEffect(() => {
+        ChatId.groupParticipantsList.map((participants, index) => {
+            const userId = Object.keys(participants)[0];
+            const value = participants[userId];
+
+            if(pusherTalkId === userId) {
+                setFetchedTalkId(value);
+            }
+        })
+    },[pusherTalkId]);
+    
     const displayChat = () => {
         return (
             <>
@@ -252,23 +275,34 @@ export default function Chat() {
                 {oldChat?
                 oldChat.slice(0).reverse().map((chat, index) => {
                     return (
-                        <>
+                        <React.Fragment key={index}>
                         <div>
-                        <ChatMessage key={index} chat={chat} index={index} prevdate={index < oldChat.length -1 ? oldChat.slice(0).reverse()[index + 1].time_stamp : ''}/>
-                        <button className={chat.sender === localStorage.getItem("talkId") ? 'float-right mr-3' : 'float-left ml-3'} onClick={() => handleReply(setReplyBox(true), chat)}>Reply</button>
+                            <div className={`relative float-${chat.sender === localStorage.getItem("talkId") ? 'right' : 'left'}`}>
+                                <img onClick={toggleReply} className='w-[20px] mr-[20px]' src={downArrowIcon} />
+                                {isReplyOpen && (
+                                    <div className="absolute mt-2 ml-[-160px] w-[200px] py-2 bg-white border rounded-lg shadow-lg">
+                                    <a
+                                        className="block cursor-pointer px-4 py-2 text-gray-800 hover:bg-gray-100"
+                                    >
+                                        Reply
+                                    </a>
+                                </div>
+                                )}
+                            </div>
+                            <ChatMessage key={index} chat={chat} index={index} prevdate={index < oldChat.length -1 ? oldChat.slice(0).reverse()[index + 1].time_stamp : ''}/>
                         </div>
-                        </>
+                        </React.Fragment>
                         )
                 }): ''} 
                 {/* old Chat End */}
                 {chats.map((chat, index) => {
                     return( 
                         <div key={index} className='chat-message'>
-                            <div className={chat["from"] === localStorage.getItem("talkId") ? 'flex item-end justify-end' : 'flex item-end justify-start'}>
-                            <div className={chat["from"] === localStorage.getItem("talkId") ? 'flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-end' : 'flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start'}>
+                            <div className={fetchedTalkId === localStorage.getItem("talkId") ? 'flex item-end justify-end' : 'flex item-end justify-start'}>
+                            <div className={fetchedTalkId === localStorage.getItem("talkId") ? 'flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-end' : 'flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start'}>
                                 <div>
-                                    <span className='px-4 py-2 rounded-lg inline-block rounded-bl-none bg-[#4F6B75] text-white'>
-                                    <span>{chat.from === localStorage.getItem("talkId") ? '' : chat.from}</span>
+                                    <span className='p-[6px] rounded-lg inline-block rounded-bl-none bg-gray-300'>
+                                    <span>{fetchedTalkId === localStorage.getItem("talkId") ? '' : chat.from}</span>
                 
                                     {/* check if its reply chat message */}
                                     {chat.replyto ? 
@@ -280,8 +314,8 @@ export default function Chat() {
                                     {chat.file_url && (
                                         <ChatImage file_url={chat.file_url} group_id={ChatId.chatId} />
                                     )}
-                                    <div className="block">{chat.chat_content}</div>
-                                    <div className={chat["from"] === localStorage.getItem("talkId") ? "block text-[10px] float-right" : "block text-[10px]"}><ConvertTimeStamp timestamp={chat.chat_time} /></div>
+                                    <div className="text-[13px] leading-[17px]">{chat.chat_content}</div>
+                                    <div className="text-end text-[10px]"><ConvertTimeStamp timestamp={chat.chat_time} /></div>
                                     </span>
                                 </div>
                                 

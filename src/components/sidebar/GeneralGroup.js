@@ -5,15 +5,8 @@ import Loadingspinner from "../../Loadingspinner";
 import { getGeneralGroupList, getCountryGroupList, getPrivateGroupList, getTalkId } from '../../api/apiServices';
 
 export default function GeneralGroup({openTab}) {
-    const addChatId = useStore((state) => state.addChatId);
-    const addParticipants = useStore((state) => state.addParticipants);
-    const addOwner = useStore((state) => state.addOwner);
-    const addGroupName = useStore((state) => state.addGroupName);
+    
     const [groupList, setGroupList] = useState([]);
-    const addGroupIcon = useStore((state) => state.addGroupIcon);
-    const GroupIsPrivate = useStore((state) => state.GroupIsPrivate);
-    const IsParticipant = useStore((state) => state.IsParticipant);
-    const setTalkId = useStore((state) => state.setTalkId)
     const ChatId = useStore(state => state);
     const [loading, setLoading] = useState(true);
 
@@ -25,19 +18,22 @@ export default function GeneralGroup({openTab}) {
     };
 
     const openChat = (data) => {
-        IsParticipant({is_participant: ''});
-        openTab === 3 ? GroupIsPrivate({group_is_private: true}) : GroupIsPrivate({group_is_private: false})
-        addChatId({chatId: data.id});
-        addParticipants({participants: data.participants});
-        addOwner({owner: data.owner});
-        addGroupName({groupName: data.name});
-        addGroupIcon({groupIcon: data.group_icon});
-        openTab != 3 && IsParticipant({is_participant: data.is_participant})
+        useStore.getState().resetStore();
+        openTab === 3 ? useStore.getState().GroupIsPrivate(true) : useStore.getState().GroupIsPrivate(false);
+        useStore.getState().addChatId(data.id);
+        useStore.getState().addParticipants(data.participants);
+        useStore.getState().addOwner(data.owner);
+        useStore.getState().addGroupName(data.name);
+        useStore.getState().addGroupIcon(data.group_icon);
+        useStore.getState().GroupParticipantsList(data.participants);
+        openTab != 3 && useStore.getState().IsParticipant(data.is_participant);
 
+        console.log("owner id: "+ ChatId.owner);
+            
         getTalkId(ChatId.owner, headers).then((json) => {
-            console.log(json.data.data);
-            setTalkId({talkId: json.data.data});
+            useStore.getState().setTalkId(json.data.data);
         });
+
     }
 
     useEffect(() => {
@@ -45,6 +41,7 @@ export default function GeneralGroup({openTab}) {
         if(openTab === 1) {
             console.log("Tab 1: "+ openTab);
             getGeneralGroupList(headers).then((response) => {
+                console.log("Tab 1 Data: "+ JSON.stringify(response.data.data));
                 setGroupList(response.data.data);
                 setLoading(false);
             });

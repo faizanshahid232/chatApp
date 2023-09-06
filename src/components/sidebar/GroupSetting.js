@@ -110,7 +110,9 @@ export default function GroupSetting() {
 
     return(
         <>
-        <div className='h-[68px] border-b-[1px] py-[10px] rounded-lg border-[#E5E5EA] flex justify-center items-center'>
+            {ChatId.groupSettingOpen &&(
+                <>
+                    <div className='h-[68px] border-b-[1px] py-[10px] rounded-lg border-[#E5E5EA] flex justify-center items-center'>
                 <div className='ml-[10px] md:hidden lg:hidden xl:hidden' ><svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M21 11H6.414l5.293-5.293-1.414-1.414L2.586 12l7.707 7.707 1.414-1.414L6.414 13H21z"></path></svg></div>
                 <div>
                 <div className='flex items-center justify-center'>
@@ -154,10 +156,13 @@ export default function GroupSetting() {
                     <div>Participants List</div>
                     <div>
                     {ChatId.groupParticipantsList?
-                        ChatId.groupParticipantsList.map((Participants, index) => {
+                        ChatId.groupParticipantsList.map((participants, index) => {
+                            const userId = Object.keys(participants)[0];
+                            const value = participants[userId];
+
                             return(
                                 <div key={index} className='chat-message'>
-                                    <div onClick={() =>deleteParticipants(Participants)}>{Participants} Remove</div>
+                                    <div onClick={() =>deleteParticipants(userId)}>{value} Remove</div>
                                 </div>
                             )
                     }): ''}
@@ -176,6 +181,8 @@ export default function GroupSetting() {
                         {message}
                     </div>
                 </div>
+                </>
+            ) }
         </>
     );
 }

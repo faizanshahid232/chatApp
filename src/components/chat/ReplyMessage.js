@@ -32,13 +32,13 @@ export default function ReplyMessage(props) {
     return (
         <div>
         {data !== null ? (
-          <div className="flex-1 bg-gray-100 rounded-lg p-3 mb-2">
+          <div className="flex-1 bg-gray-100 rounded-lg p-[6px] mb-2">
             <span className="font-semibold">{data.sender === localStorage.getItem("talkId") ? 'You' : data.sender}</span><br/>
             <span>
             {data.file_url ? (
-                <div className="flex items-center">
-                    <span><img className="w-16 rounded-lg" src={data.file_url} /></span>
-                    <span className="ml-2 text-gray-500">{data.content}</span>
+                <div className="flex items-center justify-between">
+                    <span className="text-gray-500">{data.content}</span>
+                    <span><img className="w-[20px] rounded-lg" src={data.file_url} /></span>
                 </div>
             ) : data.content}
             </span>

@@ -16,10 +16,11 @@ export default function Sidebar() {
 
     // tets
     const searchTerm = useStore((state) => state.searchTerm);
-    const setSearchTerm = useStore((state) => state.setSearchTerm);
+    //const setSearchTerm = useStore((state) => state.setSearchTerm);
     
     const handleSearchChange = (event) => {
-        setSearchTerm(event.target.value);
+        //setSearchTerm(event.target.value);
+        useStore.getState().setSearchTerm(event.target.value);
     };
 
     const profilePic = localStorage.getItem('profile_pic');
