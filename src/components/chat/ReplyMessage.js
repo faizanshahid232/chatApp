@@ -6,7 +6,7 @@ export default function ReplyMessage(props) {
 
     const ChatId = useStore(state => state);
     const [data, setData] = useState(null);
-
+    const [senderId, setSenderId] = useState();
     var headers = {
         headers: {
         'Content-Type': 'application/json',
@@ -20,7 +20,19 @@ export default function ReplyMessage(props) {
 
         async function fetchData() {
             getReplyChat(ChatId.chatId, props.id, headers).then((jsonData) => {
-            setData(jsonData.data.data);
+              console.log("reply mes: "+ jsonData.data.data.sender);
+              setData(jsonData.data.data);
+                
+              ChatId.groupParticipantsList.map((participants, index) => {
+                  const userId = Object.keys(participants)[0];
+                  const value = participants[userId];
+
+                  if(jsonData.data.data.sender === userId) {
+                    console.log("yyoouu: "+ value);
+                      setSenderId(value);
+                  }
+              })
+
             });
           }
       
@@ -33,7 +45,7 @@ export default function ReplyMessage(props) {
         <div>
         {data !== null ? (
           <div className="flex-1 bg-gray-100 rounded-lg p-[6px] mb-2">
-            <span className="font-semibold">{data.sender === localStorage.getItem("talkId") ? 'You' : data.sender}</span><br/>
+            <span className="font-semibold">{senderId === localStorage.getItem("talkId") ? 'You' : senderId}</span><br/>
             <span>
             {data.file_url ? (
                 <div className="flex items-center justify-between">

@@ -80,7 +80,7 @@ export default function ChatMessage(props) {
                 <span className="font-semibold">{senderId === localStorage.getItem("talkId") ? '' : senderId}</span>
                 {/* Reply Option */}
                 <div className={`relative float-${senderId === localStorage.getItem("talkId") ? 'right' : 'left'}`}>
-                <img onClick={toggleReply} className='cursor-pointer w-[20px]' src={downArrowIcon} />
+                <img onClick={toggleReply} className='cursor-pointer w-[18px] mt-[-5px]' src={downArrowIcon} />
                 {isReplyOpen && (
                     <div className="absolute ml-[-50px] w-[80px] py-1 bg-white border rounded-lg shadow-lg">
                     <a

@@ -73,7 +73,7 @@ export default function Connector() {
   const navigate = useNavigate();
   const chainId = useChainId();
   const accounts = useAccounts();
-  const error = useError();
+  //const error = useError();
   const isActivating = useIsActivating();
   const isActive = useIsActive();
   const provider = useProvider();
@@ -144,7 +144,7 @@ export default function Connector() {
       <span>
       <Connect
         isActivating={isActivating}
-        error={error}
+        //error={error}
         isActive={isActive}
         onConnect={handleConnect}
         onDisconnect={handleDisconnect}
