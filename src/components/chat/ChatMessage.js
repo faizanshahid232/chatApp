@@ -73,7 +73,8 @@ export default function ChatMessage(props) {
                 <div>
                 <span className='min-w-[100px] p-[6px] rounded-lg inline-block rounded-bl-none bg-gray-300'>
                 <span className="font-semibold">{senderId === localStorage.getItem("talkId") ? '' : senderId}</span>
-                
+                <button className={senderId === localStorage.getItem("talkId") ? 'float-right mr-3' : 'float-left ml-3'} onClick={() => props.handleReply(props.setReplyBox(true), props.chat)}>Reply</button>
+                        
                 {/**check if msg have reply */}
                 {props.chat.reply_to ? (
                      <ReplyMessage id={props.chat.reply_to} />

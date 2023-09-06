@@ -114,6 +114,8 @@ export default function Chat() {
                 setmessageCount(messageCount - 10);
                 console.log("count value: "+ count);
                 setOldChat([...oldChat, ...json.data.data]);
+                //console.log("old and new: "+[...oldChat, ...json.data.data])
+                //setOldTalkId([...oldChat, ...json.data.data]);
                 //console.log("oold Chat Data", oldChat);
                 
             })
@@ -277,7 +279,7 @@ export default function Chat() {
                     return (
                         <React.Fragment key={index}>
                         <div>
-                            <ChatMessage key={index} chat={chat} index={index} prevdate={index < oldChat.length -1 ? oldChat.slice(0).reverse()[index + 1].time_stamp : ''}/>
+                            <ChatMessage key={index} handleReply={handleReply} setReplyBox={setReplyBox} chat={chat} index={index} prevdate={index < oldChat.length -1 ? oldChat.slice(0).reverse()[index + 1].time_stamp : ''}/>
                             <button className={chat.sender === localStorage.getItem("talkId") ? 'float-right mr-3' : 'float-left ml-3'} onClick={() => handleReply(setReplyBox(true), chat)}>Reply</button>
                         </div>
                         </React.Fragment>
