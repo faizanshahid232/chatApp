@@ -53,6 +53,12 @@
 .App-link {
   color: #61dafb;
 }
+.hide_reply_button {
+  display: none;
+}
+.hover_on_chat:hover .hide_reply_button {
+  display: block;
+}
 .btn-outline-color-secondary {
   align-items: center;
   background-color: #fff;

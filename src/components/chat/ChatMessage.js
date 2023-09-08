@@ -5,6 +5,7 @@ import ReplyMessage from "./ReplyMessage";
 import ConvertTimeStamp from "../../ConvertTimeStamp";
 import useStore from "../../Store";
 import downArrowIcon from '../../images/down-arrow.png';
+import "../../App.css";
 
 export default function ChatMessage(props) {
     const [imgsrc, setImgsrc] = useState();
@@ -56,11 +57,11 @@ export default function ChatMessage(props) {
             <div className={`flex item-end justify-${isCurrentUser ? 'end' : 'start'}`}>
             <div className={`flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-${isCurrentUser ? 'end' : 'start'}`}>
                 <div>
-                <span className='min-w-[100px] p-[6px] rounded-lg inline-block rounded-bl-none bg-gray-300'>
-                <span className="font-semibold">{senderId === localStorage.getItem("talkId") ? '' : senderId}</span>
+                <span className='min-w-[100px] hover_on_chat relative p-[3px] rounded-lg inline-block rounded-bl-none bg-gray-300'>
+                <span className="font-semibold">{isCurrentUser ? '' : senderId}</span>
                 {/* Reply Option */}
-                <div className={`relative float-${senderId === localStorage.getItem("talkId") ? 'right' : 'left'}`}>
-                <img onClick={toggleReply} className='cursor-pointer w-[18px] mt-[-5px]' src={downArrowIcon} />
+                <div className={`hide_reply_button absolute right-0 px-[5px] float-${isCurrentUser ? 'right' : 'left'}`}>
+                <img onClick={toggleReply} className='cursor-pointer w-[18px] mt-[-3px]' src={downArrowIcon} />
                 {isReplyOpen && (
                     <div className="absolute ml-[-50px] w-[80px] py-1 bg-white border rounded-lg shadow-lg">
                     <a
@@ -80,10 +81,12 @@ export default function ChatMessage(props) {
                 {/** end msg reply  */}
 
                 {props.chat.file_url && (
-                    <img src={props.chat.file_url} alt="Media" className="media w-16" />
+                    <img src={props.chat.file_url} alt="Media" className="media h-[150px] object-cover" />
                 )}
-                <div className="text-[13px] leading-[17px]">{props.chat.content}</div>
-                <div className={`text-end text-[10px]`}><ConvertTimeStamp timestamp={props.chat.time_stamp} /></div>
+                <div className="inline-block w-full p-[3px]">
+                    <div className="text-sm inline-block align-top">{props.chat.content}</div>
+                    <div className={`text-xs text-gray-500 inline-block pt-1 float-${isCurrentUser ? 'right' : 'left'} align-top`}><ConvertTimeStamp timestamp={props.chat.time_stamp} /></div>
+                </div>
                 </span>
                 </div>
             </div>
