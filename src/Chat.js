@@ -105,8 +105,10 @@ export default function Chat() {
 
     useEffect(() => {
         // When oldChat updates, scroll to the bottom
-        if (oldChat.length > 0) {
-            bottomRef.current.scrollTop = bottomRef.current.scrollHeight;
+        if(!closeMediaPopup) {
+            if (oldChat.length > 0) {
+                bottomRef.current.scrollTop = bottomRef.current.scrollHeight;
+            }
         }
     }, [oldChat]);
 
@@ -159,7 +161,9 @@ export default function Chat() {
             setChats([...chats, msg]);
         //bottomRef.current?.scrollIntoView({behavior: 'smooth'});
         //bottomRef.current.scrollTop = bottomRef.current.scrollHeight;
-        bottomRef.current.scrollTop = bottomRef.current.scrollHeight;
+        if(!closeMediaPopup) {
+            bottomRef.current.scrollTop = bottomRef.current.scrollHeight;
+        }
         //window.scrollTo(0, bottomRef.current.offsetTop); 
     }
     }, [msg]);
@@ -250,29 +254,31 @@ export default function Chat() {
     const displayChat = () => {
         return (
             <>
-        {/* Leave Group */}
-            {media && closeMediaPopup ? (
-                <HandleChatMedia media={media} setCloseMediaPopup={setCloseMediaPopup} RenderMedia={RenderMedia} msgChatId={msgChatId} />
-            ) : ''}
-        
-            <LeaveGroupModal showModal={showModal} setShowModal={setShowModal}/>
             
+            {/* Leave Group */}
+            <LeaveGroupModal showModal={showModal} setShowModal={setShowModal}/>
+            {/* End Leave Group */}
+
             {/* Chat Header */}
             <ChatHeader ChatId={ChatId} backPage={backPage} isOpen={isOpen} toggleMenu={toggleMenu} setShowModal={setShowModal} />
             {/* End Chat Header */}
             
+            {/* messages start here */}
+                
+                {/* Chat Media Upload */}
+                {media && closeMediaPopup ? (
+                <HandleChatMedia media={media} setCloseMediaPopup={setCloseMediaPopup} RenderMedia={RenderMedia} msgChatId={msgChatId} />
+            ) : 
             
+            <>
             {!ChatId.openProfile ?
             ChatId.is_participant || ChatId.group_is_private ? 
              isLoading ? (
             <div className="mb-[400px]"><Loadingspinner  /> </div>// Replace with your loading indicator
             ) : (
             <>
-            {/* End Leave Group */}
-            
-                {/* messages start here */}
-                
                 <div id='messages' ref={bottomRef}  className='bg-white flex flex-col space-y-4 p-3 overflow-y-auto h-[500px] md:h-auto lg:h-auto xl:h-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch'>
+                
                 {/* old Chat */}
                 {messageCount > 10 ? 
                 <div className="text-center">
@@ -339,8 +345,12 @@ export default function Chat() {
             {/* Message Input End */}
             
             </div>
+
             </>
             ) : <JoinPublicGroup /> : <GroupSetting />}
+            </>
+            }
+        
         </>
         );
     }

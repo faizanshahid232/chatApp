@@ -45,26 +45,26 @@ export default function HandleChatMedia(props) {
 
     return(
         <>
-        <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-            <div className="relative w-auto my-6 mx-auto max-w-3xl">
+        <div className='bg-white flex flex-col space-y-4 p-3 h-[fill-available]'>
+            <div className="">
                 {/*content*/}
-                <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-96 bg-[#F2F2F7] outline-none focus:outline-none">
+                <div className="">
                 {/*header*/}
-                <div className="flex items-start justify-between p-5 rounded-t">
+                <div className="">
                     <button
-                    className="p-1 ml-auto bg-transparent border-0 text-black float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                    className=""
                     >
-                    <span onClick={() => props.setCloseMediaPopup(false)} className="bg-transparent text-[#aaa] text-[0.75rem] block outline-none focus:outline-none">
+                    <span onClick={() => props.setCloseMediaPopup(false)} className="">
                         <img src={closeIcon} className="w-4" />
                     </span>
                     </button>
                 </div>
                 {/*body*/}
-                <div className="relative flex-auto">
-                <div className="w-full flex flex-col items-center justify-cente mb-5">
-                        <img src={props.RenderMedia} className="w-40 shadow-lg" />
+                <div className="flex flex-col items-center mt-[100px]">
+                <div className="mb-[100px]">
+                        <img src={props.RenderMedia} className="h-[180px] shadow-lg" />
                 </div>
-                <div className='relative flex mb-4'>
+                <div className='relative flex mb-4 w-full'>
                     <span className='absolute inset-y-0 flex right-0 items-center'>
                         <button className='inline-flex items-center mx-5 justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300'>
                         <img src={sendIcon} onClick={() => sendMessage()} className='w-[16px] h-[16px]' />
@@ -72,7 +72,7 @@ export default function HandleChatMedia(props) {
                     </span>
                     <input 
                         placeholder='Start typing...' 
-                        className='w-full focus:placeholder-gray-400 mx-5 text-gray-600 placeholder-gray-300 pl-5 bg-white rounded-lg py-3 border-gray-200' 
+                        className='w-full bg-gray-100 focus:placeholder-gray-400 mx-5 text-gray-600 placeholder-gray-300 pl-5 rounded-lg py-3 border-gray-200' 
                         onChange={event => setMessage(event.target.value)}
                         value={message} 
                     />
@@ -81,7 +81,6 @@ export default function HandleChatMedia(props) {
                 </div>
             </div>
         </div>
-        <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
         </>
     );
 }
