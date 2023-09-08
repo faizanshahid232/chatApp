@@ -34,7 +34,7 @@ export default function Sidebar() {
             <Userprofile />
         :
         
-        <div className='border-b border-gray-200 xl:border-b-0 xl:flex-shrink-0 xl:w-68 xl:border-r xl:border-gray-200 bg-gray-50'>
+        <div className='border-b border-gray-200 xl:border-b-0 xl:flex-shrink-0 xl:w-68 bg-gray-50'>
             <div className='h-full pl-2 pr-2 md:pl-4 sm:pl-6 lg:pl-8 xl:pl-0'>
             
             

@@ -272,7 +272,7 @@ export default function Chat() {
             
                 {/* messages start here */}
                 
-                <div id='messages' ref={bottomRef}  className='flex flex-col space-y-4 p-3 overflow-y-auto h-[500px] md:h-auto lg:h-auto xl:h-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch'>
+                <div id='messages' ref={bottomRef}  className='bg-white flex flex-col space-y-4 p-3 overflow-y-auto h-[500px] md:h-auto lg:h-auto xl:h-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch'>
                 {/* old Chat */}
                 {messageCount > 10 ? 
                 <div className="text-center">
@@ -328,7 +328,7 @@ export default function Chat() {
                 </div>
 
             {/* messages end here */}
-            <div className='border-t-2 border-gray-200 px-4 pt-4 mb-2'>
+            <div className='border-t-2 border-gray-200 px-4 pt-4 bg-white pb-2'>
             
             {/** reply Box */}
              <ReplyBox replyBox={replyBox} setReplyBox={setReplyBox} replyuser={replyuser} replyMessage={replyMessage} replyImage={replyImage} />

@@ -37,7 +37,7 @@ function App() {
   }, []);
 //
   return (
-    <div className='bg-[#f5f5f5]'>
+    <div className='bg-[#f9fafb]'>
       
       {/* Web3 popup start */}
       {/**<div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -81,13 +81,13 @@ function App() {
           {/* Nav screen end here */}
           
           {/* Chat layout start here */}
-          <div className='flex-grow w-full max-w-5xl mx-auto lg:flex bg-[#F2F2F7] mt-7'>
-            <div className='flex-1 min-w-0 bg-white xl:flex mx-2 md:mx-0 lg:mx-0 xl:mx-0'>
+          <div className='flex-grow w-full max-w-5xl mx-auto lg:flex mt-7'>
+            <div className='flex-1 min-w-0 bg-[#f9fafb] rounded-[10px] xl:flex mx-2 md:mx-0 lg:mx-0 xl:mx-0'>
               <Sidebar />
 
               
               {/* Middle content start */}
-              <div className={ChatId.chatId ? 'flex-1 p:2 sm:pb6 justify-between rounded-lg h-screen md:flex md:flex-col lg:flex lg:flex-col xl:flex xl:flex-col' : 'hidden'}>
+              <div className={ChatId.chatId ? 'flex-1 p:2 sm:pb6 justify-between rounded-[10px] h-screen md:flex md:flex-col lg:flex lg:flex-col xl:flex xl:flex-col' : 'hidden'}>
                 <Chat />
               </div>
               

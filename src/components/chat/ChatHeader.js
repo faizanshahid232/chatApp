@@ -5,7 +5,7 @@ import egoldLogoIcon from '../../images/egold_logo_icon.png';
 
 export default function ChatHeader({ ChatId, backPage, isOpen, toggleMenu, setShowModal }) {
     return(
-        <div className='h-[68px] border-b-[1px] py-[10px] rounded-lg border-[#E5E5EA] flex justify-between items-center'>
+        <div className='h-[68px] bg-white border border-gray-300 border-b-[1px] py-[10px] flex justify-between items-center' style={{ borderTopLeftRadius: "10px", borderTopRightRadius: "10px" }}>
             <div className='ml-[10px] md:hidden lg:hidden xl:hidden' onClick={() => backPage()}><svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M21 11H6.414l5.293-5.293-1.414-1.414L2.586 12l7.707 7.707 1.414-1.414L6.414 13H21z"></path></svg></div>
             <div className='ml-[10px] hidden md:block lg:block xl:block'><img className='w-[80px]' src={avatarGroupIcon} /></div>
             <div>
