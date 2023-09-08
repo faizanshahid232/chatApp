@@ -22,17 +22,11 @@ export default function ReplyMessage(props) {
             getReplyChat(ChatId.chatId, props.id, headers).then((jsonData) => {
               console.log("reply mes: "+ jsonData.data.data.sender);
               setData(jsonData.data.data);
-                
-              ChatId.groupParticipantsList.map((participants, index) => {
-                  const userId = Object.keys(participants)[0];
-                  const value = participants[userId];
-
-                  if(jsonData.data.data.sender === userId) {
-                    console.log("yyoouu: "+ value);
-                      setSenderId(value);
-                  }
-              })
-
+              
+              var targetKey = jsonData.data.data.sender;
+              const resultObj = ChatId.groupParticipantsList.find(obj => obj.hasOwnProperty(targetKey));
+              setSenderId(resultObj[targetKey]);
+            
             });
           }
       

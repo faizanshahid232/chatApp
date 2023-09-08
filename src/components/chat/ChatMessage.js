@@ -11,6 +11,7 @@ export default function ChatMessage(props) {
     const [senderId, setSenderId] = useState();
     const ChatId = useStore();
     const [isReplyOpen, setIsReplyOpen] = useState(false);
+    const [cachedImages, setCachedImages] = useState({});
     const toggleReply = () => {
         setIsReplyOpen(!isReplyOpen);
     };
@@ -32,36 +33,15 @@ export default function ChatMessage(props) {
     }
 
     const getProfilePic = async(talkId) => {
-        var headers = {
-            headers: {
-                'Accept': 'application/json',
-                'Authorization' : 'Bearer ' + localStorage.getItem('accessToken'),
-            },
-        };
-        try{
-            // write code
-            ChatId.groupParticipantsList.map((participants, index) => {
-                const userId = Object.keys(participants)[0];
-                const value = participants[userId];
+        var targetKey = talkId;
+        const resultObj = ChatId.groupParticipantsList.find(obj => obj.hasOwnProperty(targetKey));
+        setSenderId(resultObj[targetKey]);
 
-                if(talkId === userId) {
-                    setSenderId(value);
-                    getParticipantsProfilePic(value, headers).then((json) => {
-                        console.log("img: "+ json.data.data);
-                        setImgsrc(json.data.data)
-                    })
-                }
-            })
-        
-        } catch (err) {
-            
-        }
     }
     
     useEffect( () => {
-        if(props.chat.sender)
-        getProfilePic(props.chat.sender)
-    },[props.chat]);
+        getProfilePic(props.chat.sender);
+    },[props.chat.sender]);
 
     const isCurrentUser = senderId === localStorage.getItem("talkId");
 
@@ -107,8 +87,8 @@ export default function ChatMessage(props) {
                 </span>
                 </div>
             </div>
-            <img className='w-6 h-6 rounded-full order-1' src={imgsrc ? imgsrc : userprofileIcon} />
-            </div>
+            <img className='w-6 h-6 rounded-full order-1' src={`${process.env.REACT_APP_PROFILEURL + props.chat.sender}.png`} />
+              </div>
         </div>
         </>
     )

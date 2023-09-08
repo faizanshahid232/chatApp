@@ -37,7 +37,8 @@ export default function Chat() {
     const [isOpen, setIsOpen] = useState(false);
     const [media, setMedia] = useState(null);
     const [RenderMedia, setRenderMedia] = useState(null);
-    const CloseMediaPopup = useStore((state) => state.CloseMediaPopup);
+    //const CloseMediaPopup = useStore((state) => state.CloseMediaPopup);
+    const [closeMediaPopup, setCloseMediaPopup] = useState(false);
 
     const [RenderCount, setRenderCount] = useState(0);
     const [mediaList, setMediaList] = useState([]);
@@ -73,8 +74,6 @@ export default function Chat() {
         setIsOpen(!isOpen);
     };
 
-    
-    
     {/* Header for Groups */}
     var headers = {
         headers: {
@@ -102,6 +101,14 @@ export default function Chat() {
             setIsLoading(false);
         }
     },[ChatId.chatId]);
+
+
+    useEffect(() => {
+        // When oldChat updates, scroll to the bottom
+        if (oldChat.length > 0) {
+            bottomRef.current.scrollTop = bottomRef.current.scrollHeight;
+        }
+    }, [oldChat]);
 
     const checkOldMessage = () => {
         //setChats([]);
@@ -143,13 +150,15 @@ export default function Chat() {
             };
         }
     }, [ChatId.chatId]);
-
+ 
+    
     useEffect(() => {
         if (msg){ 
             console.log("msg: "+JSON.stringify(msg));
             setPusherTalkId(msg.from);
             setChats([...chats, msg]);
         //bottomRef.current?.scrollIntoView({behavior: 'smooth'});
+        //bottomRef.current.scrollTop = bottomRef.current.scrollHeight;
         bottomRef.current.scrollTop = bottomRef.current.scrollHeight;
         //window.scrollTo(0, bottomRef.current.offsetTop); 
     }
@@ -174,7 +183,8 @@ export default function Chat() {
                 setRenderCount(RenderCount + 1 );
                 //
                 setMedia(file);
-                CloseMediaPopup({closeMediaPopup: true});
+                setCloseMediaPopup(true);
+                //CloseMediaPopup({closeMediaPopup: true});
             };
             reader.readAsDataURL(file);
             e.target.value = null;
@@ -229,22 +239,20 @@ export default function Chat() {
     }
 
     useEffect(() => {
-        ChatId.groupParticipantsList.map((participants, index) => {
-            const userId = Object.keys(participants)[0];
-            const value = participants[userId];
 
-            if(pusherTalkId === userId) {
-                setFetchedTalkId(value);
-            }
-        })
+        if(pusherTalkId) {
+            var targetKey = pusherTalkId;
+              const resultObj = ChatId.groupParticipantsList.find(obj => obj.hasOwnProperty(targetKey));
+              setFetchedTalkId(resultObj[targetKey]);
+        }
     },[pusherTalkId]);
     
     const displayChat = () => {
         return (
             <>
         {/* Leave Group */}
-            {media && ChatId.closeMediaPopup ? (
-                <HandleChatMedia media={media} RenderMedia={RenderMedia} msgChatId={msgChatId} />
+            {media && closeMediaPopup ? (
+                <HandleChatMedia media={media} setCloseMediaPopup={setCloseMediaPopup} RenderMedia={RenderMedia} msgChatId={msgChatId} />
             ) : ''}
         
             <LeaveGroupModal showModal={showModal} setShowModal={setShowModal}/>
@@ -257,11 +265,10 @@ export default function Chat() {
             {!ChatId.openProfile ?
             ChatId.is_participant || ChatId.group_is_private ? 
              isLoading ? (
-            <div className="mt-[200px]"><Loadingspinner  /> </div>// Replace with your loading indicator
+            <div className="mb-[400px]"><Loadingspinner  /> </div>// Replace with your loading indicator
             ) : (
             <>
             {/* End Leave Group */}
-            
             
                 {/* messages start here */}
                 
@@ -310,7 +317,7 @@ export default function Chat() {
                                 
                                 <button onClick={() => handleReply(setReplyBox(true), chat)}>Reply</button>
                             </div>
-                            <img className='w-6 h-6 rounded-full order-1' src={localStorage.getItem('profile_pic') ? localStorage.getItem('profile_pic') : userprofileIcon} />
+                            <img className='w-6 h-6 rounded-full order-1' src={`${process.env.REACT_APP_PROFILEURL + chat.from}.png`} />
                             </div>
                             {/* <div /> */}
                         </div> 

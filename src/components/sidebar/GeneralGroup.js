@@ -17,7 +17,7 @@ export default function GeneralGroup({openTab}) {
         },
     };
 
-    const openChat = (data) => {
+    const openChat = async (data) => {
         useStore.getState().resetStore();
         openTab === 3 ? useStore.getState().GroupIsPrivate(true) : useStore.getState().GroupIsPrivate(false);
         useStore.getState().addChatId(data.id);
@@ -30,7 +30,7 @@ export default function GeneralGroup({openTab}) {
 
         console.log("owner id: "+ ChatId.owner);
             
-        getTalkId(ChatId.owner, headers).then((json) => {
+        await getTalkId(data.owner, headers).then((json) => {
             useStore.getState().setTalkId(json.data.data);
         });
 

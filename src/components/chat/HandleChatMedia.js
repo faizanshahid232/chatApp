@@ -1,10 +1,12 @@
 import React, {useState} from "react";
 import { pusherMultimedia, pusherReplyMultimediaChat } from "../../api/apiServices";
 import useStore from "../../Store";
+import sendIcon from '../../images/Icon.png';
+import closeIcon from '../../images/close.png';
 
 export default function HandleChatMedia(props) {
 
-    const CloseMediaPopup = useStore((state) => state.CloseMediaPopup);
+    //const CloseMediaPopup = useStore((state) => state.CloseMediaPopup);
     const ChatId = useStore(state => state);
     const [message, setMessage] = useState('');
     var headers = {
@@ -30,18 +32,15 @@ export default function HandleChatMedia(props) {
             };
             pusherReplyMultimediaChat(data2, headers).then((json) => {
                 console.log("Reply Multimedia: "+ JSON.stringify(json));
-                CloseMediaPopup({closeMediaPopup: false});
+                props.setCloseMediaPopup(false);
+                //CloseMediaPopup({closeMediaPopup: false});
             })
         } else {
             pusherMultimedia(data, headers).then((json) => {
                 console.log("Response: "+ JSON.stringify(json));
-                CloseMediaPopup({closeMediaPopup: false});
+                props.setCloseMediaPopup(false);
             })
         }
-    }
-
-    const closePopup = () => {
-        CloseMediaPopup({closeMediaPopup: false});
     }
 
     return(
@@ -51,28 +50,33 @@ export default function HandleChatMedia(props) {
                 {/*content*/}
                 <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-96 bg-[#F2F2F7] outline-none focus:outline-none">
                 {/*header*/}
-                <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                <div className="flex items-start justify-between p-5 rounded-t">
                     <button
                     className="p-1 ml-auto bg-transparent border-0 text-black float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                     >
-                    <span onClick={() => closePopup()} className="bg-transparent text-[#aaa] text-[0.75rem] block outline-none focus:outline-none">
-                        Close
+                    <span onClick={() => props.setCloseMediaPopup(false)} className="bg-transparent text-[#aaa] text-[0.75rem] block outline-none focus:outline-none">
+                        <img src={closeIcon} className="w-4" />
                     </span>
                     </button>
                 </div>
                 {/*body*/}
                 <div className="relative flex-auto">
-                <div className="w-full flex flex-col items-center justify-cente my-5">
-                        <div>
-                            <img src={props.RenderMedia} className="w-40" />
-                        </div>
-                        <div className="w-full flex flex-row justify-around mt-5">
-                        <input type="text" value={message} onChange={event => setMessage(event.target.value)} />
-                        <button onClick={() => sendMessage()} className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
-                            Send
+                <div className="w-full flex flex-col items-center justify-cente mb-5">
+                        <img src={props.RenderMedia} className="w-40 shadow-lg" />
+                </div>
+                <div className='relative flex mb-4'>
+                    <span className='absolute inset-y-0 flex right-0 items-center'>
+                        <button className='inline-flex items-center mx-5 justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300'>
+                        <img src={sendIcon} onClick={() => sendMessage()} className='w-[16px] h-[16px]' />
                         </button>
-                        </div>
-                    </div>
+                    </span>
+                    <input 
+                        placeholder='Start typing...' 
+                        className='w-full focus:placeholder-gray-400 mx-5 text-gray-600 placeholder-gray-300 pl-5 bg-white rounded-lg py-3 border-gray-200' 
+                        onChange={event => setMessage(event.target.value)}
+                        value={message} 
+                    />
+                </div>
                 </div>
                 </div>
             </div>
