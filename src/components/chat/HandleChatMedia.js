@@ -2,9 +2,15 @@ import React, {useState} from "react";
 import { pusherMultimedia, pusherReplyMultimediaChat } from "../../api/apiServices";
 import useStore from "../../Store";
 import sendIcon from '../../images/Icon.png';
+import smileyIcon from '../../images/smiley.png';
 import closeIcon from '../../images/close.png';
+import data from '@emoji-mart/data';
+import Picker from '@emoji-mart/react';
 
 export default function HandleChatMedia(props) {
+
+    const [isPickerVisible, setPickerVisible] = useState(false);
+    const [currentEmoji, setCurrentEmoji] = useState(null);
 
     //const CloseMediaPopup = useStore((state) => state.CloseMediaPopup);
     const ChatId = useStore(state => state);
@@ -16,11 +22,18 @@ export default function HandleChatMedia(props) {
         'Authorization' : 'Bearer ' + localStorage.getItem('accessToken'),
         },
     };
-    var data = {
+    var data3 = {
         'file': props.media,
         'channelId': ChatId.chatId,
         'chatContent': message ? message : "",
     };
+    
+    const handleEmojiSelect = (emoji) => {
+        setCurrentEmoji(emoji.native);
+        setMessage((prevMessage) => prevMessage + emoji.native); // Append the selected emoji to the message
+        setPickerVisible(false);
+    };
+
     const sendMessage = () => {
         console.log("chat id pp: "+props.msgChatId);
         if(props.msgChatId) {
@@ -36,7 +49,7 @@ export default function HandleChatMedia(props) {
                 //CloseMediaPopup({closeMediaPopup: false});
             })
         } else {
-            pusherMultimedia(data, headers).then((json) => {
+            pusherMultimedia(data3, headers).then((json) => {
                 console.log("Response: "+ JSON.stringify(json));
                 props.setCloseMediaPopup(false);
             })
@@ -65,6 +78,23 @@ export default function HandleChatMedia(props) {
                         <img src={props.RenderMedia} className="h-[180px] shadow-lg" />
                 </div>
                 <div className='relative flex mb-4 w-full'>
+                <span className='absolute inset-y-0 flex items-center'>
+                    <button 
+                        onClick={() => setPickerVisible(!isPickerVisible)}
+                        className='inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300'>
+                        <img src={smileyIcon} className='w-[16px] h-[16px]' />
+                    </button>
+                    {isPickerVisible && (
+                    <div className="mt-2 d-block">
+                        <Picker
+                            data={data}
+                            previewPosition="none"
+                            onEmojiSelect={handleEmojiSelect}
+                            emojiSize={24}
+                        />
+                    </div>
+                    )}
+                </span>
                     <span className='absolute inset-y-0 flex right-0 items-center'>
                         <button className='inline-flex items-center mx-5 justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300'>
                         <img src={sendIcon} onClick={() => sendMessage()} className='w-[16px] h-[16px]' />

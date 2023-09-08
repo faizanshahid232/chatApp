@@ -1,15 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 import smileyIcon from '../../images/smiley.png';
 import addIcon from '../../images/mention.png';
 import sendIcon from '../../images/Icon.png';
+import data from '@emoji-mart/data'
+import Picker from '@emoji-mart/react'
 
 export default function MessageInput({sendMessage, setMessage, message, handleMediaChange}) {
+    
+    
+    const [isPickerVisible, setPickerVisible] = useState(false);
+    const [currentEmoji, setCurrentEmoji] = useState(null);
+
+    const handleEmojiSelect = (emoji) => {
+        setCurrentEmoji(emoji.native);
+        setMessage((prevMessage) => prevMessage + emoji.native); // Append the selected emoji to the message
+        setPickerVisible(false);
+    };
+
     return (
         <div className='relative flex'>
             <span className='absolute inset-y-0 flex items-center'>
-                <button className='inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300'>
-                <img src={smileyIcon} className='w-[16px] h-[16px]' />
+                <button 
+                    onClick={() => setPickerVisible(!isPickerVisible)}
+                    className='inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300'>
+                    <img src={smileyIcon} className='w-[16px] h-[16px]' />
                 </button>
+                {isPickerVisible && (
+                <div className="mt-2 d-block">
+                    <Picker
+                        data={data}
+                        previewPosition="none"
+                        onEmojiSelect={handleEmojiSelect}
+                        emojiSize={24}
+                    />
+                </div>
+                )}
             </span>
             <span className='absolute inset-y-0 flex right-0 items-center'>
                 <button className='inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300'>
