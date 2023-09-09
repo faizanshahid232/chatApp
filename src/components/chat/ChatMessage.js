@@ -6,6 +6,7 @@ import ConvertTimeStamp from "../../ConvertTimeStamp";
 import useStore from "../../Store";
 import "../../App.css";
 import ReplyDropDownOption from "./ReplyDropDownOption";
+import ChatMessageImage from "./ChatMessageImage";
 
 export default function ChatMessage(props) {
 
@@ -84,33 +85,15 @@ export default function ChatMessage(props) {
                 ): ''}
                 {/** end msg reply  */}
 
-                {props.chat.file_url && (
-                    <div
-                    className={`cursor-pointer ${
-                        isFullScreen
-                        ? "fixed inset-0 w-full h-full object-contain z-[9999]"
-                        : "object-cover"
-                    }`}
-                    onClick={toggleFullScreen}
-                    >
-                    <img
-                        src={fileUrl ? fileUrl : props.chat.file_url}
-                        alt="Media"
-                        className={`media m-auto object-cover max-w-[200px] ${
-                        isFullScreen ? "w-full h-full" : ""
-                        }`}
+                {/* Image */}
+                <ChatMessageImage 
+                    file_url={props.chat.file_url} 
+                    toggleFullScreen={toggleFullScreen}
+                    fileUrl={fileUrl}
+                    isFullScreen={isFullScreen}
+                    bottomRef={props.bottomRef}
                     />
-                    {isFullScreen && (
-                        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80">
-                        <img
-                            src={fileUrl ? fileUrl : props.chat.file_url}
-                            alt="Media"
-                            className="max-h-full max-w-full"
-                        />
-                        </div>
-                    )}
-                    </div>
-                )}
+                {/* Image */}
 
                 <div className="inline-block w-full p-[3px]">
                     <div className="text-sm inline-block align-top">{chatContent}</div>

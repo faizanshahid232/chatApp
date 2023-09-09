@@ -345,13 +345,12 @@ export default function Chat() {
             <div className='border-t-2 border-gray-200 px-4 py-4 bg-white'>
             
             {/** reply Box */}
-             <ReplyBox replyBox={replyBox} setReplyBox={setReplyBox} replyuser={replyuser} replyMessage={replyMessage} replyImage={replyImage} />
+             <ReplyBox  replyBox={replyBox} setReplyBox={setReplyBox} replyuser={replyuser} replyMessage={replyMessage} replyImage={replyImage} />
             {/** end reply Box */}
 
             {/* Message Input Start */}
             <MessageInput sendMessage={sendMessage} setMessage={setMessage} message={message} handleMediaChange={handleMediaChange} />
             {/* Message Input End */}
-            
             </div>
 
             </>
