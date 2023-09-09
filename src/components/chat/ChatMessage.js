@@ -8,13 +8,17 @@ import downArrowIcon from '../../images/down-arrow.png';
 import "../../App.css";
 
 export default function ChatMessage(props) {
-    const [imgsrc, setImgsrc] = useState();
+    const [isFullScreen, setIsFullScreen] = useState(false);
     const [senderId, setSenderId] = useState();
     const ChatId = useStore();
     const [isReplyOpen, setIsReplyOpen] = useState(false);
     const [cachedImages, setCachedImages] = useState({});
     const toggleReply = () => {
         setIsReplyOpen(!isReplyOpen);
+    };
+
+    const toggleFullScreen = () => {
+        setIsFullScreen(!isFullScreen);
     };
 
     const formatDateDivider = (timestamp) => {
@@ -60,7 +64,7 @@ export default function ChatMessage(props) {
                 <span className='min-w-[100px] hover_on_chat relative p-[3px] rounded-lg inline-block rounded-bl-none bg-gray-300'>
                 <span className="font-semibold">{isCurrentUser ? '' : senderId}</span>
                 {/* Reply Option */}
-                <div className={`hide_reply_button absolute right-0 px-[5px] float-${isCurrentUser ? 'right' : 'left'}`}>
+                <div className={`hide_reply_button absolute top-0 right-0 px-[5px] float-${isCurrentUser ? 'right' : 'left'}`}>
                 <img onClick={toggleReply} className='cursor-pointer w-[18px] mt-[-3px]' src={downArrowIcon} />
                 {isReplyOpen && (
                     <div className="absolute ml-[-50px] w-[80px] py-1 bg-white border rounded-lg shadow-lg">
@@ -81,8 +85,33 @@ export default function ChatMessage(props) {
                 {/** end msg reply  */}
 
                 {props.chat.file_url && (
-                    <img src={props.chat.file_url} alt="Media" className="media h-[150px] object-cover" />
+                    <div
+                    className={`relative cursor-pointer ${
+                        isFullScreen
+                        ? "fixed inset-0 w-full h-full object-contain z-[9999]"
+                        : "object-cover"
+                    }`}
+                    onClick={toggleFullScreen}
+                    >
+                    <img
+                        src={props.chat.file_url}
+                        alt="Media"
+                        className={`media h-[200px] w-auto ${
+                        isFullScreen ? "w-full h-full" : ""
+                        }`}
+                    />
+                    {isFullScreen && (
+                        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80">
+                        <img
+                            src={props.chat.file_url}
+                            alt="Media"
+                            className="max-h-full max-w-full"
+                        />
+                        </div>
+                    )}
+                    </div>
                 )}
+
                 <div className="inline-block w-full p-[3px]">
                     <div className="text-sm inline-block align-top">{props.chat.content}</div>
                     <div className={`text-xs text-gray-500 inline-block pt-1 float-${isCurrentUser ? 'right' : 'left'} align-top`}><ConvertTimeStamp timestamp={props.chat.time_stamp} /></div>

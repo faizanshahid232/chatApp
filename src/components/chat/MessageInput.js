@@ -56,7 +56,7 @@ export default function MessageInput({sendMessage, setMessage, message, handleMe
             </span>
             <input 
                 placeholder='Start typing...' 
-                className='focus:ring-red-500 focus:border-red-500 w-full focus:placeholder-gray-400 text-gray-600 placeholder-gray-300 pl-12 bg-gray-100 rounded-full py-3 border-gray-200' 
+                className='w-full focus:placeholder-gray-400 text-gray-600 placeholder-gray-300 pl-12 pr-52 bg-gray-100 rounded-full py-3 border-gray-200' 
                 onChange={event => setMessage(event.target.value)}
                 value={message} 
             />
