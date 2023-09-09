@@ -55,6 +55,7 @@ export default function Chat() {
     // test
       
     const handleReply = (replyBox, message) => {
+        setReplyImage("");
         setReplyMessage(message.chat_content ? message.chat_content : message.content);
         setReplyuser(message.from ? message.from : message.sender);
         setMsgChatId(message.chatId ? message.chatId : message.id)

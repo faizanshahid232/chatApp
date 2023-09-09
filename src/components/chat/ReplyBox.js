@@ -32,7 +32,7 @@ export default function ReplyBox({replyBox, setReplyBox, replyuser, replyMessage
                         <img src={closeIcon} onClick={() => setReplyBox(false)} className='w-[16px] h-[16px]' />
                         </button>
                     </span>
-                    <div className='w-full focus:placeholder-gray-400 text-gray-600 placeholder-gray-300 pl-12 bg-gray-100 rounded-full py-3 border-gray-200'>
+                    <div className='w-full focus:placeholder-gray-400 text-gray-600 placeholder-gray-300 pl-12 bg-gray-100 rounded-md py-3 border-gray-200'>
                         <span>{senderId === localStorage.getItem("talkId") ? 'You' : replyuser}</span><br/>
                         <span>
                             {replyImage ? (

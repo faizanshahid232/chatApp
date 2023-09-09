@@ -86,7 +86,7 @@ export default function ChatMessage(props) {
 
                 {props.chat.file_url && (
                     <div
-                    className={`relative cursor-pointer ${
+                    className={`cursor-pointer ${
                         isFullScreen
                         ? "fixed inset-0 w-full h-full object-contain z-[9999]"
                         : "object-cover"
