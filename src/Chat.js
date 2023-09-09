@@ -124,6 +124,7 @@ export default function Chat() {
         // When oldChat updates, scroll to the bottom
         if(!closeMediaPopup) {
             if (message.length > 0) {
+                console.log("scroll");
                 bottomRef.current.scrollTop = bottomRef.current.scrollHeight;
             }
         }
@@ -179,7 +180,8 @@ export default function Chat() {
         //bottomRef.current?.scrollIntoView({behavior: 'smooth'});
         //bottomRef.current.scrollTop = bottomRef.current.scrollHeight;
         if(!closeMediaPopup) {
-        //    bottomRef.current.scrollTop = bottomRef.current.scrollHeight;
+            console.log("after msg");
+            bottomRef.current.scrollTop = bottomRef.current.scrollHeight;
         }
         //window.scrollTo(0, bottomRef.current.offsetTop); 
     }
@@ -314,6 +316,7 @@ export default function Chat() {
                                 handleReply={handleReply} 
                                 setReplyBox={setReplyBox} 
                                 chat={chat} 
+                                bottomRef={bottomRef}
                                 index={index} 
                                 prevdate={index < oldChat.length -1 ? oldChat.slice(0).reverse()[index + 1].time_stamp : ''}/>
                         </div>
@@ -326,6 +329,7 @@ export default function Chat() {
                         <ChatMessage 
                             key={index} 
                             pusherMessage={"pusher"}
+                            bottomRef={bottomRef}
                             group_id={ChatId.chatId}
                             handleReply={handleReply} 
                             toggleReply={toggleReply}

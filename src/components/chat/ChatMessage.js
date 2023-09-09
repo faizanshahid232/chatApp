@@ -51,11 +51,11 @@ export default function ChatMessage(props) {
         var targetKey = talkId;
         const resultObj = ChatId.groupParticipantsList.find(obj => obj.hasOwnProperty(targetKey));
         setSenderId(resultObj[targetKey]);
-
     }
     
     useEffect( () => {
         getProfilePic(sender);
+        props.bottomRef.current.scrollTop = props.bottomRef.current.scrollHeight;
     },[sender]);
 
     const isCurrentUser = senderId === localStorage.getItem("talkId");
@@ -63,7 +63,7 @@ export default function ChatMessage(props) {
     return(
         <>
         <div className='chat-message' key={props.index}>
-            {dateDivider != prevdateDivider  && (
+                {checkPusherOrDB != 'pusher' && dateDivider != prevdateDivider  && (
                 <div className="text-center text-gray-500 text-xs my-2">
                     {dateDivider}
                 </div>
@@ -94,16 +94,16 @@ export default function ChatMessage(props) {
                     onClick={toggleFullScreen}
                     >
                     <img
-                        src={fileUrl}
+                        src={fileUrl ? fileUrl : props.chat.file_url}
                         alt="Media"
-                        className={`media h-[200px] w-auto ${
+                        className={`media m-auto object-cover max-w-[200px] ${
                         isFullScreen ? "w-full h-full" : ""
                         }`}
                     />
                     {isFullScreen && (
                         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80">
                         <img
-                            src={fileUrl}
+                            src={fileUrl ? fileUrl : props.chat.file_url}
                             alt="Media"
                             className="max-h-full max-w-full"
                         />
@@ -114,7 +114,7 @@ export default function ChatMessage(props) {
 
                 <div className="inline-block w-full p-[3px]">
                     <div className="text-sm inline-block align-top">{chatContent}</div>
-                    <div className={`text-xs text-gray-500 inline-block pt-1 float-${isCurrentUser ? 'right' : 'left'} align-top`}><ConvertTimeStamp timestamp={chatTime} /></div>
+                    <div className={`text-xs text-gray-500 inline-block pt-1 float-${isCurrentUser ? 'right ml-1' : 'left mr-1'} align-top`}><ConvertTimeStamp timestamp={chatTime} /></div>
                 </div>
                 </span>
                 </div>
