@@ -4,15 +4,25 @@ import { getParticipantsProfilePic, getReplyChat, getTalkId } from "../../api/ap
 import ReplyMessage from "./ReplyMessage";
 import ConvertTimeStamp from "../../ConvertTimeStamp";
 import useStore from "../../Store";
-import downArrowIcon from '../../images/down-arrow.png';
 import "../../App.css";
+import ReplyDropDownOption from "./ReplyDropDownOption";
 
 export default function ChatMessage(props) {
+
+    //
+    var checkPusherOrDB = props.pusherMessage;
+    const [replyTo, setReplyTo] = useState(checkPusherOrDB === 'pusher' ? props.chat.replyto : props.chat.reply_to);
+    const [fileUrl, setFileUrl] = useState(checkPusherOrDB === 'pusher' ? `${process.env.REACT_APP_CHATIMGURL}/${props.group_id}/${props.chat.file_url}` : props.chat.file_url);
+    const [chatContent, setChatContent] = useState(checkPusherOrDB === 'pusher' ? props.chat.chat_content : props.chat.content);
+    const [chatTime, setChatTime] = useState(checkPusherOrDB === 'pusher' ? props.chat.chat_time : props.chat.time_stamp);
+    const [sender, setSender] = useState(checkPusherOrDB === 'pusher' ? props.chat.from : props.chat.sender);
+    
+    //
     const [isFullScreen, setIsFullScreen] = useState(false);
     const [senderId, setSenderId] = useState();
     const ChatId = useStore();
     const [isReplyOpen, setIsReplyOpen] = useState(false);
-    const [cachedImages, setCachedImages] = useState({});
+    
     const toggleReply = () => {
         setIsReplyOpen(!isReplyOpen);
     };
@@ -31,7 +41,7 @@ export default function ChatMessage(props) {
         return date.toLocaleDateString(undefined, options);
     };
 
-    const dateDivider = formatDateDivider(props.chat.time_stamp);
+    const dateDivider = formatDateDivider(chatTime);
     if(props.prevdate)
     {
         var prevdateDivider = formatDateDivider(props.prevdate);
@@ -45,8 +55,8 @@ export default function ChatMessage(props) {
     }
     
     useEffect( () => {
-        getProfilePic(props.chat.sender);
-    },[props.chat.sender]);
+        getProfilePic(sender);
+    },[sender]);
 
     const isCurrentUser = senderId === localStorage.getItem("talkId");
 
@@ -63,24 +73,14 @@ export default function ChatMessage(props) {
                 <div>
                 <span className='min-w-[100px] hover_on_chat relative p-[3px] rounded-lg inline-block rounded-bl-none bg-gray-300'>
                 <span className="font-semibold">{isCurrentUser ? '' : senderId}</span>
+                
                 {/* Reply Option */}
-                <div className={`hide_reply_button absolute top-0 right-0 px-[5px] float-${isCurrentUser ? 'right' : 'left'}`}>
-                <img onClick={toggleReply} className='cursor-pointer w-[18px] mt-[-3px]' src={downArrowIcon} />
-                {isReplyOpen && (
-                    <div className="absolute ml-[-50px] w-[80px] py-1 bg-white border rounded-lg shadow-lg">
-                    <a
-                        className="block cursor-pointer px-4 py-2 text-gray-800 hover:bg-gray-100"
-                        onClick={() => props.handleReply(props.setReplyBox(true), props.chat, setIsReplyOpen(false))}
-                    >
-                        Reply
-                    </a>
-                </div>
-                )}
-                </div>
+                <ReplyDropDownOption handleReply={props.handleReply} setReplyBox={props.setReplyBox} chat={props.chat} setIsReplyOpen={setIsReplyOpen} isReplyOpen={isReplyOpen} isCurrentUser={isCurrentUser} toggleReply={toggleReply} />
                 {/* End Reply Option */}
+                
                 {/**check if msg have reply */}
-                {props.chat.reply_to ? (
-                     <ReplyMessage id={props.chat.reply_to} />
+                {replyTo ? (
+                     <ReplyMessage id={replyTo} />
                 ): ''}
                 {/** end msg reply  */}
 
@@ -94,7 +94,7 @@ export default function ChatMessage(props) {
                     onClick={toggleFullScreen}
                     >
                     <img
-                        src={props.chat.file_url}
+                        src={fileUrl}
                         alt="Media"
                         className={`media h-[200px] w-auto ${
                         isFullScreen ? "w-full h-full" : ""
@@ -103,7 +103,7 @@ export default function ChatMessage(props) {
                     {isFullScreen && (
                         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80">
                         <img
-                            src={props.chat.file_url}
+                            src={fileUrl}
                             alt="Media"
                             className="max-h-full max-w-full"
                         />
@@ -113,13 +113,13 @@ export default function ChatMessage(props) {
                 )}
 
                 <div className="inline-block w-full p-[3px]">
-                    <div className="text-sm inline-block align-top">{props.chat.content}</div>
-                    <div className={`text-xs text-gray-500 inline-block pt-1 float-${isCurrentUser ? 'right' : 'left'} align-top`}><ConvertTimeStamp timestamp={props.chat.time_stamp} /></div>
+                    <div className="text-sm inline-block align-top">{chatContent}</div>
+                    <div className={`text-xs text-gray-500 inline-block pt-1 float-${isCurrentUser ? 'right' : 'left'} align-top`}><ConvertTimeStamp timestamp={chatTime} /></div>
                 </div>
                 </span>
                 </div>
             </div>
-            <img className='w-6 h-6 rounded-full order-1' src={`${process.env.REACT_APP_PROFILEURL + props.chat.sender}.png`} />
+            <img className='w-6 h-6 rounded-full order-1' src={`${process.env.REACT_APP_PROFILEURL + sender}.png`} />
               </div>
         </div>
         </>

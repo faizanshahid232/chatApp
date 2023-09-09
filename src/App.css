@@ -54,6 +54,7 @@
   color: #61dafb;
 }
 .hide_reply_button {
+  margin-top: 0% !important;
   display: none;
 }
 .hover_on_chat:hover .hide_reply_button {

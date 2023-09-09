@@ -20,7 +20,8 @@ import LeaveGroupModal from "./components/chat/LeaveGroupModal";
 import ChatHeader from "./components/chat/ChatHeader";
 import MessageInput from "./components/chat/MessageInput";
 import ReplyBox from "./components/chat/ReplyBox";
-
+import ReplyDropDownOption from "./components/chat/ReplyDropDownOption";
+import "./App.css";
 
 export default function Chat() {
     const ChatId = useStore();
@@ -51,8 +52,12 @@ export default function Chat() {
     
     const [fetchedTalkId, setFetchedTalkId] = useState(null);
     const [pusherTalkId, setPusherTalkId] = useState(null);
-
+    const [isReplyOpen, setIsReplyOpen] = useState(false);
     // test
+
+    const toggleReply = () => {
+        setIsReplyOpen(!isReplyOpen);
+    };
       
     const handleReply = (replyBox, message) => {
         setReplyImage("");
@@ -115,6 +120,15 @@ export default function Chat() {
         }
     }, [oldChat]);
 
+    useEffect(() => {
+        // When oldChat updates, scroll to the bottom
+        if(!closeMediaPopup) {
+            if (message.length > 0) {
+                bottomRef.current.scrollTop = bottomRef.current.scrollHeight;
+            }
+        }
+    }, [message]);
+
     const checkOldMessage = () => {
         //setChats([]);
         if(messageCount > 0 ) {
@@ -165,7 +179,7 @@ export default function Chat() {
         //bottomRef.current?.scrollIntoView({behavior: 'smooth'});
         //bottomRef.current.scrollTop = bottomRef.current.scrollHeight;
         if(!closeMediaPopup) {
-            bottomRef.current.scrollTop = bottomRef.current.scrollHeight;
+        //    bottomRef.current.scrollTop = bottomRef.current.scrollHeight;
         }
         //window.scrollTo(0, bottomRef.current.offsetTop); 
     }
@@ -294,7 +308,14 @@ export default function Chat() {
                     return (
                         <React.Fragment key={index}>
                         <div>
-                            <ChatMessage key={index} handleReply={handleReply} setReplyBox={setReplyBox} chat={chat} index={index} prevdate={index < oldChat.length -1 ? oldChat.slice(0).reverse()[index + 1].time_stamp : ''}/>
+                            <ChatMessage 
+                                key={index} 
+                                pusherMessage={"database"}
+                                handleReply={handleReply} 
+                                setReplyBox={setReplyBox} 
+                                chat={chat} 
+                                index={index} 
+                                prevdate={index < oldChat.length -1 ? oldChat.slice(0).reverse()[index + 1].time_stamp : ''}/>
                         </div>
                         </React.Fragment>
                         )
@@ -302,34 +323,14 @@ export default function Chat() {
                 {/* old Chat End */}
                 {chats.map((chat, index) => {
                     return( 
-                        <div key={index} className='chat-message'>
-                            <div className={fetchedTalkId === localStorage.getItem("talkId") ? 'flex item-end justify-end' : 'flex item-end justify-start'}>
-                            <div className={fetchedTalkId === localStorage.getItem("talkId") ? 'flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-end' : 'flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start'}>
-                                <div>
-                                    <span className='p-[6px] rounded-lg inline-block rounded-bl-none bg-gray-300'>
-                                    <span>{fetchedTalkId === localStorage.getItem("talkId") ? '' : chat.from}</span>
-                
-                                    {/* check if its reply chat message */}
-                                    {chat.replyto ? 
-                                    (
-                                        <ReplyMessage id={chat.replyto} />
-                                    ) : ''
-                                    }
-                                    {/* end reply chat message */}
-                                    {chat.file_url && (
-                                        <ChatImage file_url={chat.file_url} group_id={ChatId.chatId} />
-                                    )}
-                                    <div className="text-[13px] leading-[17px]">{chat.chat_content}</div>
-                                    <div className="text-end text-[10px]"><ConvertTimeStamp timestamp={chat.chat_time} /></div>
-                                    </span>
-                                </div>
-                                
-                                <button onClick={() => handleReply(setReplyBox(true), chat)}>Reply</button>
-                            </div>
-                            <img className='w-6 h-6 rounded-full order-1' src={`${process.env.REACT_APP_PROFILEURL + chat.from}.png`} />
-                            </div>
-                            {/* <div /> */}
-                        </div> 
+                        <ChatMessage 
+                            key={index} 
+                            pusherMessage={"pusher"}
+                            group_id={ChatId.chatId}
+                            handleReply={handleReply} 
+                            toggleReply={toggleReply}
+                            setReplyBox={setReplyBox}
+                            chat={chat} />
                     )
                 })}
                 
