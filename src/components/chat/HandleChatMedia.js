@@ -81,7 +81,7 @@ export default function HandleChatMedia(props) {
                 <span className='absolute inset-y-0 flex items-center'>
                     <button 
                         onClick={() => setPickerVisible(!isPickerVisible)}
-                        className='inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300'>
+                        className='inline-flex ml-4 items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300'>
                         <img src={smileyIcon} className='w-[16px] h-[16px]' />
                     </button>
                     {isPickerVisible && (
@@ -102,7 +102,7 @@ export default function HandleChatMedia(props) {
                     </span>
                     <input 
                         placeholder='Start typing...' 
-                        className='w-full bg-gray-100 focus:placeholder-gray-400 mx-5 text-gray-600 placeholder-gray-300 pl-5 rounded-lg py-3 border-gray-200' 
+                        className='w-full pl-12  bg-gray-100 focus:placeholder-gray-400 mx-5 text-gray-600 placeholder-gray-300 rounded-lg py-3 border-gray-200' 
                         onChange={event => setMessage(event.target.value)}
                         value={message} 
                     />

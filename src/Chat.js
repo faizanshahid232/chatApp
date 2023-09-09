@@ -214,7 +214,8 @@ export default function Chat() {
         }
     }
 
-    const sendMessage = () => {
+    const sendMessage = (e) => {
+        e.preventDefault();
         if(message.trim().length > 0 ) {
             //setReplyBox(false);
             if(replyBox) {
