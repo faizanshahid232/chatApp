@@ -60,11 +60,11 @@ export default function ChatMessage(props) {
     },[sender]);
 
     const isCurrentUser = senderId === localStorage.getItem("talkId");
-
+    
     return(
         <>
         <div className='chat-message' key={props.index}>
-                {checkPusherOrDB != 'pusher' && dateDivider != prevdateDivider  && (
+                {checkPusherOrDB !== 'pusher' && dateDivider !== prevdateDivider  && (
                 <div className="text-center text-gray-500 text-xs my-2">
                     {dateDivider}
                 </div>

@@ -98,7 +98,7 @@ export default function Chat() {
         try{
             if(ChatId.chatId) {
                 setChats("");
-                console.log("chain id: "+ JSON.stringify(ChatId));
+                console.log("chain id: "+ JSON.stringify(ChatId.chatId));
                 getChat(ChatId.chatId, 1, headers).then((json) => {
                     setmessageCount(json.data.total);
                     setOldChat(json.data.data);
@@ -114,7 +114,7 @@ export default function Chat() {
     useEffect(() => {
         // When oldChat updates, scroll to the bottom
         if(!closeMediaPopup) {
-            if (oldChat.length > 0) {
+            if (oldChat && oldChat.length > 0) {
                 bottomRef.current.scrollTop = bottomRef.current.scrollHeight;
             }
         }
@@ -123,7 +123,7 @@ export default function Chat() {
     useEffect(() => {
         // When oldChat updates, scroll to the bottom
         if(!closeMediaPopup) {
-            if (message.length > 0) {
+            if (message && message.length > 0) {
                 console.log("scroll");
                 bottomRef.current.scrollTop = bottomRef.current.scrollHeight;
             }
@@ -188,7 +188,7 @@ export default function Chat() {
     }, [msg]);
 
     const backPage = () => {
-        addChatId({chatId: ''});
+        useStore.getState().resetStore();
     }
 
     const handleMediaChange = (e) => {

@@ -28,6 +28,10 @@ export default function JoinPublicGroup() {
     }
     
     return(
-        <button onClick={JoinGroup}>Join Group</button>
+        <>
+        <div className="pt-[24px] flex justify-center">
+            <button className="btn-color-primary w-[200px]" onClick={JoinGroup}>Join Group</button>
+        </div>
+        </>
     );
 }

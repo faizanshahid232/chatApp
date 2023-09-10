@@ -52,7 +52,7 @@ export default function Creategroup() {
         <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
           <div className="relative w-auto my-6 mx-auto max-w-3xl">
             {/*content*/}
-            <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-96 bg-[#F2F2F7] outline-none focus:outline-none">
+            <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-96 bg-[#ffffff] outline-none focus:outline-none">
               {/*header*/}
               <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                 <h3 className="text-2xl text-center font-semibold">
@@ -81,7 +81,7 @@ export default function Creategroup() {
                                 onChange={event => setGroupName(event.target.value)}
                                 value={groupName} 
                                 required />
-                            <label htmlFor="outlined_success" className="absolute text-sm text-gray-600 dark:text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-[#F2F2F7] px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Group Name</label>
+                            <label htmlFor="outlined_success" className="absolute text-sm text-gray-600 dark:text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-[#ffffff] px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Group Name</label>
                         </div>
                     </div>
                     <div className="mb-6 px-8 pt-4">
@@ -95,13 +95,11 @@ export default function Creategroup() {
                             onChange={event => setDescripton(event.target.value)}
                             value={descripton} 
                             required />
-                        <label htmlFor="outlined_success2" className="absolute text-sm text-gray-600 dark:text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-[#F2F2F7] px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Group Description</label>
+                        <label htmlFor="outlined_success2" className="absolute text-sm text-gray-600 dark:text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-[#ffffff] px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Group Description</label>
                     </div>
                     </div>
-                    <div className="flex items-center justify-between px-8 pt-4">
-                    <button onClick={(e)=>handleSubmit(e)} className="bg-[#4F6B75] text-white w-full font-bold text-sm py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                        Create Group
-                    </button>
+                    <div className="pt-[20px] flex justify-center">
+                      <button className="btn-color-primary w-[200px]" onClick={(e)=>handleSubmit(e)}>Create Group</button>
                     </div>
                 </form>
                   {message ? 
@@ -118,7 +116,6 @@ export default function Creategroup() {
         </>
         ) : null}
         {/* End Create Group */}
-
         <div className='absolute inset-x-0 bottom-0 bg-[#E0E7EA] p-[10px] h-[60px] rounded-bl-lg rounded-br-lg'>
             <button onClick={() => setShowModal(true)} className='bg-[#FFC727] w-full p-[10px] block rounded-lg text-[#253237] text-[14px] text-center font-semibold'>Create group</button>
         </div>

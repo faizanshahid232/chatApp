@@ -11,7 +11,7 @@ export default function ChatMessageImage(props) {
             {props.file_url && (
                 <div className="max-w-[200px] max-h-[300px]">
                     {loaded ? null : (
-                        <p>Loading...</p>
+                        <p>Loading..</p>
                     )}
                     <div
                     className={`cursor-pointer ${
@@ -22,11 +22,11 @@ export default function ChatMessageImage(props) {
                     onClick={props.toggleFullScreen}
                     >
                     <img
-                        src={props.fileUrl ? props.fileUrl : props.file_url}
+                        src={props.isFullScreen ? '' : props.fileUrl ? props.fileUrl : props.file_url}
                         alt="Media"
                         onLoad={() => setLoaded(true)}
                         className={`${loaded ? {} : 'hidden'} media m-auto object-cover ${
-                            props.isFullScreen ? "w-full h-full" : ""
+                            props.isFullScreen ? "w-full h-full rounder-[7px]" : ""
                         }`}
                     />
                     {props.isFullScreen && (
