@@ -25,8 +25,8 @@ export default function ChatMessageImage(props) {
                         src={props.isFullScreen ? '' : props.fileUrl ? props.fileUrl : props.file_url}
                         alt="Media"
                         onLoad={() => setLoaded(true)}
-                        className={`${loaded ? {} : 'hidden'} media m-auto object-cover ${
-                            props.isFullScreen ? "w-full h-full rounder-[7px]" : ""
+                        className={`${loaded ? {} : 'hidden'} media w-[120px] m-auto object-cover ${
+                            props.isFullScreen ? "w-full rounder-[7px]" : ""
                         }`}
                     />
                     {props.isFullScreen && (
