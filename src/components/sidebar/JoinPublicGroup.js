@@ -6,6 +6,7 @@ export default function JoinPublicGroup() {
     
     const ChatId = useStore(state => state);
     const IsParticipant = useStore((state) => state.IsParticipant);
+    const addChatId = useStore((state) => state.addChatId);
     
     const JoinGroup = () => {
 
@@ -23,6 +24,7 @@ export default function JoinPublicGroup() {
 
         joinPublicGroup(postData, headers).then((json) => {
             console.log(JSON.stringify(json));
+            console.log("llll: "+ JSON.stringify(ChatId));
             IsParticipant({is_participant: true});
         })
     }

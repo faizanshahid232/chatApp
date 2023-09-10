@@ -23,7 +23,8 @@ export default function ChatMessage(props) {
     const [senderId, setSenderId] = useState();
     const ChatId = useStore();
     const [isReplyOpen, setIsReplyOpen] = useState(false);
-    
+    const [isBroken, setIsBroken] = useState(false);
+
     const toggleReply = () => {
         setIsReplyOpen(!isReplyOpen);
     };
@@ -54,13 +55,23 @@ export default function ChatMessage(props) {
         setSenderId(resultObj[targetKey]);
     }
     
+    const handleImageError = () => {
+        setIsBroken(true);
+    };
+
     useEffect( () => {
+        console.log("send: "+ sender);
         getProfilePic(sender);
         props.bottomRef.current.scrollTop = props.bottomRef.current.scrollHeight;
     },[sender]);
 
     const isCurrentUser = senderId === localStorage.getItem("talkId");
     
+    /*const profilePic = localStorage.getItem('profile_pic');
+    if(isCurrentUser && profilePic !== null && profilePic !== 'null') {
+        profilePic = userpr;
+    }*/
+
     return(
         <>
         <div className='chat-message' key={props.index}>
@@ -97,13 +108,22 @@ export default function ChatMessage(props) {
 
                 <div className="inline-block w-full p-[3px]">
                     <div className="text-sm inline-block align-top">{chatContent}</div>
-                    <div className={`text-xs text-gray-500 inline-block pt-1 float-${isCurrentUser ? 'right ml-1' : 'left mr-1'} align-top`}><ConvertTimeStamp timestamp={chatTime} /></div>
+                    <div className={`text-xs text-gray-500 inline-block pt-1 float-${isCurrentUser ? 'right ml-1' : 'right mr-1'} align-top`}><ConvertTimeStamp timestamp={chatTime} /></div>
                 </div>
                 </span>
                 </div>
             </div>
-            <img className='w-6 h-6 rounded-full order-1' src={`${process.env.REACT_APP_PROFILEURL + sender}.png`} />
-              </div>
+            {isBroken ? (
+                <img 
+                className='w-6 h-6 rounded-full order-1' 
+                src={userprofileIcon} />
+            ) : (
+                <img 
+                className='w-6 h-6 rounded-full order-1' 
+                onError={handleImageError}
+                src={`${process.env.REACT_APP_PROFILEURL + sender}.png`} />
+            )}
+            </div>
         </div>
         </>
     )

@@ -9,6 +9,7 @@ export default function GeneralGroup({openTab}) {
     const [groupList, setGroupList] = useState([]);
     const ChatId = useStore(state => state);
     const [loading, setLoading] = useState(true);
+    const [afterJoinGroup, setAfterJoinGroup] = useState('');
 
     var headers = {
         headers: {
@@ -38,26 +39,26 @@ export default function GeneralGroup({openTab}) {
 
     useEffect(() => {
         setLoading(true);
-        if(openTab === 1) {
-            console.log("Tab 1: "+ openTab);
-            getGeneralGroupList(headers).then((response) => {
-                console.log("Tab 1 Data: "+ JSON.stringify(response.data.data));
-                setGroupList(response.data.data);
-                setLoading(false);
-            });
-        } else if(openTab === 2) {
-            console.log("Tab 2: "+ openTab);
-            getCountryGroupList(headers).then((response) => {
-                setGroupList(response.data.data);
-                setLoading(false);
-            });
-        } else if (openTab === 3) {
-            console.log("Tab 3: "+ openTab);
-            getPrivateGroupList(headers).then((response) => {
-                setGroupList(response.data.data);
-                setLoading(false);
-            });
-        }
+            if(openTab === 1) {
+                console.log("Tab 1: "+ openTab);
+                getGeneralGroupList(headers).then((response) => {
+                    console.log("Tab 1 Data: "+ JSON.stringify(response.data.data));
+                    setGroupList(response.data.data);
+                    setLoading(false);
+                });
+            } else if(openTab === 2) {
+                console.log("Tab 2: "+ openTab);
+                getCountryGroupList(headers).then((response) => {
+                    setGroupList(response.data.data);
+                    setLoading(false);
+                });
+            } else if (openTab === 3) {
+                console.log("Tab 3: "+ openTab);
+                getPrivateGroupList(headers).then((response) => {
+                    setGroupList(response.data.data);
+                    setLoading(false);
+                });
+            }
     },[openTab]);
 
     useEffect(() => {

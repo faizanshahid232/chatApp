@@ -98,8 +98,9 @@ export default function Chat() {
         try{
             if(ChatId.chatId) {
                 setChats("");
-                console.log("chain id: "+ JSON.stringify(ChatId.chatId));
+                console.log("chain id: "+ ChatId.chatId);
                 getChat(ChatId.chatId, 1, headers).then((json) => {
+                    console.log("json data total: "+ json.data.total);
                     setmessageCount(json.data.total);
                     setOldChat(json.data.data);
                     setIsLoading(false);
@@ -108,14 +109,14 @@ export default function Chat() {
         } catch(err) {
             setIsLoading(false);
         }
-    },[ChatId.chatId]);
+    },[ChatId.chatId, ChatId.is_participant]);
 
 
     useEffect(() => {
         // When oldChat updates, scroll to the bottom
         if(!closeMediaPopup) {
             if (oldChat && oldChat.length > 0) {
-                bottomRef.current.scrollTop = bottomRef.current.scrollHeight;
+                //bottomRef.current.scrollTop = bottomRef.current.scrollHeight;
             }
         }
     }, [oldChat]);
@@ -169,7 +170,7 @@ export default function Chat() {
                 pusher.unsubscribe("presence-" + ChatId.chatId);
             };
         }
-    }, [ChatId.chatId]);
+    }, [ChatId.chatId, ChatId.is_participant]);
  
     
     useEffect(() => {
@@ -242,6 +243,7 @@ export default function Chat() {
                     console.log(error);
                 }
             } else {
+                console.log("channelId: ChatId.chatId: "+ ChatId.chatId);
                 var postData = {
                     chatContent: message,
                     channelId: ChatId.chatId,
@@ -280,7 +282,7 @@ export default function Chat() {
             {/* End Leave Group */}
 
             {/* Chat Header */}
-            <ChatHeader ChatId={ChatId} backPage={backPage} isOpen={isOpen} toggleMenu={toggleMenu} setShowModal={setShowModal} />
+            <ChatHeader ChatId={ChatId} backPage={backPage} setIsOpen={setIsOpen} isOpen={isOpen} toggleMenu={toggleMenu} setShowModal={setShowModal} />
             {/* End Chat Header */}
             
             {/* messages start here */}
@@ -297,7 +299,7 @@ export default function Chat() {
             <div className="mb-[400px]"><Loadingspinner  /> </div>// Replace with your loading indicator
             ) : (
             <>
-                <div id='messages' ref={bottomRef}  className='bg-white flex flex-col space-y-4 p-3 overflow-y-auto h-[500px] md:h-auto lg:h-auto xl:h-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch'>
+                <div id='messages' ref={bottomRef}  className='bg-white flex flex-col flex-grow space-y-4 p-3 overflow-y-auto h-[500px] md:h-auto lg:h-auto xl:h-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch'>
                 
                 {/* old Chat */}
                 {messageCount > 10 ? 
@@ -343,7 +345,7 @@ export default function Chat() {
                 </div>
 
             {/* messages end here */}
-            <div className='border-t-2 border-gray-200 px-4 py-4 bg-white'>
+            <div className='border-t-2 border-gray-200 px-4 py-4 bg-gray-100'>
             
             {/** reply Box */}
              <ReplyBox  replyBox={replyBox} setReplyBox={setReplyBox} replyuser={replyuser} replyMessage={replyMessage} replyImage={replyImage} />
