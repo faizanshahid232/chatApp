@@ -22,7 +22,7 @@ export default function MessageInput({sendMessage, setMessage, message, handleMe
 
     const openFileInput = () => {
         fileInputRef.current.click();
-        setIsOpen(false);
+        //setIsOpen(false);
     };
 
     return (
@@ -52,7 +52,7 @@ export default function MessageInput({sendMessage, setMessage, message, handleMe
                     {isOpen && (
                     <div className="absolute mt-[-110px] ml-[-50px] w-[150px] py-2 bg-white border rounded-lg shadow-lg">
                     <a
-                         htmlFor="upload-button"
+                        htmlFor="upload-button" 
                         onClick={openFileInput}
                         className="block cursor-pointer px-4 py-2 text-gray-800 hover:bg-gray-100"
                     >

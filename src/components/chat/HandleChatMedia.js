@@ -11,6 +11,7 @@ export default function HandleChatMedia(props) {
 
     const [isPickerVisible, setPickerVisible] = useState(false);
     const [currentEmoji, setCurrentEmoji] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     //const CloseMediaPopup = useStore((state) => state.CloseMediaPopup);
     const ChatId = useStore(state => state);
@@ -35,6 +36,7 @@ export default function HandleChatMedia(props) {
     };
 
     const sendMessage = () => {
+        setIsLoading(true);
         console.log("chat id pp: "+props.msgChatId);
         if(props.msgChatId) {
             var data2 = {
@@ -46,12 +48,14 @@ export default function HandleChatMedia(props) {
             pusherReplyMultimediaChat(data2, headers).then((json) => {
                 console.log("Reply Multimedia: "+ JSON.stringify(json));
                 props.setCloseMediaPopup(false);
+                setIsLoading(false);
                 //CloseMediaPopup({closeMediaPopup: false});
             })
         } else {
             pusherMultimedia(data3, headers).then((json) => {
                 console.log("Response: "+ JSON.stringify(json));
                 props.setCloseMediaPopup(false);
+                setIsLoading(false);
             })
         }
     }
@@ -75,7 +79,11 @@ export default function HandleChatMedia(props) {
                 {/*body*/}
                 <div className="flex flex-col items-center mt-[100px]">
                 <div className="mb-[100px]">
+                    {isLoading ? (
+                    <div>Loading...</div>
+                    ) : (
                         <img src={props.RenderMedia} className="h-[180px] shadow-lg" />
+                    )}
                 </div>
                 <div className='relative flex mb-4 w-full'>
                 <span className='absolute inset-y-0 flex items-center'>
