@@ -24,9 +24,10 @@ export default function ReplyMessage(props) {
               setData(jsonData.data.data);
               
               var targetKey = jsonData.data.data.sender;
+              if(ChatId.groupParticipantsList.find(obj => obj.hasOwnProperty(targetKey))){
               const resultObj = ChatId.groupParticipantsList.find(obj => obj.hasOwnProperty(targetKey));
               setSenderId(resultObj[targetKey]);
-            
+              }
             });
           }
       

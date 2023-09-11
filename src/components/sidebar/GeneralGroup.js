@@ -10,6 +10,7 @@ export default function GeneralGroup({openTab}) {
     const ChatId = useStore(state => state);
     const [loading, setLoading] = useState(true);
     const [afterJoinGroup, setAfterJoinGroup] = useState('');
+    const [searchAllGroup, setSearchAllGroup] = useState([]);
 
     var headers = {
         headers: {
@@ -18,13 +19,83 @@ export default function GeneralGroup({openTab}) {
         },
     };
 
+    useEffect(() => {
+        console.log("join ispari",ChatId.joinGroup)
+        if( ChatId.chatId && ChatId.joinGroup==true){
+            var grouplist=[];
+        if(openTab === 1) {
+            console.log("Tab 1: "+ openTab);
+            getGeneralGroupList(headers).then((response) => {
+                console.log("Tab 1 Data: "+ JSON.stringify(response.data.data));
+                setGroupList(response.data.data);
+                grouplist=response.data.data;
+                console.log("join join group",grouplist,ChatId);
+                const filteredResults = grouplist.filter((item) =>
+                item.id.toLowerCase().includes(ChatId.chatId.toLowerCase())
+                );
+                console.log(filteredResults[0]);
+                openChat(filteredResults[0]);
+            });
+        } else if(openTab === 2) {
+            console.log("Tab 2: "+ openTab);
+            getCountryGroupList(headers).then((response) => {
+                setGroupList(response.data.data);
+                grouplist=response.data.data;
+                console.log("join join group",grouplist,ChatId);
+                const filteredResults = grouplist.filter((item) =>
+                item.id.toLowerCase().includes(ChatId.chatId.toLowerCase())
+                );
+                console.log(filteredResults[0]);
+                openChat(filteredResults[0]);
+            });
+        } else if (openTab === 3) {
+            console.log("Tab 3: "+ openTab);
+            getPrivateGroupList(headers).then((response) => {
+                setGroupList(response.data.data);
+                grouplist=response.data.data;
+                console.log("join join group",grouplist,ChatId);
+                const filteredResults = grouplist.filter((item) =>
+                item.id.toLowerCase().includes(ChatId.chatId.toLowerCase())
+                );
+                console.log(filteredResults[0]);
+                openChat(filteredResults[0]);
+            });
+        }
+    }
+    }, [ChatId.joinGroup]);
+
+    useEffect(() => {
+        console.log("Check Remove part: ",ChatId.removeParticipants)
+    }, [ChatId.removeParticipants]);
+
+    useEffect(() => {
+        setLoading(true);
+        const loadData = async() => {
+            await getGeneralGroupList(headers).then((response) => {
+                setSearchAllGroup([...searchAllGroup, ...response.data.data]);
+            });
+            await getCountryGroupList(headers).then((response) => {
+                setSearchAllGroup([...searchAllGroup, ...response.data.data]);
+            });
+            await getPrivateGroupList(headers).then((response) => {
+                setSearchAllGroup([...searchAllGroup, ...response.data.data]);
+            });
+            setLoading(false);
+        }
+
+        loadData();
+
+    },[]);
+
     const openChat = async (data) => {
+        console.log("join  open chat data: ", data);
         useStore.getState().resetStore();
         openTab === 3 ? useStore.getState().GroupIsPrivate(true) : useStore.getState().GroupIsPrivate(false);
         useStore.getState().addChatId(data.id);
         useStore.getState().addParticipants(data.participants);
         useStore.getState().addOwner(data.owner);
         useStore.getState().addGroupName(data.name);
+        useStore.getState().GroupDescription(data.description);
         useStore.getState().addGroupIcon(data.group_icon);
         useStore.getState().GroupParticipantsList(data.participants);
         openTab != 3 && useStore.getState().IsParticipant(data.is_participant);
@@ -59,14 +130,15 @@ export default function GeneralGroup({openTab}) {
                     setLoading(false);
                 });
             }
-    },[openTab]);
+            
+    },[openTab, ChatId.removeParticipants]);
 
     useEffect(() => {
         if (openTab === 3) {
         getPrivateGroupList(headers).then((response) => {
             setGroupList(response.data.data);
-          });
-        }
+        });
+    }
     },[ChatId.removeParticipants]);
 
     const displayData = () => {
@@ -75,9 +147,10 @@ export default function GeneralGroup({openTab}) {
         } else if(groupList && groupList.length > 0) {
             
             if(typeof ChatId.searchTerm === "string") {
-                const filteredResults = groupList.filter((item) =>
-                item.name.toLowerCase().includes(ChatId.searchTerm.toLowerCase())
-            );
+                    const filteredResults = groupList.filter((item) =>
+                    item.name.toLowerCase().includes(ChatId.searchTerm.toLowerCase())
+                    );
+                
 
             if(filteredResults) {
                 return(

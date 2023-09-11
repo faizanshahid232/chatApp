@@ -13,6 +13,7 @@ export default function Sidebar() {
     const [openTab, setOpenTab] = useState(1);
     const ChatId = useStore(state => state);
     const OpenProfile = useStore((state) => state.OpenProfile);
+    const [isProfileOpen, setIsProfileOpen] = useState(false);
 
     // tets
     const searchTerm = useStore((state) => state.searchTerm);
@@ -30,11 +31,14 @@ export default function Sidebar() {
 
     return(
         <>
-        {ChatId.openProfile ? 
-            <Userprofile />
+        {isProfileOpen ? (
+            <>
+            {console.log("Profile open check: "+ JSON.stringify(ChatId.openProfile))}
+                <Userprofile setIsProfileOpen={setIsProfileOpen} isProfileOpen={isProfileOpen} />
+            </>)
         :
         
-        <div className='border-b border-gray-200 xl:border-b-0 xl:flex-shrink-0 xl:w-68 bg-gray-50'>
+        (<div className='border-b border-gray-200 xl:border-b-0 xl:flex-shrink-0 xl:w-68 bg-gray-50'>
             <div className='h-full pl-2 pr-2 md:pl-4 sm:pl-6 lg:pl-8 xl:pl-0'>
             
             
@@ -44,7 +48,7 @@ export default function Sidebar() {
                     <img className='ml-[9px] h-[30px] w-[30px] rounded-full' src={imageSource} />
                     <p className='text-white text-[14px] ml-[5px] mt-[3px]'>{localStorage.getItem('talkId')}</p></div>
                 <div>
-                    <div><img className='mr-[10px] w-[24px] mt-[3px] cursor-pointer' onClick={() => OpenProfile({openProfile: true})} src={usersettingIcon} /></div>
+                    <div><img className='mr-[10px] w-[24px] mt-[3px] cursor-pointer' onClick={() => {setIsProfileOpen(true); OpenProfile({openProfile: true})}} src={usersettingIcon} /></div>
                 </div>
                 </div>
                 
@@ -103,7 +107,7 @@ export default function Sidebar() {
             </div>
             </div>
             </div>
-        </div>
+        </div>)
         }
         </>
     );

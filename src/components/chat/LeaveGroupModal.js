@@ -7,7 +7,8 @@ import {
 const LeaveGroupModal = ({ showModal, setShowModal }) => {
 
     const ChatId = useStore(state => state);
-    const updateGroup = useStore((state) => state.updateGroup);
+    const resetStore = useStore((state) => state.resetStore);
+    //const updateGroup = useStore((state) => state.updateGroup);
 
     function leaveGroup() {
         console.log("Leave Group");
@@ -22,10 +23,12 @@ const LeaveGroupModal = ({ showModal, setShowModal }) => {
             "groupID": ChatId.chatId,
         };
         leftGroup(data, headers2).then((json) => {
-            updateGroup({removeParticipants: json.data.message});
+          useStore.getState().resetStore();  
+          useStore.getState().updateGroup(true);
+            //({removeParticipants: json.data.message});
             setShowModal(false);
-            useStore.getState().resetStore();
-        })
+            //useStore.getState().resetStore();
+          })
     }
 
     return showModal ? (

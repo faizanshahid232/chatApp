@@ -5,7 +5,7 @@ import useStore from "../../Store";
 import Loadingspinner from "../../Loadingspinner";
 import arrow from '../../images/arrow.png';
 
-export default function Userprofile() {
+export default function Userprofile({ isProfileOpen, setIsProfileOpen }) {
 
     const [isOpen, setIsOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
@@ -168,7 +168,7 @@ export default function Userprofile() {
             <div className="h-[600px] md:h-full lg:h-full xl:h-full relative bg-white">
                 <div className='h-full pl-2 md:pl-4 sm:pl-6 lg:pl-8 xl:pl-0'>
                     <div className='bg-[#4F6B75] h-[48px] rounded-tl-lg rounded-tr-lg flex justify-between'>
-                        <a onClick={() => OpenProfile({OpenProfile: false})} className="cursor-pointer ml-2 mt-[6px] col-2 textaligncenter flex items-center text-white font-medium"><img className="w-[15px] mr-3" src={arrow} />Profile</a>
+                        <a onClick={() => setIsProfileOpen(false)} className="cursor-pointer ml-2 mt-[6px] col-2 textaligncenter flex items-center text-white font-medium"><img className="w-[15px] mr-3" src={arrow} />Profile</a>
                     </div>
             <div className='relative'>
                 <div className="bg-white">

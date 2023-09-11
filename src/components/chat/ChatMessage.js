@@ -50,9 +50,11 @@ export default function ChatMessage(props) {
     }
 
     const getProfilePic = async(talkId) => {
+        console.log("talk id: ", talkId, ChatId.groupParticipantsList);
         var targetKey = talkId;
+        if(ChatId.groupParticipantsList.find(obj => obj.hasOwnProperty(targetKey))){
         const resultObj = ChatId.groupParticipantsList.find(obj => obj.hasOwnProperty(targetKey));
-        setSenderId(resultObj[targetKey]);
+        setSenderId(resultObj[targetKey]);}
     }
     
     const handleImageError = () => {

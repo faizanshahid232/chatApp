@@ -32,9 +32,9 @@ export default function GroupSetting() {
         getOwnGroup(headers2).then((response) => {
             response.data.data.map((Participants) => {
                 if(ChatId.chatId === Participants.id) {
-                    addChatId({chatId: Participants.id});
-                    addParticipants2({participants: Participants.participants});
-                    GroupParticipantsList({groupParticipantsList: Participants.participants});
+                  useStore.getState().addChatId(Participants.id);
+                  //useStore.getState().addParticipants2(Participants.participants);
+                  useStore.getState().GroupParticipantsList(Participants.participants);
                 }
             });
         });
@@ -110,79 +110,124 @@ export default function GroupSetting() {
 
     return(
         <>
-            {ChatId.groupSettingOpen &&(
-                <>
-                    <div className='h-[68px] border-b-[1px] py-[10px] rounded-lg border-[#E5E5EA] flex justify-center items-center'>
-                <div className='ml-[10px] md:hidden lg:hidden xl:hidden' ><svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M21 11H6.414l5.293-5.293-1.414-1.414L2.586 12l7.707 7.707 1.414-1.414L6.414 13H21z"></path></svg></div>
-                <div>
-                <div className='flex items-center justify-center'>
-                {selectedImage ? 
-                    (
-                        <img className='w-[32px] h-[32px] rounded-full' src={URL.createObjectURL(selectedImage)} alt="Selected" />
-                        
-                    ) :
-                    <img className='w-[32px] h-[32px] rounded-full' src={ChatId.groupIcon ? ChatId.groupIcon : egoldLogoIcon} />
-                }
-                <span className="ml-[5px] uppercase text-sm font-semibold">{ChatId.groupName}</span>
-                </div>
-                <div><p className='text-[#666668] text-[12px] font-normal'>Admin: {ChatId.owner} - {ChatId.participants?.length} Members</p></div>
-                </div>
-                
-                </div>
-                <div className="border-[#E5E5EA] border-b-[1px] flex justify-between mx-4">
-                    <div>Group Description</div>
-                    <div>{ChatId.groupDescription}</div>
-                </div>
-                <div className="border-[#E5E5EA] border-b-[1px] flex justify-between mx-4">
-                    <div>Change Group Image</div>
-                    <div>
-                    <label htmlFor="upload-button" className="custom-file-upload">
-                        Upload Image
-                    </label>
-                    <input
-                        type="file"
-                        accept="image/*"
-                        id="upload-button"
-                        onChange={handleImageChange}
-                        style={{ display: 'none', backgroundColor: 'gray' }}
-                    />
-                    </div>
-                </div>
-                <div className="border-[#E5E5EA] border-b-[1px] flex justify-between mx-4">
-                    <div>Invie Link</div>
-                    <div>{ChatId.inviteLink}</div>
-                </div>
-                <div className="border-[#E5E5EA] border-b-[1px] flex justify-between mx-4">
-                    <div>Participants List</div>
-                    <div>
-                    {ChatId.groupParticipantsList?
-                        ChatId.groupParticipantsList.map((participants, index) => {
-                            const userId = Object.keys(participants)[0];
-                            const value = participants[userId];
+  {ChatId.groupSettingOpen && (
+    <div className="container mx-auto mt-6 p-6">
+      <div className="bg-white rounded-lg shadow-md">
+        <div className="px-4 py-3 border-b border-gray-300">
+          <div className="flex justify-between items-center">
+            <h2 className="text-lg font-semibold">Group Info</h2>
+          </div>
+        </div>
+        <div className="p-4">
+          <div className="flex items-center mb-4">
+            {selectedImage ? (
+              <img
+                className="w-12 h-12 rounded-full mr-4"
+                src={URL.createObjectURL(selectedImage)}
+                alt="Selected"
+              />
+            ) : (
+              <img
+                className="w-12 h-12 rounded-full mr-4"
+                src={ChatId.groupIcon ? ChatId.groupIcon : egoldLogoIcon}
+                alt="Group Icon"
+              />
+            )}
+            <div>
+              <span className="text-lg font-semibold">
+                {ChatId.groupName}
+              </span>
+              <p className="text-sm text-gray-600">
+                Admin: {ChatId.owner} - {ChatId.participants?.length} Members
+              </p>
+            </div>
+          </div>
+          <div className="mb-4">
+            <div className="flex justify-between">
+              <span className="text-sm font-semibold">Group Description</span>
+              <span>{ChatId.groupDescription}</span>
+            </div>
+          </div>
+          <div className="mb-4">
+            <div className="flex justify-between">
+              <span className="text-sm font-semibold">Change Group Image</span>
+              <div>
+                <label
+                  htmlFor="upload-button"
+                  className="custom-file-upload cursor-pointer text-blue-500 hover:text-blue-600"
+                >
+                  Upload Image
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  id="upload-button"
+                  onChange={handleImageChange}
+                  style={{ display: 'none' }}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="mb-4">
+            <div className="flex justify-between">
+              <span className="text-sm font-semibold">Invite Link</span>
+              <span>{ChatId.inviteLink}</span>
+            </div>
+          </div>
+          <div className="mb-4">
+            <div className="flex justify-between">
+              <span className="text-sm font-semibold">Participants List</span>
+              <div>
+                {ChatId.groupParticipantsList && ChatId.groupParticipantsList.length > 0 
+                  ? ChatId.groupParticipantsList.map((participants, index) => {
+                      const userId = Object.keys(participants)[0];
+                      const value = participants[userId];
 
-                            return(
-                                <div key={index} className='chat-message'>
-                                    <div onClick={() =>deleteParticipants(userId)}>{value} Remove</div>
-                                </div>
-                            )
-                    }): ''}
-                    </div>
-                </div>
-                <div className="border-[#E5E5EA] border-b-[1px] flex justify-between mx-4">
-                    <div>Add Participants</div>
-                    <div>
-                        <input type="text" 
-                        onChange={e => setAddParticipants(e.target.value)}
-                        value={addParticipants}
-                        required
-                        
-                        />
-                        <button onClick={AddParticipants}>Add Participants</button>
-                        {message}
-                    </div>
-                </div>
-                </>
-            ) }
-        </>
+                      return (
+                        <div
+                          key={index}
+                          className="flex items-center space-x-2 cursor-pointer"
+                        >
+                          <span>{value}</span>
+                          <button
+                            onClick={() => deleteParticipants(value)}
+                            className="text-red-500 hover:text-red-700"
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      );
+                    })
+                  : ''}
+              </div>
+            </div>
+          </div>
+          <div className="mb-4">
+            <div className="flex justify-between">
+              <span className="text-sm font-semibold">Add Participants</span>
+              <div className="flex items-center space-x-2">
+                <input
+                  type="text"
+                  onChange={(e) => setAddParticipants(e.target.value)}
+                  value={addParticipants}
+                  className="border rounded-md p-2 w-40"
+                  required
+                />
+                <button
+                  onClick={AddParticipants}
+                  className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+                >
+                  Add
+                </button>
+              </div>
+            </div>
+            <div className="text-red-600">{message}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )}
+</>
+
     );
 }

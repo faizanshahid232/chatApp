@@ -9,7 +9,7 @@ let store = (set) => ({
     participants: '',
     groupName: '',
     groupIcon: '',
-    removeParticipants: '',
+    removeParticipants: false,
     openProfile: false,
     groupCreatedAt: '',
     groupParticipantsList: [],
@@ -20,6 +20,8 @@ let store = (set) => ({
     web3ResponseToken: '',
     talkId: '',
     groupSettingOpen: false,
+    isGroupDescOpen: false,
+    joinGroup: false,
     
 
     addChatId: (chatId) => set({ chatId }),
@@ -41,12 +43,16 @@ let store = (set) => ({
     Web3RandomMsg: (Web3RandomMsg) => set({ Web3RandomMsg }),
     Web3ResponseToken: (Web3ResponseToken) => set({ Web3ResponseToken }),
     GroupSettingOpen: (groupSettingOpen) => set({ groupSettingOpen }),
+    GroupDescOpen: (isGroupDescOpen) => set({ isGroupDescOpen }),
+    ISJoinGroup: (joinGroup) => set({ joinGroup }),
 
     resetStore: () => {
         set({
             chatId: '',
             owner: '',
+            joinGroup: false,
             is_participant: false,
+            isGroupDescOpen: false,
             group_is_private: false,
             closeMediaPopup: false,
             participants: '',

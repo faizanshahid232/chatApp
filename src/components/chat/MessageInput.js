@@ -50,7 +50,7 @@ export default function MessageInput({sendMessage, setMessage, message, handleMe
                         <img src={plusIcon} onClick={() => setIsOpen(!isOpen)} className="w-[16px]" />
                     </label>
                     {isOpen && (
-                    <div className="absolute mt-[-110px] ml-[-50px] w-[150px] py-2 bg-white border rounded-lg shadow-lg">
+                    <div className="absolute z-10 mt-[-110px] ml-[-50px] w-[150px] py-2 bg-white border rounded-lg shadow-lg">
                     <a
                         htmlFor="upload-button" 
                         onClick={openFileInput}

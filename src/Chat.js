@@ -22,6 +22,7 @@ import MessageInput from "./components/chat/MessageInput";
 import ReplyBox from "./components/chat/ReplyBox";
 import ReplyDropDownOption from "./components/chat/ReplyDropDownOption";
 import "./App.css";
+import GroupInfo from "./components/chat/GroupInfo";
 
 export default function Chat() {
     const ChatId = useStore();
@@ -53,6 +54,7 @@ export default function Chat() {
     const [fetchedTalkId, setFetchedTalkId] = useState(null);
     const [pusherTalkId, setPusherTalkId] = useState(null);
     const [isReplyOpen, setIsReplyOpen] = useState(false);
+    const [groupInfo, setGroupInfo] = useState(false);
     // test
 
     const toggleReply = () => {
@@ -268,98 +270,125 @@ export default function Chat() {
 
         if(pusherTalkId) {
             var targetKey = pusherTalkId;
-              const resultObj = ChatId.groupParticipantsList.find(obj => obj.hasOwnProperty(targetKey));
+            if(ChatId.groupParticipantsList.find(obj => obj.hasOwnProperty(targetKey)))
+             { const resultObj = ChatId.groupParticipantsList.find(obj => obj.hasOwnProperty(targetKey));
               setFetchedTalkId(resultObj[targetKey]);
-        }
+        }}
     },[pusherTalkId]);
     
     const displayChat = () => {
         return (
             <>
-            
+            {/* check if participants or not */}
+            {
+                !ChatId.is_participant && !ChatId.group_is_private && !ChatId.openProfile && (
+                    <JoinPublicGroup /> 
+                )
+            }
+
             {/* Leave Group */}
             <LeaveGroupModal showModal={showModal} setShowModal={setShowModal}/>
             {/* End Leave Group */}
 
             {/* Chat Header */}
-            <ChatHeader ChatId={ChatId} backPage={backPage} setIsOpen={setIsOpen} isOpen={isOpen} toggleMenu={toggleMenu} setShowModal={setShowModal} />
+            {(ChatId.group_is_private && !ChatId.openProfile) || 
+            (ChatId.is_participant && !ChatId.openProfile)
+            ? (
+                <ChatHeader setGroupInfo={setGroupInfo} ChatId={ChatId} backPage={backPage} setIsOpen={setIsOpen} isOpen={isOpen} toggleMenu={toggleMenu} setShowModal={setShowModal} />
+            ): ''}
             {/* End Chat Header */}
             
+            {/* Group Info */}
+            {ChatId.is_participant && groupInfo && (
+                <GroupInfo showModal={showModal} setGroupInfo={setGroupInfo} setShowModal={setShowModal} />
+            )}
+            {/* End Group Info */}
+
             {/* messages start here */}
                 
-                {/* Chat Media Upload */}
-                {media && closeMediaPopup ? (
+            {/* Chat Media Upload */}
+            {media && closeMediaPopup && (
                 <HandleChatMedia media={media} setCloseMediaPopup={setCloseMediaPopup} RenderMedia={RenderMedia} msgChatId={msgChatId} />
-            ) : 
+            )}
+            {/* End Chat Media Upload */}
             
-            <>
-            {!ChatId.openProfile ?
-            ChatId.is_participant || ChatId.group_is_private ? 
-             isLoading ? (
-            <div className="mb-[400px]"><Loadingspinner  /> </div>// Replace with your loading indicator
-            ) : (
-            <>
+            {/* Group Setting */}
+            <GroupSetting />
+            {/* End Group Setting */}
+
+            {/* Open Chat */}
+            {
+                isLoading && (
+                    <div className="mb-[400px]"><Loadingspinner  /> </div>
+            )}
+            
+            {
+                !ChatId.openProfile &&
+                !groupInfo &&
+                !ChatId.openProfile && ChatId.is_participant ||
+                !ChatId.openProfile && ChatId.group_is_private ? (
+                <>
                 <div id='messages' ref={bottomRef}  className='bg-white flex flex-col flex-grow space-y-4 p-3 overflow-y-auto h-[500px] md:h-auto lg:h-auto xl:h-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch'>
-                
-                {/* old Chat */}
-                {messageCount > 10 ? 
-                <div className="text-center">
-                    <button onClick={() => checkOldMessage()}>old message</button>
-                </div>
-                : ''
-                }
-                {oldChat?
-                oldChat.slice(0).reverse().map((chat, index) => {
-                    return (
-                        <React.Fragment key={index}>
-                        <div>
+            
+                    {/* old Chat */}
+                    {messageCount > 10 ? 
+                    <div className="text-center">
+                        <button onClick={() => checkOldMessage()}>old message</button>
+                    </div>
+                    : ''
+                    }
+                    {oldChat?
+                    oldChat.slice(0).reverse().map((chat, index) => {
+                        return (
+                            <React.Fragment key={index}>
+                            <div>
+                                <ChatMessage 
+                                    key={index} 
+                                    pusherMessage={"database"}
+                                    handleReply={handleReply} 
+                                    setReplyBox={setReplyBox} 
+                                    chat={chat} 
+                                    bottomRef={bottomRef}
+                                    index={index} 
+                                    prevdate={index < oldChat.length -1 ? oldChat.slice(0).reverse()[index + 1].time_stamp : ''}/>
+                            </div>
+                            </React.Fragment>
+                            )
+                    }): ''} 
+                    {/* old Chat End */}
+                    {chats.map((chat, index) => {
+                        return( 
                             <ChatMessage 
                                 key={index} 
-                                pusherMessage={"database"}
-                                handleReply={handleReply} 
-                                setReplyBox={setReplyBox} 
-                                chat={chat} 
+                                pusherMessage={"pusher"}
                                 bottomRef={bottomRef}
-                                index={index} 
-                                prevdate={index < oldChat.length -1 ? oldChat.slice(0).reverse()[index + 1].time_stamp : ''}/>
-                        </div>
-                        </React.Fragment>
+                                group_id={ChatId.chatId}
+                                handleReply={handleReply} 
+                                toggleReply={toggleReply}
+                                setReplyBox={setReplyBox}
+                                chat={chat} />
                         )
-                }): ''} 
-                {/* old Chat End */}
-                {chats.map((chat, index) => {
-                    return( 
-                        <ChatMessage 
-                            key={index} 
-                            pusherMessage={"pusher"}
-                            bottomRef={bottomRef}
-                            group_id={ChatId.chatId}
-                            handleReply={handleReply} 
-                            toggleReply={toggleReply}
-                            setReplyBox={setReplyBox}
-                            chat={chat} />
-                    )
-                })}
+                    })}
+                    
+                    {/* third message */}
+                    </div>
+
+                {/* messages end here */}
+                <div className='border-t-2 border-gray-200 px-4 py-4 bg-gray-100'>
                 
-                {/* third message */}
+                {/** reply Box */}
+                <ReplyBox  replyBox={replyBox} setReplyBox={setReplyBox} replyuser={replyuser} replyMessage={replyMessage} replyImage={replyImage} />
+                {/** end reply Box */}
+
+                {/* Message Input Start */}
+                <MessageInput sendMessage={sendMessage} setMessage={setMessage} message={message} handleMediaChange={handleMediaChange} />
+                {/* Message Input End */}
                 </div>
 
-            {/* messages end here */}
-            <div className='border-t-2 border-gray-200 px-4 py-4 bg-gray-100'>
-            
-            {/** reply Box */}
-             <ReplyBox  replyBox={replyBox} setReplyBox={setReplyBox} replyuser={replyuser} replyMessage={replyMessage} replyImage={replyImage} />
-            {/** end reply Box */}
-
-            {/* Message Input Start */}
-            <MessageInput sendMessage={sendMessage} setMessage={setMessage} message={message} handleMediaChange={handleMediaChange} />
-            {/* Message Input End */}
-            </div>
-
-            </>
-            ) : <JoinPublicGroup /> : <GroupSetting />}
-            </>
+                </>
+            ) : ''
             }
+            {/* End Open Chat */}
         
         </>
         );
