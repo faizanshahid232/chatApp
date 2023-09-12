@@ -91,7 +91,9 @@ export default function GeneralGroup({openTab}) {
     const openChat = async (data) => {
         try{
             //console.log("join  open chat data: ", data);
-            useStore.getState().resetStore();
+            if(!ChatId.joinGroup) {
+                useStore.getState().resetStore();
+            }
             openTab === 3 ? useStore.getState().GroupIsPrivate(true) : useStore.getState().GroupIsPrivate(false);
             useStore.getState().addChatId(data.id);
             useStore.getState().addParticipants(data.participants);
