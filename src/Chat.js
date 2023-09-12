@@ -99,7 +99,7 @@ export default function Chat() {
         setIsLoading(true);
         try{
             if(ChatId.chatId) {
-                setChats("");
+                setChats([]);
                 console.log("chain id: "+ ChatId.chatId);
                 getChat(ChatId.chatId, 1, headers).then((json) => {
                     console.log("json data total: "+ json.data.total);
@@ -341,6 +341,7 @@ export default function Chat() {
                     oldChat.slice(0).reverse().map((chat, index) => {
                         return (
                             <React.Fragment key={index}>
+                                {console.log("checking old chat: ", oldChat)}
                             <div>
                                 <ChatMessage 
                                     key={index} 
@@ -374,7 +375,7 @@ export default function Chat() {
                     </div>
 
                 {/* messages end here */}
-                <div className='border-t-2 border-gray-200 px-4 py-4 bg-gray-100'>
+                <div className='border-t-2 border-gray-200 pr-4 py-4 bg-gray-100'>
                 
                 {/** reply Box */}
                 <ReplyBox  replyBox={replyBox} setReplyBox={setReplyBox} replyuser={replyuser} replyMessage={replyMessage} replyImage={replyImage} />

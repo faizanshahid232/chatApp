@@ -12,11 +12,7 @@ export default function ChatMessage(props) {
 
     //
     var checkPusherOrDB = props.pusherMessage;
-    const [replyTo, setReplyTo] = useState(checkPusherOrDB === 'pusher' ? props.chat.replyto : props.chat.reply_to);
     const [fileUrl, setFileUrl] = useState(checkPusherOrDB === 'pusher' ? `${process.env.REACT_APP_CHATIMGURL}/${props.group_id}/${props.chat.file_url}` : props.chat.file_url);
-    const [chatContent, setChatContent] = useState(checkPusherOrDB === 'pusher' ? props.chat.chat_content : props.chat.content);
-    const [chatTime, setChatTime] = useState(checkPusherOrDB === 'pusher' ? props.chat.chat_time : props.chat.time_stamp);
-    const [sender, setSender] = useState(checkPusherOrDB === 'pusher' ? props.chat.from : props.chat.sender);
     
     //
     const [isFullScreen, setIsFullScreen] = useState(false);
@@ -43,14 +39,13 @@ export default function ChatMessage(props) {
         return date.toLocaleDateString(undefined, options);
     };
 
-    const dateDivider = formatDateDivider(chatTime);
+    const dateDivider = formatDateDivider(props.chat.time_stamp);
     if(props.prevdate)
     {
         var prevdateDivider = formatDateDivider(props.prevdate);
     }
 
     const getProfilePic = async(talkId) => {
-        console.log("talk id: ", talkId, ChatId.groupParticipantsList);
         var targetKey = talkId;
         if(ChatId.groupParticipantsList.find(obj => obj.hasOwnProperty(targetKey))){
         const resultObj = ChatId.groupParticipantsList.find(obj => obj.hasOwnProperty(targetKey));
@@ -62,13 +57,11 @@ export default function ChatMessage(props) {
     };
 
     useEffect( () => {
-        console.log("send: "+ sender);
-        getProfilePic(sender);
+        getProfilePic(props.chat.sender);
         props.bottomRef.current.scrollTop = props.bottomRef.current.scrollHeight;
-    },[sender]);
+    },[props.chat.sender]);
 
     const isCurrentUser = senderId === localStorage.getItem("talkId");
-    
     /*const profilePic = localStorage.getItem('profile_pic');
     if(isCurrentUser && profilePic !== null && profilePic !== 'null') {
         profilePic = userpr;
@@ -93,8 +86,8 @@ export default function ChatMessage(props) {
                 {/* End Reply Option */}
                 
                 {/**check if msg have reply */}
-                {replyTo ? (
-                     <ReplyMessage id={replyTo} />
+                {props.chat.reply_to ? (
+                     <ReplyMessage id={props.chat.reply_to} />
                 ): ''}
                 {/** end msg reply  */}
 
@@ -109,8 +102,8 @@ export default function ChatMessage(props) {
                 {/* Image */}
 
                 <div className="inline-block w-full p-[3px]">
-                    <div className="text-sm inline-block align-top">{chatContent}</div>
-                    <div className={`text-xs text-gray-500 inline-block pt-1 float-${isCurrentUser ? 'right ml-1' : 'right mr-1'} align-top`}><ConvertTimeStamp timestamp={chatTime} /></div>
+                    <div className="text-sm inline-block align-top">{props.chat.content}</div>
+                    <div className={`text-xs text-gray-500 inline-block pt-1 float-${isCurrentUser ? 'right ml-1' : 'right mr-1'} align-top`}><ConvertTimeStamp timestamp={props.chat.time_stamp} /></div>
                 </div>
                 </span>
                 </div>
@@ -123,7 +116,7 @@ export default function ChatMessage(props) {
                 <img 
                 className='w-6 h-6 rounded-full order-1' 
                 onError={handleImageError}
-                src={`${process.env.REACT_APP_PROFILEURL + sender}.png`} />
+                src={`${process.env.REACT_APP_PROFILEURL + props.chat.sender}.png`} />
             )}
             </div>
         </div>
