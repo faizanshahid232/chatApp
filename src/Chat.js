@@ -323,7 +323,7 @@ export default function Chat() {
             )}
             
             {
-                (!media && !closeMediaPopup) &&
+                !closeMediaPopup &&
                 !groupInfo &&
                 (!ChatId.openProfile && ChatId.is_participant) ||
                 (!ChatId.openProfile && ChatId.group_is_private) ? (

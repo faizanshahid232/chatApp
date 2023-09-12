@@ -33,7 +33,7 @@ export default function ReplyBox({replyBox, setReplyBox, replyuser, replyMessage
                         </button>
                     </span>
                     <div className='w-full focus:placeholder-gray-400 text-gray-600 placeholder-gray-300 pl-12 bg-gray-100 rounded-md py-3 border-gray-200'>
-                        <span>{senderId === localStorage.getItem("talkId") ? 'You' : replyuser}</span><br/>
+                        <span>{senderId === localStorage.getItem("talkId") ? 'You' : senderId}</span><br/>
                         <span>
                             {replyImage ? (
                                 <div className="flex items-center">
