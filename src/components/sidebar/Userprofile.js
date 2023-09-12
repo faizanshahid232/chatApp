@@ -4,6 +4,7 @@ import userprofileIcon from '../../images/userprofile.png';
 import useStore from "../../Store";
 import Loadingspinner from "../../Loadingspinner";
 import arrow from '../../images/arrow.png';
+import egoldLogoIcon from '../../images/egold_logo_icon.png';
 
 export default function Userprofile({ isProfileOpen, setIsProfileOpen }) {
 
@@ -105,8 +106,8 @@ export default function Userprofile({ isProfileOpen, setIsProfileOpen }) {
             var postData = {
                 file: file
             };
-            addProfilePic(postData, headers).then((json) => {
-                console.log("response: "+ JSON.stringify(json));
+            addProfilePic(postData, headers).then((json2) => {
+                console.log("response: "+ JSON.stringify(json2));
                 getProfilePic(headerProfilePic).then((json) => {
                     console.log("profile Pic: "+ JSON.stringify(json.data.data.profile_pic));
                     localStorage.setItem("profile_pic", json.data.data.profile_pic);
@@ -128,7 +129,7 @@ export default function Userprofile({ isProfileOpen, setIsProfileOpen }) {
                         data.private ? 
                         <div key={index} onClick={() => openChat(data)} className='relative rounded-lg px-2 py-2 flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 mb-3 hover:bg-gray-200'>
                             <div className='flex-shrink-0'>
-                                <img className='h-10 w-10 rounded-full' src={data.group_icon ? data.group_icon : userprofileIcon} />
+                                <img className='h-10 w-10 rounded-full' src={data.group_icon ? data.group_icon : egoldLogoIcon} />
                             </div>
                             <div className='flex-1 min-w-0'>
                                 <a href="#" className='focus:outline-none'>

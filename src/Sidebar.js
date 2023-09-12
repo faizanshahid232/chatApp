@@ -84,19 +84,19 @@ export default function Sidebar() {
             {/* tabs end */}
             {/* Tab 1 list */}
             <div className={openTab === 1 ? "block" : "hidden"}>
-                <GeneralGroup openTab={openTab} />
+                <GeneralGroup openTab={1} />
             </div>
             {/* Tab 1 list end */}
 
             {/* Tab 2 list */}
             <div className={openTab === 2 ? "block" : "hidden"}>
-                <GeneralGroup openTab={openTab} />
+                <GeneralGroup openTab={2} />
             </div>
             {/* Tab 2 list end */}
 
             {/* Tab 3 list */}
             <div className={openTab === 3 ? "block" : "hidden"}>
-                <GeneralGroup openTab={openTab} />
+                <GeneralGroup openTab={3} />
             </div>
             {/* Tab 3 list end */}
 

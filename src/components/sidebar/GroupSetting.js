@@ -3,8 +3,6 @@ import useStore from "../../Store";
 import egoldLogoIcon from '../../images/egold_logo_icon.png';
 import { addGroupIcon, getOwnGroup, addParticipantsMember, removeParticipant } from "../../api/apiServices";
 
-
-
 export default function GroupSetting() {
     const ChatId = useStore(state => state);
     const [selectedImage, setSelectedImage] = useState(null);
@@ -22,23 +20,31 @@ export default function GroupSetting() {
     const GroupDescription = useStore((state) => state.GroupDescription);
 
     useEffect(() => {
-        var headers2 = {
-            headers: {
-              'Accept': 'application/json',
-              'Authorization' : 'Bearer ' + localStorage.getItem('accessToken'),
-            },
-        };
+      var headers2 = {
+          headers: {
+            'Accept': 'application/json',
+            'Authorization' : 'Bearer ' + localStorage.getItem('accessToken'),
+          },
+      };
 
-        getOwnGroup(headers2).then((response) => {
-            response.data.data.map((Participants) => {
-                if(ChatId.chatId === Participants.id) {
-                  useStore.getState().addChatId(Participants.id);
-                  //useStore.getState().addParticipants2(Participants.participants);
-                  useStore.getState().GroupParticipantsList(Participants.participants);
-                }
-            });
-        });
-    },[addRemovePartiicpants]);
+      getOwnGroup(headers2).then((response) => {
+          response.data.data.map((Participants) => {
+              if(ChatId.chatId === Participants.id) {
+                useStore.getState().addChatId(Participants.id);
+                //useStore.getState().addParticipants2(Participants.participants);
+                useStore.getState().GroupParticipantsList(Participants.participants);
+              }
+          });
+      });
+  },[addRemovePartiicpants]);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {  //assign interval to a variable to clear it.
+      setMessage("")
+    }, 5000)
+  
+    return () => clearInterval(intervalId); 
+  },[message]);
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -112,7 +118,7 @@ export default function GroupSetting() {
         <>
   {ChatId.groupSettingOpen && (
     <div className="container mx-auto mt-6 p-6">
-      <div className="bg-white rounded-lg shadow-md">
+      <div className="bg-white rounded-lg border border-gray-300">
         <div className="px-4 py-3 border-b border-gray-300">
           <div className="flex justify-between items-center">
             <h2 className="text-lg font-semibold">Group Info</h2>
@@ -143,7 +149,7 @@ export default function GroupSetting() {
             </div>
           </div>
           <div className="mb-4">
-            <div className="flex justify-between">
+            <div className="flex justify-between flex-col">
               <span className="text-sm font-semibold">Group Description</span>
               <span>{ChatId.groupDescription}</span>
             </div>
@@ -154,7 +160,7 @@ export default function GroupSetting() {
               <div>
                 <label
                   htmlFor="upload-button"
-                  className="custom-file-upload cursor-pointer text-blue-500 hover:text-blue-600"
+                  className="bg-blue-500 p-2 rounded-lg custom-file-upload cursor-pointer text-white"
                 >
                   Upload Image
                 </label>
@@ -221,7 +227,7 @@ export default function GroupSetting() {
                 </button>
               </div>
             </div>
-            <div className="text-red-600">{message}</div>
+            <div className="text-red-600 text-center p-2 pt-5">{message}</div>
           </div>
         </div>
       </div>

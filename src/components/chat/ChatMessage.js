@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import userprofileIcon from '../../images/userprofile.png';
-import { getParticipantsProfilePic, getReplyChat, getTalkId } from "../../api/apiServices";
 import ReplyMessage from "./ReplyMessage";
 import ConvertTimeStamp from "../../ConvertTimeStamp";
 import useStore from "../../Store";
