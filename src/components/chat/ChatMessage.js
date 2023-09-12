@@ -12,7 +12,6 @@ export default function ChatMessage(props) {
     //
     var checkPusherOrDB = props.pusherMessage;
     const [fileUrl, setFileUrl] = useState(checkPusherOrDB === 'pusher' ? `${process.env.REACT_APP_CHATIMGURL}/${props.group_id}/${props.chat.file_url}` : props.chat.file_url);
-    
     //
     const [isFullScreen, setIsFullScreen] = useState(false);
     const [senderId, setSenderId] = useState();
@@ -57,9 +56,16 @@ export default function ChatMessage(props) {
 
     useEffect( () => {
         getProfilePic(props.chat.sender);
-        //props.bottomRef.current.scrollTop = props.bottomRef.current.scrollHeight;
     },[props.chat.sender]);
 
+    useEffect(() => {
+        console.log("before scrollbar: "+ props.countScrollBar);
+        if(props.countScrollBar <= 10) {
+            console.log("scrollbar: "+ props.countScrollBar);
+            props.bottomRef.current.scrollTop = props.bottomRef.current.scrollHeight;
+            props.setCountScrollBar(props.countScrollBar + 1);
+        }
+    },[props.countScrollBar]);
     const isCurrentUser = senderId === localStorage.getItem("talkId");
     /*const profilePic = localStorage.getItem('profile_pic');
     if(isCurrentUser && profilePic !== null && profilePic !== 'null') {

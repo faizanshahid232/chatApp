@@ -4,7 +4,7 @@ import {
     leftGroup, 
 } from "../../api/apiServices";
 
-const LeaveGroupModal = ({ showModal, setShowModal }) => {
+const LeaveGroupModal = ({ showModal, setShowModal, setGroupInfo }) => {
 
     const ChatId = useStore(state => state);
     const resetStore = useStore((state) => state.resetStore);
@@ -27,6 +27,7 @@ const LeaveGroupModal = ({ showModal, setShowModal }) => {
           useStore.getState().updateGroup(true);
             //({removeParticipants: json.data.message});
             setShowModal(false);
+            setGroupInfo(false);
             //useStore.getState().resetStore();
           })
     }

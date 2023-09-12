@@ -42,7 +42,7 @@ export default function Chat() {
     const [RenderMedia, setRenderMedia] = useState(null);
     //const CloseMediaPopup = useStore((state) => state.CloseMediaPopup);
     const [closeMediaPopup, setCloseMediaPopup] = useState(false);
-
+    const [countScrollBar, setCountScrollBar] = useState(1);
     const [RenderCount, setRenderCount] = useState(0);
     const [mediaList, setMediaList] = useState([]);
     const [replyBox, setReplyBox] = useState(false);
@@ -60,13 +60,6 @@ export default function Chat() {
     const toggleReply = () => {
         setIsReplyOpen(!isReplyOpen);
     };
-    
-    useEffect(() => {
-        // Scroll to the bottom when the component initially loads
-        if (bottomRef.current) {
-            bottomRef.current.scrollTop = bottomRef.current.scrollHeight;
-        }
-    }, []);
 
     const handleReply = (replyBox, message) => {
         setReplyImage("");
@@ -124,9 +117,11 @@ export default function Chat() {
     useEffect(() => {
         // When oldChat updates, scroll to the bottom
         if(!closeMediaPopup) {
-            if (oldChat && oldChat.length > 0) {
+            /*if (oldChat && oldChat.length > 0 && countScrollBar <= 10) {
+                //console.log("scrollbar: "+ countScrollBar);
                 //bottomRef.current.scrollTop = bottomRef.current.scrollHeight;
-            }
+                //setCountScrollBar(countScrollBar + 1);
+            }*/
         }
     }, [oldChat]);
 
@@ -292,7 +287,7 @@ export default function Chat() {
             }
 
             {/* Leave Group */}
-            <LeaveGroupModal showModal={showModal} setShowModal={setShowModal}/>
+            <LeaveGroupModal setGroupInfo={setGroupInfo} showModal={showModal} setShowModal={setShowModal}/>
             {/* End Leave Group */}
 
             {/* Chat Header */}
@@ -353,6 +348,8 @@ export default function Chat() {
                                     pusherMessage={"database"}
                                     handleReply={handleReply} 
                                     setReplyBox={setReplyBox} 
+                                    setCountScrollBar={setCountScrollBar}
+                                    countScrollBar={countScrollBar}
                                     chat={chat} 
                                     bottomRef={bottomRef}
                                     index={index} 
@@ -372,6 +369,8 @@ export default function Chat() {
                                 handleReply={handleReply} 
                                 toggleReply={toggleReply}
                                 setReplyBox={setReplyBox}
+                                setCountScrollBar={setCountScrollBar}
+                                countScrollBar={countScrollBar}
                                 chat={chat} />
                         )
                     })}

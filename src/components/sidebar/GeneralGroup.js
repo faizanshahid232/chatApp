@@ -89,23 +89,27 @@ export default function GeneralGroup({openTab}) {
     },[]);
 
     const openChat = async (data) => {
-        console.log("join  open chat data: ", data);
-        useStore.getState().resetStore();
-        openTab === 3 ? useStore.getState().GroupIsPrivate(true) : useStore.getState().GroupIsPrivate(false);
-        useStore.getState().addChatId(data.id);
-        useStore.getState().addParticipants(data.participants);
-        useStore.getState().addOwner(data.owner);
-        useStore.getState().addGroupName(data.name);
-        useStore.getState().GroupDescription(data.description);
-        useStore.getState().addGroupIcon(data.group_icon);
-        useStore.getState().GroupParticipantsList(data.participants);
-        openTab != 3 && useStore.getState().IsParticipant(data.is_participant);
+        try{
+            console.log("join  open chat data: ", data);
+            useStore.getState().resetStore();
+            openTab === 3 ? useStore.getState().GroupIsPrivate(true) : useStore.getState().GroupIsPrivate(false);
+            useStore.getState().addChatId(data.id);
+            useStore.getState().addParticipants(data.participants);
+            useStore.getState().addOwner(data.owner);
+            useStore.getState().addGroupName(data.name);
+            useStore.getState().GroupDescription(data.description);
+            useStore.getState().addGroupIcon(data.group_icon);
+            useStore.getState().GroupParticipantsList(data.participants);
+            openTab != 3 && useStore.getState().IsParticipant(data.is_participant);
 
-        console.log("owner id: "+ ChatId.owner);
-            
-        await getTalkId(data.owner, headers).then((json) => {
-            useStore.getState().setTalkId(json.data.data);
-        });
+            console.log("owner id: "+ ChatId.owner);
+                
+            await getTalkId(data.owner, headers).then((json) => {
+                useStore.getState().setTalkId(json.data.data);
+            });
+        } catch(err) {
+            console.log(err);
+        }
 
     }
 
