@@ -6,6 +6,7 @@ export default function ChatMessageImage(props) {
     useEffect(() => {
         //props.bottomRef.current.scrollTop = props.bottomRef.current.scrollHeight;
     },[loaded]);
+
     return (
         <>
             {props.file_url && (
