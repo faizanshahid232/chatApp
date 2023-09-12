@@ -57,7 +57,7 @@ export default function ChatMessage(props) {
 
     useEffect( () => {
         getProfilePic(props.chat.sender);
-        props.bottomRef.current.scrollTop = props.bottomRef.current.scrollHeight;
+        //props.bottomRef.current.scrollTop = props.bottomRef.current.scrollHeight;
     },[props.chat.sender]);
 
     const isCurrentUser = senderId === localStorage.getItem("talkId");

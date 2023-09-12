@@ -60,7 +60,14 @@ export default function Chat() {
     const toggleReply = () => {
         setIsReplyOpen(!isReplyOpen);
     };
-      
+    
+    useEffect(() => {
+        // Scroll to the bottom when the component initially loads
+        if (bottomRef.current) {
+            bottomRef.current.scrollTop = bottomRef.current.scrollHeight;
+        }
+    }, []);
+
     const handleReply = (replyBox, message) => {
         setReplyImage("");
         setReplyMessage(message.chat_content ? message.chat_content : message.content);
@@ -128,7 +135,7 @@ export default function Chat() {
         if(!closeMediaPopup) {
             if (message && message.length > 0) {
                 console.log("scroll");
-                bottomRef.current.scrollTop = bottomRef.current.scrollHeight;
+                //bottomRef.current.scrollTop = bottomRef.current.scrollHeight;
             }
         }
     }, [message]);
@@ -144,7 +151,7 @@ export default function Chat() {
                 //console.log("old and new: "+[...oldChat, ...json.data.data])
                 //setOldTalkId([...oldChat, ...json.data.data]);
                 //console.log("oold Chat Data", oldChat);
-                
+                bottomRef.current.scrollTop = 0;
             })
         }
     }
@@ -180,8 +187,6 @@ export default function Chat() {
             console.log("msg: "+JSON.stringify(msg));
             setPusherTalkId(msg.from);
             setChats([...chats, msg]);
-        //bottomRef.current?.scrollIntoView({behavior: 'smooth'});
-        //bottomRef.current.scrollTop = bottomRef.current.scrollHeight;
         if(!closeMediaPopup) {
             console.log("after msg");
             bottomRef.current.scrollTop = bottomRef.current.scrollHeight;

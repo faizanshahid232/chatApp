@@ -7,13 +7,12 @@ import useStore from './Store';
 
 export default function Header() {
     
-    const [metaMask, hooks] = initializeConnector((actions) => new MetaMask(actions));
     const navigate = useNavigate();
 
     const logOut = () => {
-        if(localStorage.getItem('user_type') === 'web3') {
+        /*if(localStorage.getItem('user_type') === 'web3') {
             metaMask.resetState();
-        }
+        }*/
         localStorage.clear();
         useStore.getState().resetStore();
         navigate("/mainpage");

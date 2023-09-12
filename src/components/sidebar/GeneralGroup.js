@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import userprofileIcon from '../../images/userprofile.png';
 import useStore from "../../Store";
 import Loadingspinner from "../../Loadingspinner";
+import egoldLogoIcon from '../../images/egold_logo_icon.png';
 import { getGeneralGroupList, getCountryGroupList, getPrivateGroupList, getTalkId } from '../../api/apiServices';
 
 export default function GeneralGroup({openTab}) {
@@ -163,7 +164,7 @@ export default function GeneralGroup({openTab}) {
                         return(
                             <div key={index} onClick={() => openChat(data)} className='relative rounded-lg px-2 py-2 flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 mb-3 hover:bg-gray-200'>
                                 <div className='flex-shrink-0'>
-                                    <img className='h-10 w-10 rounded-full' src={data.group_icon ? data.group_icon : userprofileIcon} />
+                                    <img className='h-10 w-10 rounded-full' src={data.group_icon ? data.group_icon : egoldLogoIcon} />
                                 </div>
                                 <div className='flex-1 min-w-0'>
                                     <a href="#" className='focus:outline-none'>

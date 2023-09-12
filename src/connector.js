@@ -81,17 +81,18 @@ export default function Connector() {
 
   const handleConnect = async() => {
     
-    localStorage.setItem("authenticated", false);
+    try{
+      localStorage.setItem("authenticated", false);
     await window.ethereum.enable();
     const message = makeid(10) + "__" +Date.now();
     const web3 = new Web3(window.ethereum);
-    console.log("web3 console: "+web3);
+    console.log("web3 console: ",web3);
     const signature = await web3.eth.personal.sign(
         message,
         window.ethereum.selectedAddress,
         ""
     );
-    await metaMask.activate('56');
+    //await MetaMask.activate();
     const accounts2 = await web3.eth.getAccounts()
     console.log("account: "+ accounts2);
     if(accounts2) {
@@ -127,6 +128,9 @@ export default function Connector() {
     }
     
     console.log(`Signed Message: ${signature}`);
+    } catch(err) {
+      console.log(err);
+    }
   };
 
   const handleDisconnect = () => {
