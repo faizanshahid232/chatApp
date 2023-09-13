@@ -59,6 +59,8 @@
 }
 .hover_on_chat:hover .hide_reply_button {
   display: block;
+  opacity: 0.8;
+  background-color: white;
 }
 .btn-outline-color-secondary {
   align-items: center;

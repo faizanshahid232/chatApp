@@ -281,7 +281,9 @@ export default function Chat() {
             <>
             {/* check if participants or not */}
             {
-                !ChatId.is_participant && !ChatId.group_is_private && !ChatId.openProfile && (
+                !ChatId.is_participant && 
+                !ChatId.group_is_private && 
+                !ChatId.openProfile && (
                     <JoinPublicGroup /> 
                 )
             }
@@ -291,17 +293,18 @@ export default function Chat() {
             {/* End Leave Group */}
 
             {/* Chat Header */}
-            {(ChatId.group_is_private && !ChatId.openProfile) || 
-            (ChatId.is_participant && !ChatId.openProfile)
+            {(ChatId.is_participant && !ChatId.openProfile) ||
+            (ChatId.group_is_private && !ChatId.openProfile) 
             ? (
                 <ChatHeader setGroupInfo={setGroupInfo} ChatId={ChatId} backPage={backPage} setIsOpen={setIsOpen} isOpen={isOpen} toggleMenu={toggleMenu} setShowModal={setShowModal} />
             ): ''}
             {/* End Chat Header */}
             
             {/* Group Info */}
-            {ChatId.is_participant && groupInfo && (
+            {(ChatId.is_participant && groupInfo) ||
+            (ChatId.group_is_private && groupInfo) ? (
                 <GroupInfo showModal={showModal} setGroupInfo={setGroupInfo} setShowModal={setShowModal} />
-            )}
+            ): ''}
             {/* End Group Info */}
 
             {/* messages start here */}
@@ -321,7 +324,7 @@ export default function Chat() {
                 !closeMediaPopup &&
                 !groupInfo &&
                 (!ChatId.openProfile && ChatId.is_participant) ||
-                (!ChatId.openProfile && ChatId.group_is_private) ?
+                (!groupInfo && !ChatId.openProfile && ChatId.group_is_private) ?
                     isLoading ? (
                     <div className=""><Loadingspinner  /> </div>
             ) : (

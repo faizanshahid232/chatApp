@@ -120,8 +120,10 @@ export default function GeneralGroup({openTab}) {
     useEffect(() => {
         setLoading(true);
         const loadData = async() => {
+            setGroupList([]);
             if(openTab === 1) {
                 //console.log("Tab 1: "+ openTab);
+                setSelectedItem(null);
                 await getGeneralGroupList(headers).then((response) => {
                     //console.log("Tab 1 Data: "+ JSON.stringify(response.data.data));
                     setGroupList(response.data.data);
@@ -129,12 +131,14 @@ export default function GeneralGroup({openTab}) {
                 });
             } else if(openTab === 2) {
                 //console.log("Tab 2: "+ openTab);
+                setSelectedItem(null);
                 await getCountryGroupList(headers).then((response) => {
                     setGroupList(response.data.data);
                     setLoading(false);
                 });
             } else if (openTab === 3) {
                 //console.log("Tab 3: "+ openTab);
+                setSelectedItem(null);
                 await getPrivateGroupList(headers).then((response) => {
                     setGroupList(response.data.data);
                     setLoading(false);

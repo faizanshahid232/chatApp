@@ -4,7 +4,8 @@ import "../../App.css";
 
 export default function ReplyDropDownOption({isCurrentUser, toggleReply, isReplyOpen, setIsReplyOpen, chat, setReplyBox, handleReply }) {
     return(
-        <div className={`hide_reply_button absolute top-0 right-0 px-[5px] m-[0px] float-${isCurrentUser ? 'right' : 'left'}`}>
+        <div className="group">
+            <div className={`hide_reply_button absolute top-0 right-0 px-[5px] m-[0px] float-${isCurrentUser ? 'right' : 'left'}`}>
             <img onClick={toggleReply} className='cursor-pointer w-[18px] mt-[-3px]' src={downArrowIcon} />
             {isReplyOpen && (
                 <div className="absolute z-10 ml-[-50px] w-[80px] py-1 bg-white border rounded-lg shadow-lg">
@@ -16,6 +17,7 @@ export default function ReplyDropDownOption({isCurrentUser, toggleReply, isReply
                 </a>
             </div>
             )}
+        </div>
         </div>
     );
 }
