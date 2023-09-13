@@ -12,6 +12,7 @@ export default function GeneralGroup({openTab}) {
     const [loading, setLoading] = useState(true);
     const [afterJoinGroup, setAfterJoinGroup] = useState('');
     const [searchAllGroup, setSearchAllGroup] = useState([]);
+    const [selectedItem, setSelectedItem] = useState(null);
 
     var headers = {
         headers: {
@@ -69,7 +70,7 @@ export default function GeneralGroup({openTab}) {
         //console.log("Check Remove part: ",ChatId.removeParticipants)
     }, [ChatId.removeParticipants]);
 
-    useEffect(() => {
+    /*useEffect(() => {
         setLoading(true);
         const loadData = async() => {
             await getGeneralGroupList(headers).then((response) => {
@@ -86,11 +87,12 @@ export default function GeneralGroup({openTab}) {
 
         loadData();
 
-    },[]);
+    },[]);*/
 
     const openChat = async (data) => {
         try{
             //console.log("join  open chat data: ", data);
+            setSelectedItem(data);
             if(!ChatId.joinGroup) {
                 useStore.getState().resetStore();
             }
@@ -168,7 +170,9 @@ export default function GeneralGroup({openTab}) {
                     filteredResults.map((data, index) => {
                         console.log("checking data",data);
                         return(
-                            <div key={index} onClick={() => openChat(data)} className='relative rounded-lg px-2 py-2 flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 mb-3 hover:bg-gray-200'>
+                            <div key={index} onClick={() => openChat(data)} className={`relative rounded-lg px-2 py-2 flex items-center space-x-3 hover:border-gray-400 mb-3 ${
+                                selectedItem === data ? 'bg-gray-200' : ''
+                              }`}>
                                 <div className='flex-shrink-0'>
                                     <img className='h-10 w-10 rounded-full' src={data.group_icon ? data.group_icon : egoldLogoIcon} />
                                 </div>

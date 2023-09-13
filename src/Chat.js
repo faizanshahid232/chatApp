@@ -318,15 +318,13 @@ export default function Chat() {
 
             {/* Open Chat */}
             {
-                isLoading && (
-                    <div className="mb-[400px]"><Loadingspinner  /> </div>
-            )}
-            
-            {
                 !closeMediaPopup &&
                 !groupInfo &&
                 (!ChatId.openProfile && ChatId.is_participant) ||
-                (!ChatId.openProfile && ChatId.group_is_private) ? (
+                (!ChatId.openProfile && ChatId.group_is_private) ?
+                    isLoading ? (
+                    <div className=""><Loadingspinner  /> </div>
+            ) : (
                 <>
                 <div id='messages' ref={bottomRef}  className='bg-white flex flex-col flex-grow space-y-4 p-3 overflow-y-auto h-[500px] md:h-auto lg:h-auto xl:h-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch'>
             
@@ -391,8 +389,8 @@ export default function Chat() {
                 </div>
 
                 </>
-            ) : ''
-            }
+            ) : ''}
+            
             {/* End Open Chat */}
         
         </>
