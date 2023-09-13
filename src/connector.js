@@ -28,8 +28,7 @@ function Connect({ isActivating, error, isActive, onConnect, onDisconnect }) {
         <button onClick={onDisconnect}>Disconnect</button>
       ) : (
         <button
-          onClick={isActivating ? undefined : onConnect}
-          disabled={isActivating}
+          onClick={onConnect}
         >
           Login with web3
         </button>

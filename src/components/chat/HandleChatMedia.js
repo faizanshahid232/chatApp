@@ -113,7 +113,7 @@ export default function HandleChatMedia(props) {
                         </span>
                         <input 
                             placeholder='Start typing...' 
-                            className='w-full pl-6 m-0 bg-gray-100 focus:placeholder-gray-400 mx-5 text-gray-600 placeholder-gray-300 rounded-lg py-3 border-gray-200' 
+                            className='w-full pl-6 bg-gray-100 focus:placeholder-gray-400 mx-5 text-gray-600 placeholder-gray-300 rounded-lg py-3 border-gray-200 m-0' 
                             onChange={event => setMessage(event.target.value)}
                             value={message} 
                         />
