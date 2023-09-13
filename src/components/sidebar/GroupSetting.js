@@ -144,7 +144,7 @@ export default function GroupSetting() {
                 {ChatId.groupName}
               </span>
               <p className="text-sm text-gray-600">
-                Admin: {ChatId.owner} - {ChatId.participants?.length} Members
+                Admin: {localStorage.getItem("talkId")} - {ChatId.participants?.length} Members
               </p>
             </div>
           </div>
@@ -181,9 +181,8 @@ export default function GroupSetting() {
             </div>
           </div>
           <div className="mb-4">
-            <div className="flex justify-between">
-              <span className="text-sm font-semibold">Participants List</span>
-              <div>
+            <p className="text-lg font-semibold">Participants List:</p>
+              <div className="h-40 overflow-y-auto border rounded-lg">
                 {ChatId.groupParticipantsList && ChatId.groupParticipantsList.length > 0 
                   ? ChatId.groupParticipantsList.map((participants, index) => {
                       const userId = Object.keys(participants)[0];
@@ -192,9 +191,9 @@ export default function GroupSetting() {
                       return (
                         <div
                           key={index}
-                          className="flex items-center space-x-2 cursor-pointer"
+                          className="border-b p-2"
                         >
-                          <span>{value}</span>
+                          <span className="font-bold mr-2">{value}</span>
                           <button
                             onClick={() => deleteParticipants(value)}
                             className="text-red-500 hover:text-red-700"
@@ -206,7 +205,6 @@ export default function GroupSetting() {
                     })
                   : ''}
               </div>
-            </div>
           </div>
           <div className="mb-4">
             <div className="flex justify-between">

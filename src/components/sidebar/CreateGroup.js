@@ -69,7 +69,7 @@ export default function Creategroup() {
               {/*body*/}
               <div className="relative flex-auto">
               <div className="w-full flex flex-col items-center justify-cente">
-                <form className="rounded-br rounded-bl pb-8">
+                <form className="rounded-br rounded-bl pb-8" onSubmit={(e)=>handleSubmit(e)}>
                     <div className="mb-4 px-8 mt-10">
                         <div className="relative">
                             <input 
@@ -99,7 +99,7 @@ export default function Creategroup() {
                     </div>
                     </div>
                     <div className="pt-[20px] flex justify-center">
-                      <button className="btn-color-primary w-[200px]" onClick={(e)=>handleSubmit(e)}>Create Group</button>
+                      <button className="btn-color-primary w-[200px]" type="submit">Create Group</button>
                     </div>
                 </form>
                   {message ? 

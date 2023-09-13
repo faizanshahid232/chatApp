@@ -130,7 +130,7 @@ export default function Chat() {
         if(!closeMediaPopup) {
             if (message && message.length > 0) {
                 console.log("scroll");
-                //bottomRef.current.scrollTop = bottomRef.current.scrollHeight;
+                bottomRef.current.scrollTop = bottomRef.current.scrollHeight;
             }
         }
     }, [message]);
@@ -311,7 +311,7 @@ export default function Chat() {
                 
             {/* Chat Media Upload */}
             {media && closeMediaPopup && (
-                <HandleChatMedia media={media} setCloseMediaPopup={setCloseMediaPopup} RenderMedia={RenderMedia} msgChatId={msgChatId} />
+                <HandleChatMedia bottomRef={bottomRef} media={media} setCloseMediaPopup={setCloseMediaPopup} RenderMedia={RenderMedia} msgChatId={msgChatId} />
             )}
             {/* End Chat Media Upload */}
             

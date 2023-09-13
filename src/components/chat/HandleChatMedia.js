@@ -35,7 +35,8 @@ export default function HandleChatMedia(props) {
         setPickerVisible(false);
     };
 
-    const sendMessage = () => {
+    const sendMessage = (e) => {
+        e.preventDefault();
         setIsLoading(true);
         console.log("chat id pp: "+props.msgChatId);
         if(props.msgChatId) {
@@ -85,36 +86,41 @@ export default function HandleChatMedia(props) {
                         <img src={props.RenderMedia} className="h-[180px] shadow-lg" />
                     )}
                 </div>
-                <div className='relative flex mb-4 w-full'>
-                <span className='absolute inset-y-0 flex items-center'>
-                    <button 
-                        onClick={() => setPickerVisible(!isPickerVisible)}
-                        className='inline-flex ml-4 items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300'>
-                        <img src={smileyIcon} className='w-[16px] h-[16px]' />
-                    </button>
-                    {isPickerVisible && (
-                    <div className="mt-2 d-block">
-                        <Picker
-                            data={data}
-                            previewPosition="none"
-                            onEmojiSelect={handleEmojiSelect}
-                            emojiSize={24}
-                        />
-                    </div>
-                    )}
-                </span>
-                    <span className='absolute inset-y-0 flex right-0 items-center'>
-                        <button className='inline-flex items-center mx-5 justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300'>
-                        <img src={sendIcon} onClick={() => sendMessage()} className='w-[16px] h-[16px]' />
+                    <div className='relative flex mb-4 w-full'>
+                    <span className='inset-y-0 flex items-center'>
+                        <button 
+                            onClick={() => setPickerVisible(!isPickerVisible)}
+                            className='inline-flex ml-4 items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300'>
+                            <img src={smileyIcon} className='w-[16px] h-[16px]' />
                         </button>
+                        {isPickerVisible && (
+                        <div className="mt-2 d-block">
+                            <Picker
+                                data={data}
+                                previewPosition="none"
+                                onEmojiSelect={handleEmojiSelect}
+                                emojiSize={24}
+                            />
+                        </div>
+                        )}
                     </span>
-                    <input 
-                        placeholder='Start typing...' 
-                        className='w-full pl-12  bg-gray-100 focus:placeholder-gray-400 mx-5 text-gray-600 placeholder-gray-300 rounded-lg py-3 border-gray-200' 
-                        onChange={event => setMessage(event.target.value)}
-                        value={message} 
-                    />
-                </div>
+                    <form onSubmit={sendMessage} className="w-[80%]">
+                        <div>
+                        <span className='absolute inset-y-0 flex right-0 items-center'>
+                            <button type="submit" className='inline-flex items-center mx-5 justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300'>
+                            <img src={sendIcon} className='w-[16px] h-[16px]' />
+                            </button>
+                        </span>
+                        <input 
+                            placeholder='Start typing...' 
+                            className='w-full pl-6 m-0 bg-gray-100 focus:placeholder-gray-400 mx-5 text-gray-600 placeholder-gray-300 rounded-lg py-3 border-gray-200' 
+                            onChange={event => setMessage(event.target.value)}
+                            value={message} 
+                        />
+                        </div>
+                    </form>
+                    </div>
+                
                 </div>
                 </div>
             </div>
