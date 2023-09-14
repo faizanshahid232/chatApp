@@ -46,8 +46,8 @@ export default function MessageInput({sendMessage, setMessage, message, handleMe
                     )}
                 </span>
                 <span className=''>
-                    <label className="custom-file-upload cursor-pointer inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300">
-                        <img src={plusIcon} onClick={() => setIsOpen(!isOpen)} className="w-[16px]" />
+                    <label onClick={() => setIsOpen(!isOpen)} className="custom-file-upload cursor-pointer inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300">
+                        <img src={plusIcon} className="w-[16px]" />
                     </label>
                     {isOpen && (
                     <div className="absolute z-10 mt-[-110px] ml-[-50px] w-[150px] py-2 bg-white border rounded-lg shadow-lg">

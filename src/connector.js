@@ -91,7 +91,7 @@ export default function Connector() {
         window.ethereum.selectedAddress,
         ""
     );
-    //await MetaMask.activate();
+    //await metaMask.activate();
     const accounts2 = await web3.eth.getAccounts()
     console.log("account: "+ accounts2);
     if(accounts2) {

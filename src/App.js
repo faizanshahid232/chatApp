@@ -87,7 +87,7 @@ function App() {
 
               
               {/* Middle content start */}
-              <div className={`justify-start ${ChatId.chatId ? 'flex-1 p:2 sm:pb6 bg-white rounded-[10px] h-screen md:flex md:flex-col lg:flex lg:flex-col xl:flex xl:flex-col' : 'hidden'}`}>
+              <div className={`justify-start ${ChatId.chatId ? 'flex-1 p:2 sm:pb6 bg-white rounded-[10px] h-[550px] md:flex md:flex-col lg:flex lg:flex-col xl:flex xl:flex-col' : 'hidden'}`}>
                 <Chat />
               </div>
               

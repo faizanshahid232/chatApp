@@ -97,6 +97,7 @@ export default function Chat() {
 
     useEffect(() => {
         setIsLoading(true);
+        setCountScrollBar(1);
         try{
             if(ChatId.chatId) {
                 setChats([]);
@@ -130,7 +131,7 @@ export default function Chat() {
         if(!closeMediaPopup) {
             if (message && message.length > 0) {
                 console.log("scroll");
-                bottomRef.current.scrollTop = bottomRef.current.scrollHeight;
+                //bottomRef.current.scrollTop = bottomRef.current.scrollHeight;
             }
         }
     }, [message]);
