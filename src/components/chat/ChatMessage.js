@@ -67,6 +67,7 @@ export default function ChatMessage(props) {
         }
     },[props.countScrollBar]);
     const isCurrentUser = senderId === localStorage.getItem("talkId");
+    console.log("senderid:: ", senderId);
     /*const profilePic = localStorage.getItem('profile_pic');
     if(isCurrentUser && profilePic !== null && profilePic !== 'null') {
         profilePic = userpr;
