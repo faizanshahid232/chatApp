@@ -78,7 +78,7 @@ export default function HandleChatMedia(props) {
                     </button>
                 </div>
                 {/*body*/}
-                <div className="flex flex-col items-center mt-[100px]">
+                <div className="flex flex-col items-center mt-[75px]">
                 <div className="mb-[100px]">
                     {isLoading ? (
                     <div>Loading...</div>

@@ -137,15 +137,9 @@ export default function Userprofile({ isProfileOpen, setIsProfileOpen }) {
                                     <p className='text-sm font-medium text-black'>
                                     {data.name}
                                     </p>
-                                    <div className='text-gray-400 text-xs'>
-                                    12:35 AM
-                                    </div>
                                 </div>
                                 <div className='flex items-center justify-between'>
                                     <p className='text-sm text-gray-400 truncate'>{data.description}</p>
-                                    <div className='text-white text-xs bg-red-400 rounded-full px-1 py-0'>
-                                    2
-                                    </div>
                                 </div>
                                 </a>
                             </div>
@@ -165,7 +159,7 @@ export default function Userprofile({ isProfileOpen, setIsProfileOpen }) {
 
     return(
         <>
-        <div className='border-b border-white pr-2 xl:border-b-0 xl:flex-shrink-0 xl:w-68 xl:border-r xl:border-gray-200 bg-gray-50'>
+        <div className={`border-b border-white pr-2 xl:border-b-0 xl:flex-shrink-0 xl:w-68 xl:border-r xl:border-gray-200 bg-gray-50 ${ChatId.groupSettingOpen ? 'hidden md:block xl:block lg:block' : ''}`}>
             <div className="h-[600px] md:h-full lg:h-full xl:h-full relative bg-white">
                 <div className='h-full pl-2 md:pl-4 sm:pl-6 lg:pl-8 xl:pl-0'>
                     <div className='bg-[#4F6B75] h-[48px] rounded-tl-lg rounded-tr-lg flex justify-between'>
