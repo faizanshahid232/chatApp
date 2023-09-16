@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { addProfilePic, generateInviteLink, getOwnGroup, getProfilePic } from "../../api/apiServices";
+import { addProfilePic, generateInviteLink, getOwnGroup, getProfilePic, updateTalkId } from "../../api/apiServices";
 import userprofileIcon from '../../images/userprofile.png';
 import useStore from "../../Store";
 import Loadingspinner from "../../Loadingspinner";
@@ -10,6 +10,8 @@ export default function Userprofile({ isProfileOpen, setIsProfileOpen }) {
 
     const [isOpen, setIsOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
+    const [editable, setEditable] = useState(false);
+    const [talkId, setTalkId] = useState(localStorage.getItem('talkId'));
     //
     /*const addChatId = useStore((state) => state.addChatId);
     const addParticipants = useStore((state) => state.addParticipants);
@@ -30,7 +32,33 @@ export default function Userprofile({ isProfileOpen, setIsProfileOpen }) {
           'Accept': 'application/json',
           'Authorization' : 'Bearer ' + localStorage.getItem('accessToken'),
         },
-      };
+    };
+
+    var headers2 = {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization' : 'Bearer ' + localStorage.getItem('accessToken'),
+        },
+    };
+
+    const handleEditClick = () => {
+        setEditable(true);
+    };
+    
+    const handleSaveClick = () => {
+        setEditable(false);
+        var postData2 = {
+            talkid: talkId,
+        };
+        updateTalkId(postData2, headers2).then((json) => {
+            console.log("updated: ",json);
+        });
+        localStorage.setItem('talkId', talkId);
+    };
+    
+    const handleInputChange = (e) => {
+        setTalkId(e.target.value);
+    };
 
     const openChat = (data) => {
         console.log("Onclick Data Response: "+ JSON.stringify(data));
@@ -123,7 +151,8 @@ export default function Userprofile({ isProfileOpen, setIsProfileOpen }) {
         }
         else if(ownGroupList.length > 0) {
             return(
-                ownGroupList.map((data, index) => {
+                <div className="overflow-y-auto pt-4 max-h-[200px]">
+                {ownGroupList.map((data, index) => {
                     return(
                         data.participants.length > 0 ?
                         data.private ? 
@@ -147,7 +176,8 @@ export default function Userprofile({ isProfileOpen, setIsProfileOpen }) {
                         : ''
                         : ''
                     )
-                })
+                })}
+                </div>
             )
         } else {
             return <div className="text-center">No Group Found</div>
@@ -163,13 +193,13 @@ export default function Userprofile({ isProfileOpen, setIsProfileOpen }) {
             <div className="h-[650px] md:h-full lg:h-full xl:h-full relative bg-white">
                 <div className='h-full pl-2 md:pl-4 sm:pl-6 lg:pl-8 xl:pl-0'>
                     <div className='bg-[#4F6B75] h-[48px] rounded-tl-lg rounded-tr-lg flex justify-between'>
-                        <a onClick={() => setIsProfileOpen(!isProfileOpen)} className="cursor-pointer ml-2 mt-[6px] col-2 textaligncenter flex items-center text-white font-medium"><img className="w-[15px] mr-3" src={arrow} />Profile</a>
+                        <a onClick={() => setIsProfileOpen(false)} className="cursor-pointer ml-2 mt-[6px] col-2 textaligncenter flex items-center text-white font-medium"><img className="w-[15px] mr-3" src={arrow} />Profile</a>
                     </div>
             <div className='relative'>
                 <div className="bg-white">
                     <div className="h-full">
                         <div className='h-full relative'>
-                        <div className='m-auto text-center mb-10 bg-[#f0f2f5] p-[35px]'>
+                        <div className='m-auto text-center mb-0 bg-[#f0f2f5] p-[35px]'>
                         {selectedImage ? 
                         (
                             <img onClick={toggleMenu} className='cursor-pointer w-36 h-36 rounded-full m-auto relative px-2 py-2 flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 mb-3 hover:bg-gray-200' src={URL.createObjectURL(selectedImage)} alt="Selected" />
@@ -193,7 +223,30 @@ export default function Userprofile({ isProfileOpen, setIsProfileOpen }) {
                                 </a>
                                 </div>
                             )}
-                            <h2 className='m-auto text-2xl mt-2'>{localStorage.getItem('talkId')}</h2>
+                            <h2 className='m-auto text-2xl mt-2'>{talkId}</h2>
+                            {editable ? (
+                                <div className="mt-2">
+                                <input
+                                    type="text"
+                                    value={talkId}
+                                    onChange={handleInputChange}
+                                    className="border rounded px-2 py-1"
+                                />
+                                <button
+                                    onClick={handleSaveClick}
+                                    className="ml-2 px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+                                >
+                                    Save
+                                </button>
+                                </div>
+                            ) : (
+                                <button
+                                onClick={handleEditClick}
+                                className="mt-2 px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600"
+                                >
+                                Edit
+                                </button>
+                            )}
                         </div>
                         </div>        
                     </div>

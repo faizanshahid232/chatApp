@@ -180,3 +180,11 @@ export const getTalkId = (talkId, headers) => {
         headers
     );
 };
+
+export const updateTalkId = (talkId, headers) => {
+    return ApiHelper.putwithheaders(
+        `${process.env.REACT_APP_APIEND}/updatetalkid`,
+        talkId,
+        headers
+    );
+};

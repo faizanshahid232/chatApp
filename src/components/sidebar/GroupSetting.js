@@ -118,7 +118,7 @@ export default function GroupSetting() {
     return(
         <>
   {ChatId.groupSettingOpen && (
-    <div className="container mx-auto mt-6 p-6">
+    <div className="container mx-auto mt-0 p-6">
       <div className="bg-white rounded-lg border border-gray-300">
         <div className="px-4 py-3 border-b border-gray-300">
           <div className="flex justify-between items-center">
@@ -127,7 +127,7 @@ export default function GroupSetting() {
           </div>
         </div>
         <div className="p-4">
-          <div className="flex items-center mb-4">
+          <div className="flex items-center mb-2">
             {selectedImage ? (
               <img
                 className="w-12 h-12 rounded-full mr-4"
@@ -150,13 +150,13 @@ export default function GroupSetting() {
               </p>
             </div>
           </div>
-          <div className="mb-4">
+          <div className="mb-2">
             <div className="flex justify-between flex-col">
               <span className="text-sm font-semibold">Group Description</span>
               <span>{ChatId.groupDescription}</span>
             </div>
           </div>
-          <div className="mb-4">
+          <div className="mb-2">
             <div className="flex justify-between">
               <span className="text-sm font-semibold">Change Group Image</span>
               <div>
@@ -176,15 +176,15 @@ export default function GroupSetting() {
               </div>
             </div>
           </div>
-          <div className="mb-4">
+          <div className="mb-2">
             <div className="flex justify-between">
               <span className="text-sm font-semibold">Invite Link</span>
               <span>{ChatId.inviteLink}</span>
             </div>
           </div>
-          <div className="mb-4">
+          <div className="mb-2">
             <p className="text-lg font-semibold">Participants List:</p>
-              <div className="h-40 overflow-y-auto border rounded-lg">
+              <div className="h-30 overflow-y-auto border rounded-lg">
                 {ChatId.groupParticipantsList && ChatId.groupParticipantsList.length > 0 
                   ? ChatId.groupParticipantsList.map((participants, index) => {
                       const userId = Object.keys(participants)[0];
@@ -208,7 +208,7 @@ export default function GroupSetting() {
                   : ''}
               </div>
           </div>
-          <div className="mb-4">
+          <div className="mb-0">
             <div className="flex justify-between">
               <span className="text-sm font-semibold">Add Participants</span>
               <div className="flex items-center space-x-2">
