@@ -381,7 +381,7 @@ export default function Chat() {
                     </div>
 
                 {/* messages end here */}
-                <div className='border-t-2 border-gray-200 pr-4 py-4 bg-gray-100'>
+                <div className='border-t-2 rounded-bl-[10px] rounded-br-[10px] border-gray-200 pr-4 py-4 bg-gray-100'>
                 
                 {/** reply Box */}
                 <ReplyBox  replyBox={replyBox} setReplyBox={setReplyBox} replyuser={replyuser} replyMessage={replyMessage} replyImage={replyImage} />
