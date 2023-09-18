@@ -29,13 +29,15 @@ export default function GroupSetting() {
       };
 
       getOwnGroup(headers2).then((response) => {
-          response.data.data.map((Participants) => {
+        if(response.data.data) {
+            response.data.data.map((Participants) => {
               if(ChatId.chatId === Participants.id) {
                 useStore.getState().addChatId(Participants.id);
                 //useStore.getState().addParticipants2(Participants.participants);
                 useStore.getState().GroupParticipantsList(Participants.participants);
               }
           });
+        }
       });
   },[addRemovePartiicpants]);
 

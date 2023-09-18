@@ -12,6 +12,16 @@ import Login from './Login';
 import ProtectedRoute from "./routes/protectedRoutes";
 import MainPage from './MainPage';
 import Register from './Register';
+import { hooks as metaMaskHooks, metaMask } from "./connectors/metaMask";
+import {
+  coinbaseWallet,
+  hooks as coinbaseWalletHooks,
+} from "./connectors/coinbaseWallet";
+import {
+  hooks as walletConnectV2Hooks,
+  walletConnectV2,
+} from "./connectors/walletConnect";
+import { Web3ReactProvider } from "@web3-react/core";
 
 const router = createBrowserRouter([
   {
@@ -46,13 +56,20 @@ const router = createBrowserRouter([
   },
 ]);
 
+const connectors = [
+  [metaMask, metaMaskHooks],
+  [walletConnectV2, walletConnectV2Hooks],
+  [coinbaseWallet, coinbaseWalletHooks],
+];
 
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
 
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Web3ReactProvider connectors={connectors}>
+      <RouterProvider router={router} />
+    </Web3ReactProvider>
   </React.StrictMode>
 );
 

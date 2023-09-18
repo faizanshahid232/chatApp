@@ -149,14 +149,14 @@ export default function Userprofile({ isProfileOpen, setIsProfileOpen }) {
         if(loading) {
             return (<Loadingspinner/>)
         }
-        else if(ownGroupList.length > 0) {
+        else if(ownGroupList && ownGroupList.length > 0) {
             return(
                 <div className="overflow-y-auto pt-4 max-h-[200px]">
                 {ownGroupList.map((data, index) => {
                     return(
                         data.participants.length > 0 ?
                         data.private ? 
-                        <div key={index} onClick={() => openChat(data)} className='relative rounded-lg px-2 py-2 flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 mb-3 hover:bg-gray-200'>
+                        <div key={index} onClick={() => openChat(data)} className='relative mx-[5px] rounded-lg px-2 py-2 flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 mb-3 hover:bg-gray-200'>
                             <div className='flex-shrink-0'>
                                 <img className='h-10 w-10 rounded-full' src={data.group_icon ? data.group_icon : egoldLogoIcon} />
                             </div>

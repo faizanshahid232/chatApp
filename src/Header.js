@@ -1,21 +1,31 @@
 import React from "react";
 import logo from './images/egold_talk.png';
-import { initializeConnector, Web3ReactHooks } from '@web3-react/core';
-import { MetaMask } from '@web3-react/metamask';
 import { useNavigate } from "react-router-dom";
+import { metaMask } from "../src/connectors/metaMask";
 import useStore from './Store';
+import { useWeb3React } from "@web3-react/core";
 
 export default function Header() {
-    
+    const { connector } = useWeb3React();
     const navigate = useNavigate();
 
     const logOut = () => {
-        /*if(localStorage.getItem('user_type') === 'web3') {
+        if(localStorage.getItem('user_type') === 'web3') {
             metaMask.resetState();
-        }*/
-        localStorage.clear();
-        useStore.getState().resetStore();
-        navigate("/mainpage");
+            if (connector?.deactivate) {
+                connector.deactivate();
+            } else {
+                connector.resetState();
+            }
+            localStorage.clear();
+            useStore.getState().resetStore();
+            navigate("/mainpage");
+        } else {
+            localStorage.clear();
+            useStore.getState().resetStore();
+            navigate("/mainpage");
+        }
+        
     }
 
     return(

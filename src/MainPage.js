@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "./Header";
 import Connector from "./connector";
+import WalletButton from "./WalletButton";
+import metamaskIcon from './images/MetaMask_Fox.svg';
+import trustwalletIcon from './images/true_wallet.svg';
+import tokenpocketIcon from './images/TokenPocket.svg';
 
 export default function MainPage() {
+    const [popupModel, setPopupModel] = useState(false);
+
     return(
     <div className="bg-[#f5f5f5] relative h-screen">
         <div className="container mx-auto pt-5" style={{ maxWidth: '1530px' }}>
@@ -22,7 +28,19 @@ export default function MainPage() {
             <div className="mt-[20px] grid gap-4 grid-cols-1 md:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3 2xl:grid-cols-3">
                 <div></div>
                 <div>
-                    <Connector />
+                <button onClick={() => setPopupModel(!popupModel)}>
+                    <span className="gap-8 cursor-pointer btn-get-secondry web3-btn callogbtn">
+                        <div class="flex">
+                            <span><img src={metamaskIcon} /></span>
+                            <span><img src={trustwalletIcon} /></span>
+                            <span><img src={tokenpocketIcon} /></span>
+                        </div>
+                        Login with web3
+                        <WalletButton setPopupModel={setPopupModel} popupModel={popupModel} />
+                        <span>
+                        </span>
+                    </span>
+                </button>
                 </div>
                 <div></div>
             </div>
