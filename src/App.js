@@ -52,7 +52,7 @@ function App() {
 
               
               {/* Middle content start */}
-              <div className={`justify-start top-0 ${ChatId.chatId ? 'flex-1 p:2 sm:pb6 bg-white rounded-[10px] h-auto md:h-[550px] xl:h-[550px] lg:h-[550px] md:flex md:flex-col lg:flex lg:flex-col xl:flex xl:flex-col rounded-bl-[10px] rounded-br-[10px]' : 'hidden'}`}>
+              <div className={`justify-end top-0 ${ChatId.chatId ? 'flex-1 p:2 sm:pb6 bg-white rounded-[10px] h-auto md:h-[550px] xl:h-[550px] lg:h-[550px] md:flex md:flex-col lg:flex lg:flex-col xl:flex xl:flex-col rounded-bl-[10px] rounded-br-[10px]' : 'hidden'}`}>
                 <Chat />
               </div>
               
