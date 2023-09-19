@@ -125,7 +125,7 @@ export default function GroupSetting() {
         <div className="px-4 py-3 border-b border-gray-300">
           <div className="flex justify-between items-center">
             <h2 className="text-lg font-semibold">Group Info</h2>
-            <img src={closeIcon} onClick={() => useStore.getState().GroupSettingOpen(false)} className={`w-6 float-right ${ChatId.groupSettingOpen ? 'block md:hidden xl:hidden lg:hidden' : ''}`} />
+            <img src={closeIcon} onClick={() => {useStore.getState().addChatId(null); useStore.getState().GroupSettingOpen(false);}} className={`w-6 float-right ${ChatId.groupSettingOpen ? 'block md:hidden xl:hidden lg:hidden' : ''}`} />
           </div>
         </div>
         <div className="p-4">
@@ -181,7 +181,7 @@ export default function GroupSetting() {
           <div className="mb-2">
             <div className="flex justify-between">
               <span className="text-sm font-semibold">Invite Link</span>
-              <span>{ChatId.inviteLink}</span>
+              <span className="overflow-scroll">{ChatId.inviteLink}</span>
             </div>
           </div>
           <div className="mb-2">
