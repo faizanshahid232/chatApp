@@ -62,6 +62,13 @@
   opacity: 0.8;
   background-color: white;
 }
+@media only screen and (max-width: 600px) {
+  .hover_on_chat .hide_reply_button {
+    display: block;
+    opacity: 0.8;
+    background-color: white;
+  }
+}
 .btn-outline-color-secondary {
   align-items: center;
   background-color: #fff;
