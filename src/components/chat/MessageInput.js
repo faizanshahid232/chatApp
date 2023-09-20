@@ -25,11 +25,34 @@ export default function MessageInput({sendMessage, setMessage, message, handleMe
         //setIsOpen(false);
     };
 
+    const handleInputChange = (event) => {
+        setMessage(event.target.value);
+        if (isPickerVisible) {
+            setPickerVisible(!isPickerVisible); // Close the emoji picker when typing starts
+        }
+        if(isOpen) {
+            setIsOpen(false);
+        }
+    };
+
+    const handleUploadPhoto = () => {
+        setIsOpen(!isOpen);
+        if (isPickerVisible) {
+            setPickerVisible(!isPickerVisible); // Close the emoji picker when typing starts
+        }
+    }
+
     return (
         <div className="flex">
             <div className="flex">
             <span className='relative'>
-                    <div className="absolute top-[-280px] right-0 z-10">
+                    <button
+                        onClick={() => {setIsOpen(false);setPickerVisible(!isPickerVisible)}}
+                        className='inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 z-20' // Add z-20 to keep the button on top
+                    >
+                        <img src={smileyIcon} className='w-[16px] h-[16px]' />
+                    </button>
+                    <div className="absolute left-0 top-[-425px] right-0 z-10">
                         {isPickerVisible && (
                             <Picker
                                 data={data}
@@ -39,14 +62,9 @@ export default function MessageInput({sendMessage, setMessage, message, handleMe
                             />
                         )}
                     </div>
-                    <button
-                        onClick={() => setPickerVisible(!isPickerVisible)}
-                        className='inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300'>
-                        <img src={smileyIcon} className='w-[16px] h-[16px]' />
-                    </button>
                 </span>
                 <span className=''>
-                    <label onClick={() => setIsOpen(!isOpen)} className="custom-file-upload cursor-pointer inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300">
+                    <label onClick={handleUploadPhoto} className="custom-file-upload cursor-pointer inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300">
                         <img src={plusIcon} className="w-[16px]" />
                     </label>
                     {isOpen && (
@@ -82,7 +100,7 @@ export default function MessageInput({sendMessage, setMessage, message, handleMe
                 <input 
                     placeholder='Start typing...' 
                     className='w-full focus:placeholder-gray-400 text-gray-600 placeholder-gray-300 pl-2 pr-[60px] bg-white rounded-lg py-3 border-gray-200' 
-                    onChange={event => setMessage(event.target.value)}
+                    onChange={handleInputChange}
                     value={message} 
                 />
             </div>
