@@ -106,6 +106,8 @@ export default function WalletButton({popupModel, setPopupModel}) {
                 ""
             );
             await metaMask.activate(bscdets);
+            window.localStorage.setItem("isWalletConnected", true);
+            setacctADDR(account);
             console.log("signature: "+ signature);
             console.log("Account: "+ account);
 
@@ -142,8 +144,6 @@ export default function WalletButton({popupModel, setPopupModel}) {
             }
 
             //setmodalV(false);
-            window.localStorage.setItem("isWalletConnected", true);
-            setacctADDR(account);
           }
           if (wallet == "WalletConnect") {
             localStorage.setItem("wallettype", "WalletConnect");

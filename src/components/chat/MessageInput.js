@@ -35,7 +35,7 @@ export default function MessageInput({sendMessage, setMessage, message, handleMe
                         <img src={smileyIcon} className='w-[16px] h-[16px]' />
                     </button>
                     {isPickerVisible && (
-                    <div className="mt-2 d-block absolute bottom-[110px]">
+                    <div className="mt-2 d-block z-10 absolute bottom-[110px]">
                         <Picker
                             data={data}
                             previewPosition="none"
