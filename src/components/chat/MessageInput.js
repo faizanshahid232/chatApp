@@ -28,22 +28,22 @@ export default function MessageInput({sendMessage, setMessage, message, handleMe
     return (
         <div className="flex">
             <div className="flex">
-            <span className=''>
-                    <button 
+            <span className='relative'>
+                    <div className="absolute top-[-280px] right-0 z-10">
+                        {isPickerVisible && (
+                            <Picker
+                                data={data}
+                                previewPosition="none"
+                                onEmojiSelect={handleEmojiSelect}
+                                emojiSize={24}
+                            />
+                        )}
+                    </div>
+                    <button
                         onClick={() => setPickerVisible(!isPickerVisible)}
                         className='inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300'>
                         <img src={smileyIcon} className='w-[16px] h-[16px]' />
                     </button>
-                    {isPickerVisible && (
-                    <div className="mt-2 d-block z-10 absolute bottom-[110px]">
-                        <Picker
-                            data={data}
-                            previewPosition="none"
-                            onEmojiSelect={handleEmojiSelect}
-                            emojiSize={24}
-                        />
-                    </div>
-                    )}
                 </span>
                 <span className=''>
                     <label onClick={() => setIsOpen(!isOpen)} className="custom-file-upload cursor-pointer inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300">
