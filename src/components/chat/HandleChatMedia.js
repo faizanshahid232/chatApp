@@ -35,6 +35,13 @@ export default function HandleChatMedia(props) {
         setPickerVisible(false);
     };
 
+    const handleInputChange = (event) => {
+        setMessage(event.target.value);
+        if (isPickerVisible) {
+            setPickerVisible(!isPickerVisible); // Close the emoji picker when typing starts
+        }
+    };
+
     const sendMessage = (e) => {
         e.preventDefault();
         setIsLoading(true);
@@ -87,14 +94,14 @@ export default function HandleChatMedia(props) {
                     )}
                 </div>
                     <div className='relative flex mb-4 w-full'>
-                    <span className='inset-y-0 flex items-center'>
+                    <span className='relative'>
                         <button 
                             onClick={() => setPickerVisible(!isPickerVisible)}
-                            className='inline-flex ml-4 items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300'>
+                            className='inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 z-20'>
                             <img src={smileyIcon} className='w-[16px] h-[16px]' />
                         </button>
                         {isPickerVisible && (
-                        <div className="mt-2 d-block">
+                        <div className="absolute left-0 top-[-425px] right-0 z-10">
                             <Picker
                                 data={data}
                                 previewPosition="none"
@@ -114,7 +121,7 @@ export default function HandleChatMedia(props) {
                         <input 
                             placeholder='Start typing...' 
                             className='w-full pl-6 bg-gray-100 focus:placeholder-gray-400 mx-5 text-gray-600 placeholder-gray-300 rounded-lg py-3 border-gray-200 m-0' 
-                            onChange={event => setMessage(event.target.value)}
+                            onChange={handleInputChange}
                             value={message} 
                         />
                         </div>
