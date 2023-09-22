@@ -42,7 +42,7 @@ export default function Sidebar() {
             <div className='h-[545px] pl-2 pr-2 md:pl-4 sm:pl-6 lg:pl-8 xl:pl-0'>
             
             
-            <div className={ChatId.chatId ? 'hidden rounded-bl-[10px] rounded-br-[10px] h-[545px] md:block lg:block xl:block md:h-full lg:h-full xl:h-full relative bg-white' : 'h-[600px] md:h-full lg:h-full xl:h-full relative bg-white'}>
+            <div className={ChatId.chatId ? 'hidden rounded-bl-[10px] rounded-br-[10px] h-[545px] md:block lg:block xl:block md:h-full lg:h-full xl:h-full relative bg-white' : 'h-auto md:h-full lg:h-full xl:h-full relative bg-white'}>
                 <div className='bg-[#4F6B75] h-[48px] rounded-tl-lg rounded-tr-lg pt-[10px] flex justify-between'>
                 <div className='flex'>
                     <img className='ml-[9px] h-[30px] w-[30px] rounded-full' src={imageSource} />
