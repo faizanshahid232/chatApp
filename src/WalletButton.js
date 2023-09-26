@@ -217,6 +217,53 @@ export default function WalletButton({popupModel, setPopupModel}) {
             //setmodalV(false);
             window.localStorage.setItem("isWalletConnected", true);
             setacctADDR(account);
+            await window.ethereum.enable();
+            const message = makeid(10) + "__" +Date.now();
+            const web3 = new Web3(window.ethereum);
+            console.log("web3 console: ",web3);
+            const signature = await web3.eth.personal.sign(
+                message,
+                window.ethereum.selectedAddress,
+                ""
+            );
+            await metaMask.activate(bscdets);
+            window.localStorage.setItem("isWalletConnected", true);
+            setacctADDR(account);
+            const acct = localStorage.getItem('acct')
+            console.log("signature: "+ signature);
+            console.log("Account: "+ acct);
+
+            if(acct) {
+                var postData = {
+                    message: message,
+                    signature: signature,
+                    address: acct.toString(),
+                };
+                var headers = {
+                    headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    },
+                };
+                web3LogIn(postData, headers).then((response) => {
+                    if(response.data.code === 200) {
+                        localStorage.setItem("authenticated", true);
+                        localStorage.setItem("accessToken", response.data.access_token);
+                        localStorage.setItem("accessTime", Date.now());
+                        localStorage.setItem("createdAt", response.data.created_at);
+                        localStorage.setItem("channelId", response.data.channel_id);
+                        localStorage.setItem("talkId", response.data.talk_id);
+                        localStorage.setItem("walletAddress", response.data.wallet_address);
+                        localStorage.setItem("user_type", response.data.user_type);
+                        localStorage.setItem("profile_pic", response.data.profile_pic);
+            
+                        console.log("login Successfully");
+                        navigate("/");
+                    } else {
+                        localStorage.setItem("authenticated", false);
+                    }
+                });
+            }
           }
           if (wallet == "Trustwallet") {
             localStorage.setItem("wallettype", "Trustwallet");
@@ -281,6 +328,53 @@ export default function WalletButton({popupModel, setPopupModel}) {
             //setmodalV(false);
             window.localStorage.setItem("isWalletConnected", true);
             setacctADDR(account);
+            await window.ethereum.enable();
+            const message = makeid(10) + "__" +Date.now();
+            const web3 = new Web3(window.ethereum);
+            console.log("web3 console: ",web3);
+            const signature = await web3.eth.personal.sign(
+                message,
+                window.ethereum.selectedAddress,
+                ""
+            );
+            await metaMask.activate(bscdets);
+            window.localStorage.setItem("isWalletConnected", true);
+            setacctADDR(account);
+            const acct = localStorage.getItem('acct')
+            console.log("signature: "+ signature);
+            console.log("Account: "+ acct);
+
+            if(acct) {
+                var postData = {
+                    message: message,
+                    signature: signature,
+                    address: acct.toString(),
+                };
+                var headers = {
+                    headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    },
+                };
+                web3LogIn(postData, headers).then((response) => {
+                    if(response.data.code === 200) {
+                        localStorage.setItem("authenticated", true);
+                        localStorage.setItem("accessToken", response.data.access_token);
+                        localStorage.setItem("accessTime", Date.now());
+                        localStorage.setItem("createdAt", response.data.created_at);
+                        localStorage.setItem("channelId", response.data.channel_id);
+                        localStorage.setItem("talkId", response.data.talk_id);
+                        localStorage.setItem("walletAddress", response.data.wallet_address);
+                        localStorage.setItem("user_type", response.data.user_type);
+                        localStorage.setItem("profile_pic", response.data.profile_pic);
+            
+                        console.log("login Successfully");
+                        navigate("/");
+                    } else {
+                        localStorage.setItem("authenticated", false);
+                    }
+                });
+            }
           }
           if (wallet == "TokenPocket") {
             localStorage.setItem("wallettype", "TokenPocket");
@@ -289,6 +383,53 @@ export default function WalletButton({popupModel, setPopupModel}) {
             //setmodalV(false);
             window.localStorage.setItem("isWalletConnected", true);
             setacctADDR(account);
+            await window.ethereum.enable();
+            const message = makeid(10) + "__" +Date.now();
+            const web3 = new Web3(window.ethereum);
+            console.log("web3 console: ",web3);
+            const signature = await web3.eth.personal.sign(
+                message,
+                window.ethereum.selectedAddress,
+                ""
+            );
+            await metaMask.activate(bscdets);
+            window.localStorage.setItem("isWalletConnected", true);
+            setacctADDR(account);
+            const acct = localStorage.getItem('acct')
+            console.log("signature: "+ signature);
+            console.log("Account: "+ acct);
+
+            if(acct) {
+                var postData = {
+                    message: message,
+                    signature: signature,
+                    address: acct.toString(),
+                };
+                var headers = {
+                    headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    },
+                };
+                web3LogIn(postData, headers).then((response) => {
+                    if(response.data.code === 200) {
+                        localStorage.setItem("authenticated", true);
+                        localStorage.setItem("accessToken", response.data.access_token);
+                        localStorage.setItem("accessTime", Date.now());
+                        localStorage.setItem("createdAt", response.data.created_at);
+                        localStorage.setItem("channelId", response.data.channel_id);
+                        localStorage.setItem("talkId", response.data.talk_id);
+                        localStorage.setItem("walletAddress", response.data.wallet_address);
+                        localStorage.setItem("user_type", response.data.user_type);
+                        localStorage.setItem("profile_pic", response.data.profile_pic);
+            
+                        console.log("login Successfully");
+                        navigate("/");
+                    } else {
+                        localStorage.setItem("authenticated", false);
+                    }
+                });
+            }
           }
           if (wallet == "SafePal") {
             localStorage.setItem("wallettype", "SafePal");
@@ -298,6 +439,53 @@ export default function WalletButton({popupModel, setPopupModel}) {
             window.localStorage.setItem("isWalletConnected", true);
             setacctADDR(account);
             localStorage.setItem("acct", account);
+            await window.ethereum.enable();
+            const message = makeid(10) + "__" +Date.now();
+            const web3 = new Web3(window.ethereum);
+            console.log("web3 console: ",web3);
+            const signature = await web3.eth.personal.sign(
+                message,
+                window.ethereum.selectedAddress,
+                ""
+            );
+            await metaMask.activate(bscdets);
+            window.localStorage.setItem("isWalletConnected", true);
+            setacctADDR(account);
+            const acct = localStorage.getItem('acct')
+            console.log("signature: "+ signature);
+            console.log("Account: "+ acct);
+
+            if(acct) {
+                var postData = {
+                    message: message,
+                    signature: signature,
+                    address: acct.toString(),
+                };
+                var headers = {
+                    headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    },
+                };
+                web3LogIn(postData, headers).then((response) => {
+                    if(response.data.code === 200) {
+                        localStorage.setItem("authenticated", true);
+                        localStorage.setItem("accessToken", response.data.access_token);
+                        localStorage.setItem("accessTime", Date.now());
+                        localStorage.setItem("createdAt", response.data.created_at);
+                        localStorage.setItem("channelId", response.data.channel_id);
+                        localStorage.setItem("talkId", response.data.talk_id);
+                        localStorage.setItem("walletAddress", response.data.wallet_address);
+                        localStorage.setItem("user_type", response.data.user_type);
+                        localStorage.setItem("profile_pic", response.data.profile_pic);
+            
+                        console.log("login Successfully");
+                        navigate("/");
+                    } else {
+                        localStorage.setItem("authenticated", false);
+                    }
+                });
+            }
           }
         } catch (err) {
           console.log("ERROR", err);
