@@ -280,6 +280,10 @@ export default function Chat() {
     const displayChat = () => {
         return (
             <>
+            {/* Chat Header */}
+            <ChatHeader setGroupInfo={setGroupInfo} ChatId={ChatId} backPage={backPage} setIsOpen={setIsOpen} isOpen={isOpen} toggleMenu={toggleMenu} setShowModal={setShowModal} />
+            {/* End Chat Header */}
+            
             {/* check if participants or not */}
             {
                 !ChatId.is_participant && 
@@ -293,14 +297,6 @@ export default function Chat() {
             <LeaveGroupModal setGroupInfo={setGroupInfo} showModal={showModal} setShowModal={setShowModal}/>
             {/* End Leave Group */}
 
-            {/* Chat Header */}
-            {(ChatId.is_participant && !ChatId.openProfile) ||
-            (ChatId.group_is_private && !ChatId.openProfile) 
-            ? (
-                <ChatHeader setGroupInfo={setGroupInfo} ChatId={ChatId} backPage={backPage} setIsOpen={setIsOpen} isOpen={isOpen} toggleMenu={toggleMenu} setShowModal={setShowModal} />
-            ): ''}
-            {/* End Chat Header */}
-            
             {/* Group Info */}
             {(ChatId.is_participant && groupInfo) ||
             (ChatId.group_is_private && groupInfo) ? (
