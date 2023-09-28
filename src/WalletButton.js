@@ -274,7 +274,7 @@ export default function WalletButton({popupModel, setPopupModel}) {
             //setmodalV(false);
             window.localStorage.setItem("isWalletConnected", true);
             setacctADDR(account);
-            await window.ethereum.enable();
+            /*await window.ethereum.enable();
             const message = makeid(10) + "__" +Date.now();
             const web3 = new Web3(window.ethereum);
             console.log("web3 console: ",web3);
@@ -320,7 +320,7 @@ export default function WalletButton({popupModel, setPopupModel}) {
                         localStorage.setItem("authenticated", false);
                     }
                 });
-              }
+              }*/
 
           }
           if (wallet == "Others") {
