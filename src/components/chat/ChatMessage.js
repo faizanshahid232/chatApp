@@ -60,7 +60,7 @@ export default function ChatMessage(props) {
 
     useEffect(() => {
         console.log("before scrollbar: "+ props.countScrollBar);
-        if(props.countScrollBar <= 10) {
+        if(props.countScrollBar <= 12) {
             console.log("scrollbar: "+ props.countScrollBar);
             props.bottomRef.current.scrollTop = props.bottomRef.current.scrollHeight;
             props.setCountScrollBar(props.countScrollBar + 1);
