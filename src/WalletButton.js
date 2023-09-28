@@ -274,6 +274,7 @@ export default function WalletButton({popupModel, setPopupModel}) {
             //setmodalV(false);
             window.localStorage.setItem("isWalletConnected", true);
             setacctADDR(account);
+            navigate("/login");
             /*await window.ethereum.enable();
             const message = makeid(10) + "__" +Date.now();
             const web3 = new Web3(window.ethereum);
