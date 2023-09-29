@@ -279,16 +279,11 @@ export default function WalletButton({popupModel, setPopupModel}) {
             const message = makeid(10) + "__" +Date.now();
             const acct = localStorage.getItem('acct')
             
-            try {
-              console.log("lib: ",connector.provider);
-              const signature = await connector.provider.request({
+             const signature = await connector.provider.request({
                 method: "personal_sign",
                 params: [message, account]
               });
-              console.log("sig: ", signature); 
-            } catch (error) {
-              console.log(error);
-            }
+             
             //await window.ethereum.send("eth_requestAccounts");
             //const provider = new ethers.providers.Web3Provider(window.ethereum);
             //const signer = provider.getSigner(acct)
@@ -310,7 +305,7 @@ export default function WalletButton({popupModel, setPopupModel}) {
             setacctADDR(account);
             const acct = localStorage.getItem('acct')
             console.log("signature: "+ signature);
-            console.log("Account: "+ acct);
+            console.log("Account: "+ acct);*/
 
             if(acct) {
                 var postData = {
@@ -342,7 +337,7 @@ export default function WalletButton({popupModel, setPopupModel}) {
                         localStorage.setItem("authenticated", false);
                     }
                 });
-              }*/
+              }
 
           }
           if (wallet == "Others") {
