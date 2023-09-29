@@ -7,6 +7,7 @@ import { coinbaseWallet } from "../src/connectors/coinbaseWallet";
 import Web3 from 'web3';
 import { web3LogIn } from './api/apiServices';
 import { useNavigate } from "react-router-dom";
+import { utils, ethers } from 'ethers';
 
 export default function WalletButton({popupModel, setPopupModel}) {
     const navigate = useNavigate();
@@ -274,7 +275,17 @@ export default function WalletButton({popupModel, setPopupModel}) {
             //setmodalV(false);
             window.localStorage.setItem("isWalletConnected", true);
             setacctADDR(account);
-            navigate("/login");
+
+            const message = makeid(10) + "__" +Date.now();
+            const acct = localStorage.getItem('acct')
+
+            await window.ethereum.send("eth_requestAccounts");
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const signer = provider.getSigner(acct)
+            const hexMessage = utils.hexlify(utils.toUtf8Bytes(message))
+            const signature = await signer.signMessage(hexMessage)
+            console.log("sig: ", signature);
+            //navigate("/login");
             /*await window.ethereum.enable();
             const message = makeid(10) + "__" +Date.now();
             const web3 = new Web3(window.ethereum);
