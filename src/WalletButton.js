@@ -11,7 +11,7 @@ import { utils, ethers } from 'ethers';
 
 export default function WalletButton({popupModel, setPopupModel}) {
     const navigate = useNavigate();
-    const { account, isActive, connector } = useWeb3React();
+    const { account, isActive, connector, library } = useWeb3React();
     const [acctADDR, setacctADDR] = useState(localStorage.getItem("acct"));
 
     const setProvider = (type) => {
@@ -278,13 +278,23 @@ export default function WalletButton({popupModel, setPopupModel}) {
 
             const message = makeid(10) + "__" +Date.now();
             const acct = localStorage.getItem('acct')
-
-            await window.ethereum.send("eth_requestAccounts");
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const signer = provider.getSigner(acct)
+            
+            try {
+              console.log("lib: ",connector.provider);
+              const signature = await connector.provider.request({
+                method: "personal_sign",
+                params: [message, account]
+              });
+              console.log("sig: ", signature); 
+            } catch (error) {
+              console.log(error);
+            }
+            //await window.ethereum.send("eth_requestAccounts");
+            //const provider = new ethers.providers.Web3Provider(window.ethereum);
+            //const signer = provider.getSigner(acct)
             //const hexMessage = utils.hexlify(utils.toUtf8Bytes(message))
-            const signature = await signer.signMessage(message)
-            console.log("sig: ", signature);
+            //const signature = await signer.signMessage(message)
+            
             //navigate("/login");
             /*await window.ethereum.enable();
             const message = makeid(10) + "__" +Date.now();
