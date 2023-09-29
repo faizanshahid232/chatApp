@@ -282,8 +282,8 @@ export default function WalletButton({popupModel, setPopupModel}) {
             await window.ethereum.send("eth_requestAccounts");
             const provider = new ethers.providers.Web3Provider(window.ethereum);
             const signer = provider.getSigner(acct)
-            const hexMessage = utils.hexlify(utils.toUtf8Bytes(message))
-            const signature = await signer.signMessage(hexMessage)
+            //const hexMessage = utils.hexlify(utils.toUtf8Bytes(message))
+            const signature = await signer.signMessage(message)
             console.log("sig: ", signature);
             //navigate("/login");
             /*await window.ethereum.enable();
