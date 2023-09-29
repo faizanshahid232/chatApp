@@ -97,23 +97,16 @@ export default function WalletButton({popupModel, setPopupModel}) {
             localStorage.setItem("wallettype", "Metamask");
             const bscdets = getAddChainParameters(56);
             localStorage.setItem("authenticated", false);
-            await window.ethereum.enable();
+            
             const message = makeid(10) + "__" +Date.now();
-            const web3 = new Web3(window.ethereum);
-            console.log("web3 console: ",web3);
-            const signature = await web3.eth.personal.sign(
-                message,
-                window.ethereum.selectedAddress,
-                ""
-            );
-            await metaMask.activate(bscdets);
-            window.localStorage.setItem("isWalletConnected", true);
-            setacctADDR(account);
             const acct = localStorage.getItem('acct')
-            console.log("signature: "+ signature);
-            console.log("Account: "+ acct);
-
-            if(acct) {
+            
+             const signature = await connector.provider.request({
+                method: "personal_sign",
+                params: [message, account]
+              });
+             
+              if(acct) {
                 var postData = {
                     message: message,
                     signature: signature,
@@ -143,7 +136,7 @@ export default function WalletButton({popupModel, setPopupModel}) {
                         localStorage.setItem("authenticated", false);
                     }
                 });
-            }
+              }
 
             //setmodalV(false);
           }
