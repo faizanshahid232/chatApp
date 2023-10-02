@@ -183,13 +183,20 @@ export default function Chat() {
             console.log("msg: "+JSON.stringify(msg));
             setPusherTalkId(msg.from);
             setChats([...chats, msg]);
-        if(!closeMediaPopup) {
+        //if(!closeMediaPopup) {
             console.log("after msg");
             bottomRef.current.scrollTop = bottomRef.current.scrollHeight;
-        }
+        //}
         //window.scrollTo(0, bottomRef.current.offsetTop); 
     }
     }, [msg]);
+
+    useEffect(() => {
+        if(chats.length != 0) {
+            bottomRef.current.scrollTop = bottomRef.current.scrollHeight;
+        }
+            
+    }, [chats])
 
     const backPage = () => {
         useStore.getState().resetStore();

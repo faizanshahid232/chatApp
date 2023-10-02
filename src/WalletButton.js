@@ -144,7 +144,8 @@ export default function WalletButton({popupModel, setPopupModel}) {
             localStorage.setItem("wallettype", "WalletConnect");
             //setmodalV(false);
             const bscdets = getAddChainParameters(56);
-            await walletConnectV2.activate(56);
+            const res = await walletConnectV2.activate(56);
+            console.log("resssssssss: ", res);
             window.localStorage.setItem("isWalletConnected", true);
             setacctADDR(account);
 
@@ -153,7 +154,7 @@ export default function WalletButton({popupModel, setPopupModel}) {
             
              const signature = await connector.provider.request({
                 method: "personal_sign",
-                params: [message, account]
+                params: [message, acct]
               });
              
               if(acct) {
